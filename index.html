@@ -2,7 +2,7 @@
 <html lang="si">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=768
+    <meta name="viewport" content="width=968
 	<meta property="og:title" content="Are You Ready For Your A/L Exam? 🚀">
     <meta property="og:description" content="ඔබේ විභාග සාර්ථකත්වය වෙනුවෙන් මෙම වෙබ් අඩවිය නිර්මාණය කර ඇත.">
     <meta property="og:image" content="https://ik.imagekit.io/bcd8ygetu/AL%20Mehewara.png?updatedAt=1745833920155">
@@ -145,8 +145,8 @@
             color: white;
             border: none;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 80px;
+            height: 80px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1252,11 +1252,11 @@
                 <a href="#tasks" class="nav-link">To-Do List</a>
                 <a href="#hours12" class="nav-link">Study Hours</a>
             </div>
-            <button class="menu-toggle" id="menuToggle">
-                <i class="fas fa-bars"></i>
-            </button>
             <button class="theme-toggle" id="themeToggle">
                 <i class="fas fa-sun"></i>
+            </button>
+			<button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
             </button>
         </div>
     </div>
@@ -1283,7 +1283,7 @@
 
     <section class="countdown-section" id="countdown">
         <h2 class="section-title">Time Remaining</h2>
-        <p class="section-subtitle">2025 නොවැම්බර් 5 දක්වා ඉතිරි කාලය:</p>
+        <p class="section-subtitle">2025 නොවැම්බර් 10 දක්වා ඉතිරි කාලය:</p>
         <div class="countdown-container">
             <div class="countdown-item pulse">
                 <span class="countdown-value" id="days">0</span>
@@ -1608,7 +1608,7 @@
 
 		// Countdown Timer
 		function updateCountdown() {
-			const examDate = new Date('November 5, 2025 00:00:00').getTime();
+			const examDate = new Date('November 10, 2025 00:00:00').getTime();
 			const now = new Date().getTime();
 			const timeLeft = examDate - now;
 			
