@@ -532,147 +532,159 @@
     }
 
     function downloadPDF() {
-      // Get the download button element
-      const downloadButton = document.getElementById('downloadButton');
-      
-      // Check if already processing
-      if (downloadButton.hasAttribute('data-processing')) {
-        return;
-      }
-      
-      // Save original button text
-      const originalButtonText = downloadButton.textContent;
-      
-      // Create and add loading indicator - now using a black square
-      downloadButton.setAttribute('data-processing', 'true');
-      downloadButton.innerHTML = 'Generating PDF <div id="pdfLoadingIndicator"></div>';
-      downloadButton.disabled = true;
-      
-      // Delay to ensure UI updates before the heavy PDF operation
-      setTimeout(function() {
-        const pdf = new jsPDF();
-        const pageWidth = pdf.internal.pageSize.getWidth();
-        const pageHeight = pdf.internal.pageSize.getHeight();
-        const today = new Date();
+	  // Get the download button element
+	  const downloadButton = document.getElementById('downloadButton');
+	  
+	  // Check if already processing
+	  if (downloadButton.hasAttribute('data-processing')) {
+		return;
+	  }
+	  
+	  // Make sure currentMonth is properly defined - fallback to current month if undefined
+	  if (typeof currentMonth === 'undefined') {
+		const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+						'July', 'August', 'September', 'October', 'November', 'December'];
+		currentMonth = months[new Date().getMonth()];
+		console.log("currentMonth was undefined, using current month:", currentMonth);
+	  }
+	  
+	  // Save original button text
+	  const originalButtonText = downloadButton.textContent;
+	  
+	  // Create and add loading indicator - now using a black square
+	  downloadButton.setAttribute('data-processing', 'true');
+	  downloadButton.innerHTML = 'Generating PDF <div id="pdfLoadingIndicator"></div>';
+	  downloadButton.disabled = true;
+	  
+	  // Delay to ensure UI updates before the heavy PDF operation
+	  setTimeout(function() {
+		const pdf = new jsPDF();
+		const pageWidth = pdf.internal.pageSize.getWidth();
+		const pageHeight = pdf.internal.pageSize.getHeight();
+		const today = new Date();
+		
+		// Filename for the PDF (saved here to ensure consistency)
+		const filename = `Work_Time_Report_${currentMonth}_2025.pdf`;
 
-        // ====== 1. Add Company Logo in Top Left ======
-        try {
-          // Replace 'logoBase64' with actual base64 string for your logo
-          const logoBase64 = 'loading'; // Replace with the actual base64 string
-          pdf.addImage(logoBase64, 'PNG', 10, 10, 10, 10);  // Adjust position and size as needed
-        } catch (error) {
-          console.error("Logo could not be added:", error);
-        }
+		// ====== 1. Add Company Logo in Top Left ======
+		try {
+		  // Replace 'logoBase64' with actual base64 string for your logo
+		  const logoBase64 = 'loading'; // Replace with the actual base64 string
+		  pdf.addImage(logoBase64, 'PNG', 10, 10, 10, 10);  // Adjust position and size as needed
+		} catch (error) {
+		  console.error("Logo could not be added:", error);
+		}
 
-        // ====== 2. Add Main Title ======
-        pdf.setFontSize(22);
-        pdf.setFont('helvetica', 'bold');
-        pdf.setTextColor(30, 30, 30);
-        pdf.text(`Work Time Report - ${currentMonth} 2025`, pageWidth / 2, 20, { align: 'center' });
+		// ====== 2. Add Main Title ======
+		pdf.setFontSize(22);
+		pdf.setFont('helvetica', 'bold');
+		pdf.setTextColor(30, 30, 30);
+		pdf.text(`Work Time Report - ${currentMonth} 2025`, pageWidth / 2, 20, { align: 'center' });
 
-        // ====== 3. Add Chart and Stats ======
-        try {
-          const chartImg = workChart.toBase64Image();
-          pdf.addImage(chartImg, 'PNG', 15, 30, 90, 60);
+		// ====== 3. Add Chart and Stats ======
+		try {
+		  const chartImg = workChart.toBase64Image();
+		  pdf.addImage(chartImg, 'PNG', 15, 30, 90, 60);
 
-          // Draw a nice box for stats
-          pdf.setDrawColor(180, 180, 180);
-          pdf.roundedRect(110, 30, 85, 60, 5, 5, 'S');
+		  // Draw a nice box for stats
+		  pdf.setDrawColor(180, 180, 180);
+		  pdf.roundedRect(110, 30, 85, 60, 5, 5, 'S');
 
-          // Statistics Text
-          const todayHours = document.getElementById('todayHours').textContent;
-          const weeklyHours = document.getElementById('weeklyHours').textContent;
-          const totalHours = document.getElementById('totalHours').textContent;
+		  // Statistics Text
+		  const todayHours = document.getElementById('todayHours').textContent;
+		  const weeklyHours = document.getElementById('weeklyHours').textContent;
+		  const totalHours = document.getElementById('totalHours').textContent;
 
-          pdf.setFont('helvetica', 'normal');
-          pdf.setFontSize(14);
-          pdf.setTextColor(60, 60, 60);
-          pdf.text(`Today's Work`, 115, 45);
-          pdf.setFontSize(12);
-          pdf.text(`${todayHours} h`, 190, 45, { align: 'right' });
+		  pdf.setFont('helvetica', 'normal');
+		  pdf.setFontSize(14);
+		  pdf.setTextColor(60, 60, 60);
+		  pdf.text(`Today's Work`, 115, 45);
+		  pdf.setFontSize(12);
+		  pdf.text(`${todayHours} h`, 190, 45, { align: 'right' });
 
-          pdf.setFontSize(14);
-          pdf.text(`Weekly Hours`, 115, 60);
-          pdf.setFontSize(12);
-          pdf.text(`${weeklyHours} h`, 190, 60, { align: 'right' });
+		  pdf.setFontSize(14);
+		  pdf.text(`Weekly Hours`, 115, 60);
+		  pdf.setFontSize(12);
+		  pdf.text(`${weeklyHours} h`, 190, 60, { align: 'right' });
 
-          pdf.setFontSize(14);
-          pdf.text(`Total Hours`, 115, 75);
-          pdf.setFontSize(12);
-          pdf.text(`${totalHours} h`, 190, 75, { align: 'right' });
+		  pdf.setFontSize(14);
+		  pdf.text(`Total Hours`, 115, 75);
+		  pdf.setFontSize(12);
+		  pdf.text(`${totalHours} h`, 190, 75, { align: 'right' });
 
-          // Generated Date
-          pdf.setFontSize(10);
-          pdf.setTextColor(100, 100, 100);
-          pdf.text(`Generated on: ${today.toDateString()}`, pageWidth / 2, 95, { align: 'center' });
+		  // Generated Date
+		  pdf.setFontSize(10);
+		  pdf.setTextColor(100, 100, 100);
+		  pdf.text(`Generated on: ${today.toDateString()}`, pageWidth / 2, 95, { align: 'center' });
 
-        } catch (error) {
-          console.error("Could not add chart to PDF:", error);
-        }
+		} catch (error) {
+		  console.error("Could not add chart to PDF:", error);
+		}
 
-        // ====== 4. Add Daily Table ======
-        pdf.setFontSize(16);
-        pdf.setFont('helvetica', 'bold');
-        pdf.setTextColor(40, 40, 40);
-        pdf.text("Daily Work Log", pageWidth / 2, 110, { align: 'center' });
+		// ====== 4. Add Daily Table ======
+		pdf.setFontSize(16);
+		pdf.setFont('helvetica', 'bold');
+		pdf.setTextColor(40, 40, 40);
+		pdf.text("Daily Work Log", pageWidth / 2, 110, { align: 'center' });
 
-        pdf.setFontSize(14);
-        pdf.text("Day", 40, 120);
-        pdf.text("Hours Worked", 130, 120);
+		pdf.setFontSize(14);
+		pdf.text("Day", 40, 120);
+		pdf.text("Hours Worked", 130, 120);
 
-        pdf.setDrawColor(200, 200, 200);
-        pdf.line(40, 125, 170, 125);
+		pdf.setDrawColor(200, 200, 200);
+		pdf.line(40, 125, 170, 125);
 
-        const savedData = loadMonthData(currentMonth);
-        let yPosition = 135;
-        const daysInMonth = monthDays[currentMonth];
+		const savedData = loadMonthData(currentMonth);
+		let yPosition = 135;
+		const daysInMonth = monthDays[currentMonth];
 
-        for (let i = 0; i < daysInMonth; i++) {
-          if (yPosition > 260) {
-            pdf.addPage();
-            yPosition = 20;
+		for (let i = 0; i < daysInMonth; i++) {
+		  if (yPosition > 260) {
+			pdf.addPage();
+			yPosition = 20;
 
-            // Repeat headers
-            pdf.setFontSize(14);
-            pdf.setTextColor(40, 40, 40);
-            pdf.text("Day", 40, yPosition);
-            pdf.text("Hours Worked", 130, yPosition);
-            pdf.line(40, yPosition + 5, 170, yPosition + 5);
-            yPosition += 15;
-          }
+			// Repeat headers
+			pdf.setFontSize(14);
+			pdf.setTextColor(40, 40, 40);
+			pdf.text("Day", 40, yPosition);
+			pdf.text("Hours Worked", 130, yPosition);
+			pdf.line(40, yPosition + 5, 170, yPosition + 5);
+			yPosition += 15;
+		  }
 
-          const day = i + 1;
-          const hours = savedData[i] === null ? "-" : savedData[i];
+		  const day = i + 1;
+		  const hours = savedData[i] === null ? "-" : savedData[i];
 
-          pdf.setFont('helvetica', 'normal');
-          pdf.setFontSize(12);
-          pdf.setTextColor(70, 70, 70);
-          pdf.text(`${currentMonth} ${day}`, 40, yPosition);
-          pdf.text(`${hours === "-" ? "-" : hours + " h"}`, 130, yPosition);
+		  pdf.setFont('helvetica', 'normal');
+		  pdf.setFontSize(12);
+		  pdf.setTextColor(70, 70, 70);
+		  pdf.text(`${currentMonth} ${day}`, 40, yPosition);
+		  pdf.text(`${hours === "-" ? "-" : hours + " h"}`, 130, yPosition);
 
-          yPosition += 10;
-        }
+		  yPosition += 10;
+		}
 
-        // ====== 5. Add Footer Message ======
-        pdf.setFontSize(18);
-        pdf.setFont('helvetica', 'bold');
-        pdf.setTextColor(20, 20, 20);
-        pdf.text('Never Give Up - Stronger Every Day', pageWidth / 2, pageHeight - 10, { align: 'center' });
+		// ====== 5. Add Footer Message ======
+		pdf.setFontSize(18);
+		pdf.setFont('helvetica', 'bold');
+		pdf.setTextColor(20, 20, 20);
+		pdf.text('Never Give Up - Stronger Every Day', pageWidth / 2, pageHeight - 10, { align: 'center' });
 
-        // ====== 6. Save PDF ======
-        pdf.save(`Work_Time_Report_${currentMonth}_2025.pdf`);
-        
-        // Show download complete message
-        downloadButton.innerHTML = 'Download Complete!';
-        
-        // Reset button after 2 seconds
-        setTimeout(function() {
-          downloadButton.removeAttribute('data-processing');
-          downloadButton.innerHTML = originalButtonText;
-          downloadButton.disabled = false;
-        }, 2000);
-      }, 100);
-    }
+		// ====== 6. Save PDF with explicit filename ======
+		console.log("Saving PDF with filename:", filename);
+		pdf.save(filename);
+		
+		// Show download complete message with filename
+		downloadButton.innerHTML = `Downloaded ${filename}!`;
+		
+		// Reset button after 2 seconds
+		setTimeout(function() {
+		  downloadButton.removeAttribute('data-processing');
+		  downloadButton.innerHTML = originalButtonText;
+		  downloadButton.disabled = false;
+		}, 2000);
+	  }, 100);
+	}
   </script>
 </body>
 </html>
