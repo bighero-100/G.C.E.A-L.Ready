@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=968
+	<meta property="og:title" content="Are You Ready For Your A/L Exam? 🚀">
+    <meta property="og:description" content="ඔබේ විභාග සාර්ථකත්වය වෙනුවෙන් මෙම වෙබ් අඩවිය නිර්මාණය කර ඇත.">
+    <meta property="og:image" content="https://ik.imagekit.io/bcd8ygetu/AL%20Mehewara.png?updatedAt=1745833920155">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --accent: #f72585;
+            --success: #06d6a0;
+            --warning: #ffc43d;
+            --danger: #ef476f;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --white: #ffffff;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --shadow: 0 10px 30px rgba(67, 97, 238, 0.15);
+            --border-radius: 12px;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --font-family: 'Nunito', 'Noto Sans Sinhala', sans-serif;
+        }
+
+        .dark-theme {
+            --primary: #4cc9f0;
+            --primary-dark: #4895ef;
+            --secondary: #7209b7;
+            --accent: #f72585;
+            --light: #1a1a2e;
+            --dark: #e9ecef;
+            --gray: #adb5bd;
+            --white: #16213e;
+            --shadow: 0 10px 30px rgba(76, 201, 240, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font-family);
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(67, 97, 238, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 90% 90%, rgba(114, 9, 183, 0.05) 0%, transparent 50%);
+            z-index: -1;
+        }
+        .dark-theme body::before {
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(76, 201, 240, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 90% 90%, rgba(114, 9, 183, 0.05) 0%, transparent 50%);
+        }
+
+        /* Header & Navigation */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            z-index: 100;
+            background-color: rgba(var(--light-rgb), 0.8);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        .dark-theme .nav-container {
+            background-color: rgba(26, 26, 46, 0.8);
+        }
+
+        .navbar {
+            max-width: 2100px;
+			font-size: 20px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: var(--gray);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .theme-toggle {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            color: var(--primary);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 60px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            color: var(--gray);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 700;
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            margin-left: 15px;
+        }
+
+        .dark-theme .btn-outline {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--gradient);
+            color: white;
+        }
+
+        /* Countdown Section */
+        .countdown-section {
+            padding: 100px 20px;
+            background-color: var(--white);
+            border-radius: 30px 30px 0 0;
+            margin-top: -30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 0.9rem;
+			font-weight: 800;
+            margin-bottom: 30px;
+            color: var(--gray);
+        }
+
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .countdown-item {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            min-width: 150px;
+            text-align: center;
+            transition: var(--transition);
+            border-bottom: 5px solid var(--primary);
+        }
+
+        .countdown-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .countdown-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .countdown-label {
+            font-size: 1rem;
+            color: var(--gray);
+            font-weight: 600;
+        }
+
+        /* Quotes Section */
+        .quotes-section {
+            padding: 100px 20px;
+            position: relative;
+        }
+
+        .quote-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+        }
+
+        .quote {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            position: relative;
+            padding: 30px;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .quote::before {
+            content: """;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 4rem;
+            color: var(--primary);
+            opacity: 0.2;
+        }
+
+        .quote::after {
+            content: """;
+            position: absolute;
+            bottom: -20px;
+            right: 20px;
+            font-size: 4rem;
+            color: var(--primary);
+            opacity: 0.2;
+        }
+
+        .author {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        /* Tasks Section */
+        .tasks-section {
+            padding: 100px 20px;
+            background-color: var(--white);
+            border-radius: 30px 30px 0 0;
+            margin-top: -30px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 10px;
+        }
+
+        .tab {
+            padding: 15px 30px;
+            background-color: var(--light);
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .dark-theme .tab {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+
+        .tab.active {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .task-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: none;
+        }
+
+        .task-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .todo-form {
+            display: flex;
+            margin-bottom: 30px;
+            gap: 10px;
+        }
+
+        .todo-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid var(--primary);
+            border-radius: var(--border-radius);
+            font-size: 1.3rem;
+            transition: var(--transition);
+            background-color: var(--white);
+            color: var(--dark);
+        }
+
+        .todo-input:focus {
+            outline: none;
+            box-shadow: var(--shadow);
+        }
+
+        .add-btn {
+            padding: 0 30px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .add-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .task-list {
+            list-style-type: none;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 15px;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dark-theme .task-item {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+
+        .task-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background: var(--gradient);
+        }
+
+        .task-item:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow);
+        }
+
+        .task-item.completed {
+            opacity: 0.7;
+            background-color: var(--light);
+        }
+
+        .task-item.completed::before {
+            background: var(--success);
+        }
+
+        .task-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            margin-right: 15px;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .task-checkbox:checked {
+            background-color: var(--success);
+            border-color: var(--success);
+        }
+
+        .task-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 16px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .task-text {
+            flex: 1;
+            font-size: 1.4rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .completed .task-text {
+            text-decoration: line-through;
+            color: var(--gray);
+        }
+
+        .delete-btn {
+            background-color: transparent;
+            color: var(--danger);
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .delete-btn:hover {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        /* Hours Tracking Section */
+        .hours-section {
+            padding: 100px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .glow-button {
+            display: inline-block;
+            padding: 20px 40px;
+            font-size: 1.2rem;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 700;
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .glow-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            z-index: -1;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .glow-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(67, 97, 238, 0.3);
+        }
+
+        .glow-button:hover::before {
+            opacity: 1;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 50px 20px;
+            background-color: var(--dark);
+            color: var(--light);
+            text-align: center;
+        }
+
+        .dark-theme .footer {
+            background-color: #0f0f23;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+		
+		.footer-niko {
+            font-size: 0.4rem;
+            margin-bottom: 20px;
+            color: #e3f702;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .copyright {
+            color: var(--gray);
+            margin-top: 30px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: var(--white);
+                padding: 20px;
+                border-radius: 0 0 var(--border-radius) var(--border-radius);
+                box-shadow: var(--shadow);
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+
+            .dark-theme .nav-links {
+                background-color: var(--light);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .btn {
+                display: block;
+                width: 100%;
+                margin-bottom: 15px;
+            }
+
+            .btn-outline {
+                margin-left: 0;
+            }
+
+            .countdown-item {
+                min-width: 120px;
+                padding: 20px;
+            }
+
+            .countdown-value {
+                font-size: 2.5rem;
+            }
+
+            .countdown-label {
+                font-size: 0.9rem;
+            }
+
+            .quote {
+                font-size: 1.2rem;
+                padding: 20px;
+                min-height: 150px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                width: 100%;
+            }
+
+            .todo-form {
+                flex-direction: column;
+            }
+
+            .add-btn {
+                padding: 15px;
+            }
+        }
+
+        /* Additional animations */
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounceDown 2s infinite;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        @keyframes bounceDown {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+            40% { transform: translateY(-20px) translateX(-50%); }
+            60% { transform: translateY(-10px) translateX(-50%); }
+        }
+    </style>
+	
+	<style>
+    /* Base styles */
+        body75 {
+            font-family: 'Montserrat', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            min-height: 100vh;
+            background-color: transparent;
+        }
+        
+        /* Page content */
+        .page-content75 {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: transparent;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+        
+        /* Modal container */
+        #introModal75 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        /* Modal content */
+        .modal-content75 {
+            background-color: #1a2b56;
+            color: white;
+            border-radius: 12px;
+            max-width: 550px;
+            width: 90%;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(59, 130, 246, 0.6);
+            animation: glow75 3s infinite alternate;
+            overflow: hidden;
+        }
+        
+        @keyframes glow75 {
+            from {
+                box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(59, 130, 246, 0.6);
+            }
+            to {
+                box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5), 0 0 30px rgba(59, 130, 246, 0.9);
+            }
+        }
+        
+        /* Modal table */
+        .intro-table75 {
+            width: 100%;
+            border-collapse: collapse;
+            border: 2px solid transparent;
+            background-image: linear-gradient(#1a2b56, #1a2b56), 
+                             linear-gradient(90deg, #3b82f6, #60a5fa);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+        
+        .intro-table75 th {
+            text-align: center;
+            padding: 20px 15px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.8);
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+            background: linear-gradient(to right, #1a2b56, #243b76);
+        }
+        
+        .intro-table75 td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: 'Montserrat', sans-serif;
+            vertical-align: middle;
+        }
+        
+        .intro-table75 td:first-child {
+            font-weight: 600;
+            color: #60a5fa;
+        }
+        
+        .intro-table75 tr:last-child td {
+            border-bottom: none;
+        }
+
+        .welcome-message75 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            padding: 10px 0;
+            font-weight: 600;
+            text-align: center;
+            color: #ffffff;
+            text-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Page indicators */
+        .page-indicators75 {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0 5px;
+        }
+        
+        .page-dot75 {
+            height: 10px;
+            width: 10px;
+            margin: 0 5px;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            display: inline-block;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .page-dot75.active75 {
+            background-color: #60a5fa;
+            box-shadow: 0 0 10px rgba(96, 165, 250, 0.8);
+            transform: scale(1.2);
+        }
+        
+        /* Page-specific colors */
+        .page-1-glow75 {
+            border-left: 3px solid #60a5fa;
+        }
+        
+        .page-2-glow75 {
+            border-left: 3px solid #34d399;
+        }
+        
+        .page-3-glow75 {
+            border-left: 3px solid #f97316;
+        }
+        
+        .page-4-glow75 {
+            border-left: 3px solid #a855f7;
+        }
+        
+        .feature-icon75 {
+            margin-right: 8px;
+            color: #60a5fa;
+        }
+        
+        .page-2-glow75 .feature-icon75 {
+            color: #34d399;
+        }
+        
+        .page-3-glow75 .feature-icon75 {
+            color: #f97316;
+        }
+        
+        .page-4-glow75 .feature-icon75 {
+            color: #a855f7;
+        }
+        
+        /* Button styles */
+        .action-buttons75 {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px 20px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .buttons-container75 {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn75 {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn75::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 8px;
+            z-index: -1;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .btn75:hover::after {
+            opacity: 1;
+        }
+        
+        .btn-back75 {
+            background: #2d3748;
+            color: white;
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+            display: none;
+        }
+        
+        .btn-back75:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(239, 68, 68, 0.5);
+        }
+        
+        .btn-back75::after {
+            background: linear-gradient(45deg, #ef4444 0%, transparent 50%, #ef4444 100%);
+            animation: glow-red75 2s infinite alternate;
+        }
+        
+        @keyframes glow-red75 {
+            0% {
+                opacity: 0.5;
+                box-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
+            }
+            100% {
+                opacity: 0.8;
+                box-shadow: 0 0 20px rgba(239, 68, 68, 0.8);
+            }
+        }
+        
+        .btn-next75 {
+            background: linear-gradient(to right, #3b82f6, #60a5fa);
+            color: white;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.5);
+        }
+        
+        .btn-next75:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(59, 130, 246, 0.6);
+        }
+        
+        .btn-next75::after {
+            background: linear-gradient(45deg, #3b82f6 0%, transparent 50%, #60a5fa 100%);
+            animation: glow-blue75 2s infinite alternate;
+        }
+        
+        @keyframes glow-blue75 {
+            0% {
+                opacity: 0.5;
+                box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+            }
+            100% {
+                opacity: 0.8;
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+            }
+        }
+        
+        .btn-done75 {
+            background: linear-gradient(to right, #10b981, #34d399);
+            color: white;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.5);
+            display: none;
+        }
+        
+        .btn-done75:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(16, 185, 129, 0.6);
+        }
+        
+        .btn-done75::after {
+            background: linear-gradient(45deg, #10b981 0%, transparent 50%, #34d399 100%);
+            animation: glow-green75 2s infinite alternate;
+        }
+        
+        @keyframes glow-green75 {
+            0% {
+                opacity: 0.5;
+                box-shadow: 0 0 5px rgba(16, 185, 129, 0.5);
+            }
+            100% {
+                opacity: 0.8;
+                box-shadow: 0 0 20px rgba(16, 185, 129, 0.8);
+            }
+        }
+        
+        .btn-skip75 {
+            background-color: transparent;
+            color: #ccc;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+            box-shadow: 0 4px 10px rgba(168, 85, 247, 0.3);
+        }
+        
+        .btn-skip75:hover {
+            color: white;
+            border-color: white;
+            box-shadow: 0 6px 15px rgba(168, 85, 247, 0.6);
+        }
+        
+        .btn-skip75::after {
+            background: linear-gradient(45deg, #a855f7 0%, transparent 50%, #a855f7 100%);
+            animation: glow-purple75 2s infinite alternate;
+        }
+        
+        @keyframes glow-purple75 {
+            0% {
+                opacity: 0.5;
+                box-shadow: 0 0 5px rgba(168, 85, 247, 0.5);
+            }
+            100% {
+                opacity: 0.8;
+                box-shadow: 0 0 20px rgba(168, 85, 247, 0.8);
+            }
+        }
+        
+        .btn-guideline75 {
+            background: linear-gradient(to right, #3b82f6, #60a5fa);
+            color: white;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.5);
+            padding: 20px 24px;
+            font-size: 1.4rem;
+        }
+        
+        .btn-guideline75:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(59, 130, 246, 0.6);
+        }
+        
+        /* Hide modal by default - show only when needed */
+        .hidden75 {
+            display: none !important;
+        }
+    </style>
+
+</head>
+<body class="body75">
+    <!-- Introduction Modal -->
+    <div id="introModal75" class="hidden75">
+        <div class="modal-content75">
+            <table class="intro-table75">
+                <thead>
+                    <tr>
+                        <th colspan="2">අපගේ වෙබ් අඩවියට සාදරයෙන් පිළිගනිමු</th>
+                    </tr>
+                </thead>
+                <tbody id="modalContent75">
+                    <!-- First page content -->
+                    <tr class="modal-page75 page-1-glow75" data-page="1">
+                        <td colspan="2" class="welcome-message75">
+                            ඔබගේ අත්දැකීම වැඩිදියුණු කිරීමට සැලසුම් කර ඇති විශිෂ්ට විශේෂාංග සොයා ගන්න!
+                        </td>
+                    </tr>
+                    <tr class="modal-page75 page-1-glow75" data-page="1">
+                        <td><i class="fas fa-tachometer-alt feature-icon75"></i>Dashboard</td>
+                        <td><strong>ඉතා අලංකාර ලෙස මෙම වෙබ් අඩවිය සකස් කොට ඇත.</strong></td>
+                    </tr>
+                    <tr class="modal-page75 page-1-glow75" data-page="1">
+                        <td><i class="fas fa-book feature-icon75"></i> My To-Do List</td>
+                        <td><strong>ඔයා ඉදිරි දවස් වල කරන්න ඉන්න කොටස මෙකේ සටහන් කරලා ඒ වැඩ ඉවර කරාට පස්සේ "Complete Task Bin" එකට Add කරන්න පුළුවන් විදිහට හදලා තියෙනවා.</strong></td>
+                    </tr>
+                    <tr class="modal-page75 page-1-glow75" data-page="1">
+                        <td><i class="fas fa-search feature-icon75"></i>My Notes</td>
+                        <td><strong>ඔයාට තියෙන වැදගත් SHORT NOTES, මේ සයිට් එකේ type කරලා (Highlights) වගේ වැඩ කෑලි දාලා Save karnna puluwn අමතක වුන වෙලාවට බලාගන්න.</strong></td>
+                    </tr>
+                    
+                    <!-- Second page content (hidden initially) -->
+                    <tr class="modal-page75 page-2-glow75" data-page="2" style="display: none;">
+                        <td colspan="2" class="welcome-message75">
+                            මෙම අභිරුචිකරණ විකල්ප සමඟ ඔබේ අත්දැකීම පුද්ගලීකරණය කරන්න!
+                        </td>
+                    </tr>
+                  
+                    <tr class="modal-page75 page-2-glow75" data-page="2" style="display: none;">
+                        <td><i class="fa-solid fa-stopwatch-20"></i>  Time Countdown</td>
+                        <td><strong>මේකත් ඉතාම වැදගත් Feature එකක් ඔයාට තව A/L Exam ekt තියෙන දවස් ගාණ Countdown වෙනවා, මේ සයිට් එකේ.</strong></td>
+                    </tr>
+                    <tr class="modal-page75 page-2-glow75" data-page="2" style="display: none;">
+                        <td><i class="fas fa-bell feature-icon75"></i>Motivation Quotes</td>
+                        <td><strong>තව ඔයාව දිරිමත් කරන්න Motivations Quotes අන්තර්ගත කරලා තියෙනවා ඒවා කියවන්න.</strong></td>
+                    </tr>
+
+                    <!-- Third page content (new) -->
+                    <tr class="modal-page75 page-3-glow75" data-page="3" style="display: none;">
+                        <td colspan="2" class="welcome-message75">
+                            අපගේ ප්‍රජා විශේෂාංග සමඟ සම්බන්ධ වී සහයෝගයෙන් කටයුතු කරන්න!
+                        </td>
+                    </tr>
+                    <tr class="modal-page75 page-3-glow75" data-page="3" style="display: none;">
+                        <td><i class="fa-solid fa-download"></i>  Download PDF</td>
+                        <td><strong>මේක තමයි සුපිරිම feature එක ඔයා අර කලින් හැම දවසකම වැඩ කරපු පැය ගාන Work Sheet Chart එකේ, Save කරාට පස්සේ, මාසේ අන්තිමට ඔයාට ඔයාගේම Work_Sheet_Hours_Pdf File එක ලස්සනට Chart එකත් එක්කම download කරගන්න පුළුවන්.</strong></td>
+                    </tr>
+                    <tr class="modal-page75 page-3-glow75" data-page="3" style="display: none;">
+                        <td><i class="fas fa-comments feature-icon75"></i>April To November</td>
+                        <td><strong>මේ කියන්නේ ඔයාගේ හැම මාසයකම අලුත් Work Hours Sheet ek ගන්න පුළුවන් විදිහට (Switch To Next Month) කියලා Button එකක් Add කරලා තියෙනවා ඒක Click කරලා මැයි මාසය අරගෙන හැම දවසකම වැඩ කරපු පැය ගණන Save කරන දවස අවසාන වෙලාවේ.</strong></td>
+                    </tr>
+                    <tr class="modal-page75 page-3-glow75" data-page="3" style="display: none;">
+                        <td><i class="fas fa-calendar-alt feature-icon75"></i>Up Coming Features</td>
+                        <td><strong></strong></td>
+                    </tr>
+
+                    <!-- Fourth page content (new) -->
+                    <tr class="modal-page75 page-4-glow75" data-page="4" style="display: none;">
+                        <td colspan="2" class="welcome-message75">
+                            ඔබේ ඵලදායීතාව වැඩි කිරීමට උසස් මෙවලම්!
+                        </td>
+                    </tr>
+                    <tr class="modal-page75 page-4-glow75" data-page="4" style="display: none;">
+                        <td><i class="fas fa-chart-line feature-icon75"></i> විශ්ලේෂණ</td>
+                        <td><strong>සවිස්තරාත්මක කාර්ය සාධන මිනුම් සමඟ ඔබේ ප්‍රගතිය නිරීක්ෂණය කරන්න</strong></td>
+                    </tr>
+                    <tr class="modal-page75 page-4-glow75" data-page="4" style="display: none;">
+                        <td><i class="fas fa-cloud-download-alt feature-icon75"></i> වලාකුළු සමමුහුර්තකරණය</td>
+                        <td><strong>ඕනෑම උපාංගයකින්, ඕනෑම වේලාවක ඔබේ අන්තර්ගතයට ප්‍රවේශ වන්න</strong></td>
+                    </tr>
+                    <tr class="modal-page75 page-4-glow75" data-page="4" style="display: none;">
+                        <td><i class="fas fa-shield-alt feature-icon75"></i> උසස් ආරක්ෂාව</td>
+                        <td><strong>නවීනතම ආරක්ෂක විශේෂාංග සමඟ පහසුවෙන් විවේක ගන්න</strong></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">
+                            <div class="page-indicators75">
+                                <span class="page-dot75 active75" data-page="1"></span>
+                                <span class="page-dot75" data-page="2"></span>
+                                <span class="page-dot75" data-page="3"></span>
+                                <span class="page-dot75" data-page="4"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="action-buttons75">
+                            <button class="btn75 btn-skip75" id="skipButton75">මඟ හරින්න</button>
+                            <div class="buttons-container75">
+                                <button class="btn75 btn-back75" id="backButton75"><i class="fas fa-arrow-left"></i> ආපසු</button>
+                                <button class="btn75 btn-next75" id="nextButton75">ඊළඟ <i class="fas fa-arrow-right"></i></button>
+                                <button class="btn75 btn-done75" id="doneButton75">නිමයි <i class="fas fa-check"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+<body>
+    <div class="nav-container">
+        <div class="navbar">
+            <a href="#" class="logo">A/L Mehewara</a>
+            <div class="nav-links">
+                <a href="#countdown" class="nav-link">Time Countdown</a>
+                <a href="#quotes" class="nav-link">Motivation</a>
+                <a href="#tasks" class="nav-link">To-Do List</a>
+                <a href="#hours12" class="nav-link">Study Hours</a>
+            </div>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-sun"></i>
+            </button>
+			<button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="hero-content fade-in">
+            <h1 class="hero-title">Are You Ready For Your A/L Exam? 🚀</h1>
+            <p class="hero-subtitle">"ඔබේ විභාග සාර්ථකත්වය වෙනුවෙන් මෙම වෙබ් අඩවිය නිර්මාණය කර ඇත."</p>
+            <a href="#countdown" class="btn">Get Started</a>
+            <a href="#tasks" class="btn btn-outline">My To-Do List</a>
+			<a href="My-Notes.html" class="btn btn-outline">My Notes</a>
+			<a href="#hours12" class="btn btn-outline">Track Progress</a>
+			<body class="body75">
+				<!-- Page content - simplified to just show the Read Guideline button -->
+				<div class="page-content75">
+					<button class="btn75 btn-guideline75" id="showGuidelineButton75">මාර්ගෝපදේශ කියවන්න</button>
+				</div>
+			</body75>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <section class="countdown-section" id="countdown">
+        <h2 class="section-title">Time Remaining</h2>
+        <p class="section-subtitle">2025 නොවැම්බර් 10 දක්වා ඉතිරි කාලය:</p>
+        <div class="countdown-container">
+            <div class="countdown-item pulse">
+                <span class="countdown-value" id="days">0</span>
+                <span class="countdown-label">දින</span>
+            </div>
+            <div class="countdown-item pulse">
+                <span class="countdown-value" id="hours">0</span>
+                <span class="countdown-label">පැය</span>
+            </div>
+            <div class="countdown-item pulse">
+                <span class="countdown-value" id="minutes">0</span>
+                <span class="countdown-label">මිනිත්තු</span>
+            </div>
+            <div class="countdown-item pulse">
+                <span class="countdown-value" id="seconds">0</span>
+                <span class="countdown-label">තත්පර</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="quotes-section" id="quotes">
+        <h2 class="section-title">Daily Motivation</h2>
+        <div class="quote-container">
+            <div class="quote">
+                <p id="quote">Quote loading...</p>
+            </div>
+            <p class="author" id="author"></p>
+        </div>
+    </section>
+
+    <section class="tasks-section" id="tasks">
+        <h2 class="section-title">My Study Plan</h2>
+        <div class="tabs">
+            <button class="tab active" data-tab="pending">කරන්න තියෙන වැඩ</button>
+            <button class="tab" data-tab="completed">සම්පූර්ණ කළ කාර්යයන්</button>
+        </div>
+        
+        <div id="pendingTasks" class="task-container active">
+            <form id="todoForm" class="todo-form">
+                <input type="text" id="todoInput" class="todo-input" placeholder="නව කාර්යයක් ඇතුළත් කරන්න...(add a new task)" required>
+                <button type="submit" class="add-btn">එකතු කරන්න</button>
+            </form>
+            
+            <ul id="taskList" class="task-list">
+                <!-- Tasks will be added here dynamically -->
+            </ul>
+        </div>
+        
+        <div id="completedTasks" class="task-container">
+            <ul id="completedTaskList" class="task-list">
+                <!-- Completed tasks will be added here dynamically -->
+            </ul>
+        </div>
+    </section>
+
+    <section class="hours-section" id="hours12">
+        <h2 class="section-title">Track Your Progress</h2>
+        <p class="section-subtitle">ඔබේ අධ්‍යනය කාලය සටහන් කරන්න</p>
+        <a href="workhourscount.html" class="glow-button">
+            <i class="fas fa-clock"></i> ඔයා අද දවසට වැඩ කරපු පැය ගණන සටහන් කරන්න
+        </a>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <h3 class="footer-title">A/L Mehewara</h3>
+			<h4 class="footer-niko">Designed by Lakshan</h4>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+            </div>
+            <p class="copyright">&copy; 2025 A/L Prep. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+		// Wait for DOM to be fully loaded
+		document.addEventListener('DOMContentLoaded', function() {
+			console.log("DOM loaded"); // Debug log
+			
+			// DOM elements
+			const modal75 = document.getElementById('introModal75');
+			const nextButton75 = document.getElementById('nextButton75');
+			const backButton75 = document.getElementById('backButton75');
+			const doneButton75 = document.getElementById('doneButton75');
+			const skipButton75 = document.getElementById('skipButton75');
+			const showGuidelineButton75 = document.getElementById('showGuidelineButton75');
+			const pageDots75 = document.querySelectorAll('.page-dot75');
+			
+			// Debug check for modal
+			if (!modal75) {
+				console.error("Modal not found");
+			}
+			
+			// Current page tracker
+			let currentPage75 = 1;
+			const totalPages75 = 4; // Updated to 4 pages
+			
+			// Check if first time visitor - using a different key name
+			const isFirstTimeVisitor75 = !localStorage.getItem('siteVisited75');
+			console.log("First time visitor:", isFirstTimeVisitor75); // Debug log
+			
+			// Show modal for first time visitors
+			if (isFirstTimeVisitor75) {
+				// Show immediately, not with a delay
+				showModal75();
+			}
+			
+			// Show Guideline button
+			if (showGuidelineButton75) {
+				showGuidelineButton75.addEventListener('click', showModal75);
+			}
+			
+			// Show the modal
+			function showModal75() {
+				console.log("Showing modal"); // Debug log
+				modal75.classList.remove('hidden75');
+			}
+			
+			// Hide the modal and mark as visited
+			function hideModal75() {
+				console.log("Hiding modal"); // Debug log
+				modal75.classList.add('hidden75');
+				localStorage.setItem('siteVisited75', 'true');
+			}
+			
+			// Update page indicator dots
+			function updatePageDots75() {
+				pageDots75.forEach(dot => {
+					if (parseInt(dot.dataset.page) === currentPage75) {
+						dot.classList.add('active75');
+					} else {
+						dot.classList.remove('active75');
+					}
+				});
+			}
+			
+			// Update navigation buttons
+			function updateNavigationButtons75() {
+				// Show/hide back button based on current page
+				if (currentPage75 > 1) {
+					backButton75.style.display = 'block';
+				} else {
+					backButton75.style.display = 'none';
+				}
+				
+				// Show/hide next and done buttons based on current page
+				if (currentPage75 === totalPages75) {
+					nextButton75.style.display = 'none';
+					doneButton75.style.display = 'block';
+				} else {
+					nextButton75.style.display = 'block';
+					doneButton75.style.display = 'none';
+				}
+			}
+			
+			// Navigate to next page
+			function goToNextPage75() {
+				console.log("Going to next page"); // Debug log
+				
+				// Hide current page elements
+				const currentElements75 = document.querySelectorAll(`.modal-page75[data-page="${currentPage75}"]`);
+				currentElements75.forEach(el => el.style.display = 'none');
+				
+				// Increment page counter
+				currentPage75++;
+				
+				// Show next page elements
+				const nextElements75 = document.querySelectorAll(`.modal-page75[data-page="${currentPage75}"]`);
+				nextElements75.forEach(el => el.style.display = '');
+				
+				// Update page indicators and navigation buttons
+				updatePageDots75();
+				updateNavigationButtons75();
+			}
+			
+			// Navigate to previous page
+			function goToPreviousPage75() {
+				console.log("Going to previous page"); // Debug log
+				
+				// Hide current page elements
+				const currentElements75 = document.querySelectorAll(`.modal-page75[data-page="${currentPage75}"]`);
+				currentElements75.forEach(el => el.style.display = 'none');
+				
+				// Decrement page counter
+				currentPage75--;
+				
+				// Show previous page elements
+				const prevElements75 = document.querySelectorAll(`.modal-page75[data-page="${currentPage75}"]`);
+				prevElements75.forEach(el => el.style.display = '');
+				
+				// Update page indicators and navigation buttons
+				updatePageDots75();
+				updateNavigationButtons75();
+			}
+			
+			// Go to specific page
+			function goToPage75(pageNumber) {
+				console.log("Going to page", pageNumber); // Debug log
+				
+				// Hide all page elements
+				const allElements75 = document.querySelectorAll(`.modal-page75`);
+				allElements75.forEach(el => el.style.display = 'none');
+				
+				// Set current page
+				currentPage75 = pageNumber;
+				
+				// Show current page elements
+				const currentElements75 = document.querySelectorAll(`.modal-page75[data-page="${currentPage75}"]`);
+				currentElements75.forEach(el => el.style.display = '');
+				
+				// Update page indicators and navigation buttons
+				updatePageDots75();
+				updateNavigationButtons75();
+			}
+			
+			// Event listeners for navigation buttons
+			if (nextButton75) {
+				nextButton75.addEventListener('click', goToNextPage75);
+			}
+			
+			if (backButton75) {
+				backButton75.addEventListener('click', goToPreviousPage75);
+			}
+			
+			if (doneButton75) {
+				doneButton75.addEventListener('click', hideModal75);
+			}
+			
+			if (skipButton75) {
+				skipButton75.addEventListener('click', hideModal75);
+			}
+			
+			// Event listeners for page indicator dots
+			pageDots75.forEach(dot => {
+				dot.addEventListener('click', function() {
+					const pageNumber = parseInt(this.dataset.page);
+					goToPage75(pageNumber);
+				});
+			});
+			
+			// Initialize the page display
+			updateNavigationButtons75();
+			
+			// Show first page elements
+			const firstPageElements75 = document.querySelectorAll(`.modal-page75[data-page="1"]`);
+			firstPageElements75.forEach(el => el.style.display = '');
+		});
+		
+        // Theme toggle functionality
+		const themeToggle = document.getElementById('themeToggle');
+		const themeIcon = themeToggle.querySelector('i');
+		const menuToggle = document.getElementById('menuToggle');
+		const navLinks = document.querySelector('.nav-links');
+
+		// Check saved theme
+		if (localStorage.getItem('theme') === 'dark') {
+			document.body.classList.add('dark-theme');
+			themeIcon.classList.remove('fa-sun');
+			themeIcon.classList.add('fa-moon');
+		}
+
+		// Toggle theme
+		themeToggle.addEventListener('click', () => {
+			document.body.classList.toggle('dark-theme');
+			
+			if (document.body.classList.contains('dark-theme')) {
+				localStorage.setItem('theme', 'dark');
+				themeIcon.classList.remove('fa-sun');
+				themeIcon.classList.add('fa-moon');
+			} else {
+				localStorage.setItem('theme', 'light');
+				themeIcon.classList.remove('fa-moon');
+				themeIcon.classList.add('fa-sun');
+			}
+		});
+
+		// Mobile menu toggle
+		menuToggle.addEventListener('click', () => {
+			navLinks.classList.toggle('active');
+			
+			if (menuToggle.querySelector('i').classList.contains('fa-bars')) {
+				menuToggle.querySelector('i').classList.remove('fa-bars');
+				menuToggle.querySelector('i').classList.add('fa-times');
+			} else {
+				menuToggle.querySelector('i').classList.remove('fa-times');
+				menuToggle.querySelector('i').classList.add('fa-bars');
+			}
+		});
+
+		// Close mobile menu when clicking a link
+		document.querySelectorAll('.nav-link').forEach(link => {
+			link.addEventListener('click', () => {
+				navLinks.classList.remove('active');
+				menuToggle.querySelector('i').classList.remove('fa-times');
+				menuToggle.querySelector('i').classList.add('fa-bars');
+			});
+		});
+
+		// Smooth scroll for anchor links
+		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+			anchor.addEventListener('click', function(e) {
+				e.preventDefault();
+				
+				const targetId = this.getAttribute('href');
+				if (targetId === '#') return;
+				
+				const targetElement = document.querySelector(targetId);
+				if (targetElement) {
+					const navHeight = document.querySelector('.nav-container').offsetHeight;
+					const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight;
+					
+					window.scrollTo({
+						top: targetPosition,
+						behavior: 'smooth'
+					});
+				}
+			});
+		});
+
+		// Countdown Timer
+		function updateCountdown() {
+			const examDate = new Date('November 10, 2025 00:00:00').getTime();
+			const now = new Date().getTime();
+			const timeLeft = examDate - now;
+			
+			const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+			const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+			const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+			
+			document.getElementById('days').textContent = days;
+			document.getElementById('hours').textContent = hours;
+			document.getElementById('minutes').textContent = minutes;
+			document.getElementById('seconds').textContent = seconds;
+			
+			if (timeLeft < 0) {
+				clearInterval(countdownTimer);
+				document.getElementById('days').textContent = '0';
+				document.getElementById('hours').textContent = '0';
+				document.getElementById('minutes').textContent = '0';
+				document.getElementById('seconds').textContent = '0';
+			}
+		}
+
+		// Update countdown every second
+		const countdownTimer = setInterval(updateCountdown, 1000);
+		updateCountdown();
+
+		const quotes = [
+            { text: "සෑම අසාර්ථකත්වයකම තවත් උත්සාහයක් සඳහා අවස්ථාවක් වෙයි.", author: "හෙන්රි ෆොඩ්" },
+            { text: "ජීවිතයේ වැදගත්ම දේ නම් ඔබේ අතීතය අත්හැර දැමීමට හැකි වීමයි.", author: "ස්ටීව් ජොබ්ස්" },
+            { text: "ඔබේ අනාගතය ඔබ විසින් නිර්මාණය කරන්නේය.", author: "ස්වාමි විවේකානන්ද" },
+            { text: "පොතක් අරින්න, එවිට ඔබට නව ලෝකයක් විවර වේ.", author: "ඩා. ඒ.පී.ජේ. අබ්දුල් කලාම්" },
+            { text: "අධ්‍යාපනය මිනිස්සුන්ගේ වටපිටාව සහ ගමන වෙනස් කරන බලය ඇත.", author: "ගෙවීන්" },
+            { text: "ඉගෙනීම මිනිස්සුන්ට ජීවිතයේ අති විශාල බලයක් ලබා දෙයි.", author: "ස්ටීව්" },
+        ];
+
+		function getRandomQuote() {
+			const randomIndex = Math.floor(Math.random() * quotes.length);
+			document.getElementById('quote').textContent = quotes[randomIndex].text;
+			document.getElementById('author').textContent = quotes[randomIndex].author;
+		}
+
+		// Find the current quote changing code in your script
+		function getRandomQuote() {
+			const randomIndex = Math.floor(Math.random() * quotes.length);
+			document.getElementById('quote').textContent = quotes[randomIndex].text;
+			document.getElementById('author').textContent = quotes[randomIndex].author;
+		}
+
+		// Change this part - update the interval from 24 hours (86400000 ms) to 3 seconds (3000 ms)
+		getRandomQuote();
+		setInterval(getRandomQuote, 3000); // Change from 86400000 (24 hours) to 3000 (3 seconds)
+
+		// Task management functionality
+		const todoForm = document.getElementById('todoForm');
+		const todoInput = document.getElementById('todoInput');
+		const taskList = document.getElementById('taskList');
+		const completedTaskList = document.getElementById('completedTaskList');
+		const tabs = document.querySelectorAll('.tab');
+		const taskContainers = document.querySelectorAll('.task-container');
+
+		// Load tasks from localStorage
+		function loadTasks() {
+			const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+			
+			savedTasks.forEach(task => {
+				addTaskToDOM(task.text, task.completed, task.id);
+			});
+		}
+
+		// Save tasks to localStorage
+		function saveTasks() {
+			const taskItems = document.querySelectorAll('.task-item');
+			const tasks = [];
+			
+			taskItems.forEach(item => {
+				tasks.push({
+					id: item.dataset.id,
+					text: item.querySelector('.task-text').textContent,
+					completed: item.classList.contains('completed')
+				});
+			});
+			
+			localStorage.setItem('tasks', JSON.stringify(tasks));
+		}
+
+		// Add task to DOM
+		function addTaskToDOM(text, completed = false, id = Date.now().toString()) {
+			const taskItem = document.createElement('li');
+			taskItem.classList.add('task-item');
+			taskItem.dataset.id = id;
+			
+			if (completed) {
+				taskItem.classList.add('completed');
+			}
+			
+			taskItem.innerHTML = `
+				<input type="checkbox" class="task-checkbox" ${completed ? 'checked' : ''}>
+				<span class="task-text">${text}</span>
+				<button class="delete-btn">
+					<i class="fas fa-trash"></i>
+				</button>
+			`;
+			
+			// Add event listeners
+			const checkbox = taskItem.querySelector('.task-checkbox');
+			const deleteBtn = taskItem.querySelector('.delete-btn');
+			
+			checkbox.addEventListener('change', () => {
+				taskItem.classList.toggle('completed');
+				moveTask(taskItem);
+				saveTasks();
+			});
+			
+			deleteBtn.addEventListener('click', () => {
+				taskItem.remove();
+				saveTasks();
+			});
+			
+			// Add to appropriate list
+			if (completed) {
+				completedTaskList.appendChild(taskItem);
+			} else {
+				taskList.appendChild(taskItem);
+			}
+		}
+
+		// Move task between lists
+		function moveTask(taskItem) {
+			if (taskItem.classList.contains('completed')) {
+				completedTaskList.appendChild(taskItem);
+			} else {
+				taskList.appendChild(taskItem);
+			}
+		}
+
+		// Add new task
+		todoForm.addEventListener('submit', (e) => {
+			e.preventDefault();
+			
+			const taskText = todoInput.value.trim();
+			if (taskText !== '') {
+				addTaskToDOM(taskText);
+				saveTasks();
+				todoInput.value = '';
+			}
+		});
+
+		// Tab switching functionality
+		tabs.forEach(tab => {
+			tab.addEventListener('click', () => {
+				// Remove active class from all tabs and containers
+				tabs.forEach(t => t.classList.remove('active'));
+				taskContainers.forEach(c => c.classList.remove('active'));
+				
+				// Add active class to clicked tab and corresponding container
+				tab.classList.add('active');
+				const tabId = tab.dataset.tab;
+				document.getElementById(tabId + 'Tasks').classList.add('active');
+			});
+		});
+
+		// Load tasks on page load
+		document.addEventListener('DOMContentLoaded', loadTasks);
+
+		// Scroll animations
+		const scrollElements = document.querySelectorAll('.countdown-item, .quote, .task-container');
+
+		const elementInView = (el, percentageScroll = 100) => {
+			const elementTop = el.getBoundingClientRect().top;
+			return (
+				elementTop <= (window.innerHeight || document.documentElement.clientHeight) * (percentageScroll / 100)
+			);
+		};
+
+		const displayScrollElement = (element) => {
+			element.classList.add('fade-in');
+		};
+
+		const hideScrollElement = (element) => {
+			element.classList.remove('fade-in');
+		};
+
+		const handleScrollAnimation = () => {
+			scrollElements.forEach((el) => {
+				if (elementInView(el, 100)) {
+					displayScrollElement(el);
+				} else {
+					hideScrollElement(el);
+				}
+			});
+		};
+
+		window.addEventListener('scroll', () => {
+			handleScrollAnimation();
+		});
+
+		// Trigger once on load
+		handleScrollAnimation();
+	</script>
+</body>
+</html>
