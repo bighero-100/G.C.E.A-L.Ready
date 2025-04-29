@@ -789,8 +789,463 @@
             60% { transform: translateY(-10px) translateX(-50%); }
         }
     </style>
+	
+	<style>
+    /* Base styles */
+        body75 {
+            font-family: 'Montserrat', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            min-height: 100vh;
+            background-color: transparent;
+        }
+        
+        /* Page content */
+        .page-content75 {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: transparent;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+        
+        /* Modal container */
+        #introModal75 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        /* Modal content */
+        .modal-content75 {
+            background-color: #1a2b56;
+            color: white;
+            border-radius: 12px;
+            max-width: 550px;
+            width: 90%;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(59, 130, 246, 0.6);
+            animation: glow75 3s infinite alternate;
+            overflow: hidden;
+        }
+        
+        @keyframes glow75 {
+            from {
+                box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5), 0 0 20px rgba(59, 130, 246, 0.6);
+            }
+            to {
+                box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5), 0 0 30px rgba(59, 130, 246, 0.9);
+            }
+        }
+        
+        /* Modal table */
+        .intro-table75 {
+            width: 100%;
+            border-collapse: collapse;
+            border: 2px solid transparent;
+            background-image: linear-gradient(#1a2b56, #1a2b56), 
+                             linear-gradient(90deg, #3b82f6, #60a5fa);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+        
+        .intro-table75 th {
+            text-align: center;
+            padding: 20px 15px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.8);
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+            background: linear-gradient(to right, #1a2b56, #243b76);
+        }
+        
+        .intro-table75 td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: 'Montserrat', sans-serif;
+            vertical-align: middle;
+        }
+        
+        .intro-table75 td:first-child {
+            font-weight: 600;
+            color: #60a5fa;
+        }
+        
+        .intro-table75 tr:last-child td {
+            border-bottom: none;
+        }
 
+        .welcome-message75 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            padding: 10px 0;
+            font-weight: 600;
+            text-align: center;
+            color: #ffffff;
+            text-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Page indicators */
+        .page-indicators75 {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0 5px;
+        }
+        
+        .page-dot75 {
+            height: 10px;
+            width: 10px;
+            margin: 0 5px;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            display: inline-block;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .page-dot75.active75 {
+            background-color: #60a5fa;
+            box-shadow: 0 0 10px rgba(96, 165, 250, 0.8);
+            transform: scale(1.2);
+        }
+        
+        /* Page-specific colors */
+        .page-1-glow75 {
+            border-left: 3px solid #60a5fa;
+        }
+        
+        .page-2-glow75 {
+            border-left: 3px solid #34d399;
+        }
+        
+        .page-3-glow75 {
+            border-left: 3px solid #f97316;
+        }
+        
+        .page-4-glow75 {
+            border-left: 3px solid #a855f7;
+        }
+        
+        .feature-icon75 {
+            margin-right: 8px;
+            color: #60a5fa;
+        }
+        
+        .page-2-glow75 .feature-icon75 {
+            color: #34d399;
+        }
+        
+        .page-3-glow75 .feature-icon75 {
+            color: #f97316;
+        }
+        
+        .page-4-glow75 .feature-icon75 {
+            color: #a855f7;
+        }
+        
+        /* Button styles */
+        .action-buttons75 {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px 20px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .buttons-container75 {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn75 {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn75::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 8px;
+            z-index: -1;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .btn75:hover::after {
+            opacity: 1;
+        }
+        
+        .btn-back75 {
+            background: #2d3748;
+            color: white;
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+            display: none;
+        }
+        
+        .btn-back75:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(239, 68, 68, 0.5);
+        }
+        
+        .btn-back75::after {
+            background: linear-gradient(45deg, #ef4444 0%, transparent 50%, #ef4444 100%);
+            animation: glow-red75 2s infinite alternate;
+        }
+        
+        @keyframes glow-red75 {
+            0% {
+                opacity: 0.5;
+                box-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
+            }
+            100% {
+                opacity: 0.8;
+                box-shadow: 0 0 20px rgba(239, 68, 68, 0.8);
+            }
+        }
+        
+        .btn-next75 {
+            background: linear-gradient(to right, #3b82f6, #60a5fa);
+            color: white;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.5);
+        }
+        
+        .btn-next75:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(59, 130, 246, 0.6);
+        }
+        
+        .btn-next75::after {
+            background: linear-gradient(45deg, #3b82f6 0%, transparent 50%, #60a5fa 100%);
+            animation: glow-blue75 2s infinite alternate;
+        }
+        
+        @keyframes glow-blue75 {
+            0% {
+                opacity: 0.5;
+                box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+            }
+            100% {
+                opacity: 0.8;
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+            }
+        }
+        
+        .btn-done75 {
+            background: linear-gradient(to right, #10b981, #34d399);
+            color: white;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.5);
+            display: none;
+        }
+        
+        .btn-done75:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(16, 185, 129, 0.6);
+        }
+        
+        .btn-done75::after {
+            background: linear-gradient(45deg, #10b981 0%, transparent 50%, #34d399 100%);
+            animation: glow-green75 2s infinite alternate;
+        }
+        
+        @keyframes glow-green75 {
+            0% {
+                opacity: 0.5;
+                box-shadow: 0 0 5px rgba(16, 185, 129, 0.5);
+            }
+            100% {
+                opacity: 0.8;
+                box-shadow: 0 0 20px rgba(16, 185, 129, 0.8);
+            }
+        }
+        
+        .btn-skip75 {
+            background-color: transparent;
+            color: #ccc;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+            box-shadow: 0 4px 10px rgba(168, 85, 247, 0.3);
+        }
+        
+        .btn-skip75:hover {
+            color: white;
+            border-color: white;
+            box-shadow: 0 6px 15px rgba(168, 85, 247, 0.6);
+        }
+        
+        .btn-skip75::after {
+            background: linear-gradient(45deg, #a855f7 0%, transparent 50%, #a855f7 100%);
+            animation: glow-purple75 2s infinite alternate;
+        }
+        
+        @keyframes glow-purple75 {
+            0% {
+                opacity: 0.5;
+                box-shadow: 0 0 5px rgba(168, 85, 247, 0.5);
+            }
+            100% {
+                opacity: 0.8;
+                box-shadow: 0 0 20px rgba(168, 85, 247, 0.8);
+            }
+        }
+        
+        .btn-guideline75 {
+            background: linear-gradient(to right, #3b82f6, #60a5fa);
+            color: white;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.5);
+            padding: 12px 24px;
+            font-size: 1.1rem;
+        }
+        
+        .btn-guideline75:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(59, 130, 246, 0.6);
+        }
+        
+        /* Hide modal by default - show only when needed */
+        .hidden75 {
+            display: none !important;
+        }
+    </style>
 </head>
+<body class="body75">
+<!-- Page content - simplified to just show the Read Guideline button -->
+    <div class="page-content75">
+        <button class="btn75 btn-guideline75" id="showGuidelineButton75">මාර්ගෝපදේශ කියවන්න</button>
+    </div>
+
+    <!-- Introduction Modal -->
+    <div id="introModal75" class="hidden75">
+        <div class="modal-content75">
+            <table class="intro-table75">
+                <thead>
+                    <tr>
+                        <th colspan="2">අපගේ වෙබ් අඩවියට සාදරයෙන් පිළිගනිමු</th>
+                    </tr>
+                </thead>
+                <tbody id="modalContent75">
+                    <!-- First page content -->
+                    <tr class="modal-page75 page-1-glow75" data-page="1">
+                        <td colspan="2" class="welcome-message75">
+                            ඔබගේ අත්දැකීම වැඩිදියුණු කිරීමට සැලසුම් කර ඇති විශිෂ්ට විශේෂාංග සොයා ගන්න!
+                        </td>
+                    </tr>
+                    <tr class="modal-page75 page-1-glow75" data-page="1">
+                        <td><i class="fas fa-tachometer-alt feature-icon75"></i>Dashboard</td>
+                        <td><strong>ඉතා අලංකාර ලෙස මෙම වෙබ් අඩවිය සකස් කොට ඇත.</strong></td>
+                    </tr>
+                    <tr class="modal-page75 page-1-glow75" data-page="1">
+                        <td><i class="fas fa-book feature-icon75"></i> My To-Do List</td>
+                        <td><strong>ඔයා ඉදිරි දවස් වල කරන්න ඉන්න කොටස මෙකේ සටහන් කරලා ඒ වැඩ ඉවර කරාට පස්සේ "Complete Task Bin" එකට Add කරන්න පුළුවන් විදිහට හදලා තියෙනවා.</strong></td>
+                    </tr>
+                    <tr class="modal-page75 page-1-glow75" data-page="1">
+                        <td><i class="fas fa-search feature-icon75"></i>My Notes</td>
+                        <td><strong>ඔයාට තියෙන වැදගත් SHORT NOTES, මේ සයිට් එකේ type කරලා (Highlights) වගේ වැඩ කෑලි දාලා Save karnna puluwn අමතක වුන වෙලාවට බලාගන්න.</strong></td>
+                    </tr>
+                    
+                    <!-- Second page content (hidden initially) -->
+                    <tr class="modal-page75 page-2-glow75" data-page="2" style="display: none;">
+                        <td colspan="2" class="welcome-message75">
+                            මෙම අභිරුචිකරණ විකල්ප සමඟ ඔබේ අත්දැකීම පුද්ගලීකරණය කරන්න!
+                        </td>
+                    </tr>
+                  
+                    <tr class="modal-page75 page-2-glow75" data-page="2" style="display: none;">
+                        <td><i class="fa-solid fa-stopwatch-20"></i>  Time Countdown</td>
+                        <td><strong>මේකත් ඉතාම වැදගත් Feature එකක් ඔයාට තව A/L Exam ekt තියෙන දවස් ගාණ Countdown වෙනවා, මේ සයිට් එකේ.</strong></td>
+                    </tr>
+                    <tr class="modal-page75 page-2-glow75" data-page="2" style="display: none;">
+                        <td><i class="fas fa-bell feature-icon75"></i>Motivation Quotes</td>
+                        <td><strong>තව ඔයාව දිරිමත් කරන්න Motivations Quotes අන්තර්ගත කරලා තියෙනවා ඒවා කියවන්න.</strong></td>
+                    </tr>
+
+                    <!-- Third page content (new) -->
+                    <tr class="modal-page75 page-3-glow75" data-page="3" style="display: none;">
+                        <td colspan="2" class="welcome-message75">
+                            අපගේ ප්‍රජා විශේෂාංග සමඟ සම්බන්ධ වී සහයෝගයෙන් කටයුතු කරන්න!
+                        </td>
+                    </tr>
+                    <tr class="modal-page75 page-3-glow75" data-page="3" style="display: none;">
+                        <td><i class="fa-solid fa-download"></i>  Download PDF</td>
+                        <td><strong>මේක තමයි සුපිරිම feature එක ඔයා අර කලින් හැම දවසකම වැඩ කරපු පැය ගාන Work Sheet Chart එකේ, Save කරාට පස්සේ, මාසේ අන්තිමට ඔයාට ඔයාගේම Work_Sheet_Hours_Pdf File එක ලස්සනට Chart එකත් එක්කම download කරගන්න පුළුවන්.</strong></td>
+                    </tr>
+                    <tr class="modal-page75 page-3-glow75" data-page="3" style="display: none;">
+                        <td><i class="fas fa-comments feature-icon75"></i>April To November</td>
+                        <td><strong>මේ කියන්නේ ඔයාගේ හැම මාසයකම අලුත් Work Hours Sheet ek ගන්න පුළුවන් විදිහට (Switch To Next Month) කියලා Button එකක් Add කරලා තියෙනවා ඒක Click කරලා මැයි මාසය අරගෙන හැම දවසකම වැඩ කරපු පැය ගණන Save කරන දවස අවසාන වෙලාවේ.</strong></td>
+                    </tr>
+                    <tr class="modal-page75 page-3-glow75" data-page="3" style="display: none;">
+                        <td><i class="fas fa-calendar-alt feature-icon75"></i>Up Coming Features</td>
+                        <td><strong></strong></td>
+                    </tr>
+
+                    <!-- Fourth page content (new) -->
+                    <tr class="modal-page75 page-4-glow75" data-page="4" style="display: none;">
+                        <td colspan="2" class="welcome-message75">
+                            ඔබේ ඵලදායීතාව වැඩි කිරීමට උසස් මෙවලම්!
+                        </td>
+                    </tr>
+                    <tr class="modal-page75 page-4-glow75" data-page="4" style="display: none;">
+                        <td><i class="fas fa-chart-line feature-icon75"></i> විශ්ලේෂණ</td>
+                        <td><strong>සවිස්තරාත්මක කාර්ය සාධන මිනුම් සමඟ ඔබේ ප්‍රගතිය නිරීක්ෂණය කරන්න</strong></td>
+                    </tr>
+                    <tr class="modal-page75 page-4-glow75" data-page="4" style="display: none;">
+                        <td><i class="fas fa-cloud-download-alt feature-icon75"></i> වලාකුළු සමමුහුර්තකරණය</td>
+                        <td><strong>ඕනෑම උපාංගයකින්, ඕනෑම වේලාවක ඔබේ අන්තර්ගතයට ප්‍රවේශ වන්න</strong></td>
+                    </tr>
+                    <tr class="modal-page75 page-4-glow75" data-page="4" style="display: none;">
+                        <td><i class="fas fa-shield-alt feature-icon75"></i> උසස් ආරක්ෂාව</td>
+                        <td><strong>නවීනතම ආරක්ෂක විශේෂාංග සමඟ පහසුවෙන් විවේක ගන්න</strong></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">
+                            <div class="page-indicators75">
+                                <span class="page-dot75 active75" data-page="1"></span>
+                                <span class="page-dot75" data-page="2"></span>
+                                <span class="page-dot75" data-page="3"></span>
+                                <span class="page-dot75" data-page="4"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="action-buttons75">
+                            <button class="btn75 btn-skip75" id="skipButton75">මඟ හරින්න</button>
+                            <div class="buttons-container75">
+                                <button class="btn75 btn-back75" id="backButton75"><i class="fas fa-arrow-left"></i> ආපසු</button>
+                                <button class="btn75 btn-next75" id="nextButton75">ඊළඟ <i class="fas fa-arrow-right"></i></button>
+                                <button class="btn75 btn-done75" id="doneButton75">නිමයි <i class="fas fa-check"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
 <body>
     <div class="nav-container">
         <div class="navbar">
@@ -905,6 +1360,179 @@
     </footer>
 
     <script>
+		// Wait for DOM to be fully loaded
+		document.addEventListener('DOMContentLoaded', function() {
+			console.log("DOM loaded"); // Debug log
+			
+			// DOM elements
+			const modal75 = document.getElementById('introModal75');
+			const nextButton75 = document.getElementById('nextButton75');
+			const backButton75 = document.getElementById('backButton75');
+			const doneButton75 = document.getElementById('doneButton75');
+			const skipButton75 = document.getElementById('skipButton75');
+			const showGuidelineButton75 = document.getElementById('showGuidelineButton75');
+			const pageDots75 = document.querySelectorAll('.page-dot75');
+			
+			// Debug check for modal
+			if (!modal75) {
+				console.error("Modal not found");
+			}
+			
+			// Current page tracker
+			let currentPage75 = 1;
+			const totalPages75 = 4; // Updated to 4 pages
+			
+			// Check if first time visitor - using a different key name
+			const isFirstTimeVisitor75 = !localStorage.getItem('siteVisited75');
+			console.log("First time visitor:", isFirstTimeVisitor75); // Debug log
+			
+			// Show modal for first time visitors
+			if (isFirstTimeVisitor75) {
+				// Show immediately, not with a delay
+				showModal75();
+			}
+			
+			// Show Guideline button
+			if (showGuidelineButton75) {
+				showGuidelineButton75.addEventListener('click', showModal75);
+			}
+			
+			// Show the modal
+			function showModal75() {
+				console.log("Showing modal"); // Debug log
+				modal75.classList.remove('hidden75');
+			}
+			
+			// Hide the modal and mark as visited
+			function hideModal75() {
+				console.log("Hiding modal"); // Debug log
+				modal75.classList.add('hidden75');
+				localStorage.setItem('siteVisited75', 'true');
+			}
+			
+			// Update page indicator dots
+			function updatePageDots75() {
+				pageDots75.forEach(dot => {
+					if (parseInt(dot.dataset.page) === currentPage75) {
+						dot.classList.add('active75');
+					} else {
+						dot.classList.remove('active75');
+					}
+				});
+			}
+			
+			// Update navigation buttons
+			function updateNavigationButtons75() {
+				// Show/hide back button based on current page
+				if (currentPage75 > 1) {
+					backButton75.style.display = 'block';
+				} else {
+					backButton75.style.display = 'none';
+				}
+				
+				// Show/hide next and done buttons based on current page
+				if (currentPage75 === totalPages75) {
+					nextButton75.style.display = 'none';
+					doneButton75.style.display = 'block';
+				} else {
+					nextButton75.style.display = 'block';
+					doneButton75.style.display = 'none';
+				}
+			}
+			
+			// Navigate to next page
+			function goToNextPage75() {
+				console.log("Going to next page"); // Debug log
+				
+				// Hide current page elements
+				const currentElements75 = document.querySelectorAll(`.modal-page75[data-page="${currentPage75}"]`);
+				currentElements75.forEach(el => el.style.display = 'none');
+				
+				// Increment page counter
+				currentPage75++;
+				
+				// Show next page elements
+				const nextElements75 = document.querySelectorAll(`.modal-page75[data-page="${currentPage75}"]`);
+				nextElements75.forEach(el => el.style.display = '');
+				
+				// Update page indicators and navigation buttons
+				updatePageDots75();
+				updateNavigationButtons75();
+			}
+			
+			// Navigate to previous page
+			function goToPreviousPage75() {
+				console.log("Going to previous page"); // Debug log
+				
+				// Hide current page elements
+				const currentElements75 = document.querySelectorAll(`.modal-page75[data-page="${currentPage75}"]`);
+				currentElements75.forEach(el => el.style.display = 'none');
+				
+				// Decrement page counter
+				currentPage75--;
+				
+				// Show previous page elements
+				const prevElements75 = document.querySelectorAll(`.modal-page75[data-page="${currentPage75}"]`);
+				prevElements75.forEach(el => el.style.display = '');
+				
+				// Update page indicators and navigation buttons
+				updatePageDots75();
+				updateNavigationButtons75();
+			}
+			
+			// Go to specific page
+			function goToPage75(pageNumber) {
+				console.log("Going to page", pageNumber); // Debug log
+				
+				// Hide all page elements
+				const allElements75 = document.querySelectorAll(`.modal-page75`);
+				allElements75.forEach(el => el.style.display = 'none');
+				
+				// Set current page
+				currentPage75 = pageNumber;
+				
+				// Show current page elements
+				const currentElements75 = document.querySelectorAll(`.modal-page75[data-page="${currentPage75}"]`);
+				currentElements75.forEach(el => el.style.display = '');
+				
+				// Update page indicators and navigation buttons
+				updatePageDots75();
+				updateNavigationButtons75();
+			}
+			
+			// Event listeners for navigation buttons
+			if (nextButton75) {
+				nextButton75.addEventListener('click', goToNextPage75);
+			}
+			
+			if (backButton75) {
+				backButton75.addEventListener('click', goToPreviousPage75);
+			}
+			
+			if (doneButton75) {
+				doneButton75.addEventListener('click', hideModal75);
+			}
+			
+			if (skipButton75) {
+				skipButton75.addEventListener('click', hideModal75);
+			}
+			
+			// Event listeners for page indicator dots
+			pageDots75.forEach(dot => {
+				dot.addEventListener('click', function() {
+					const pageNumber = parseInt(this.dataset.page);
+					goToPage75(pageNumber);
+				});
+			});
+			
+			// Initialize the page display
+			updateNavigationButtons75();
+			
+			// Show first page elements
+			const firstPageElements75 = document.querySelectorAll(`.modal-page75[data-page="1"]`);
+			firstPageElements75.forEach(el => el.style.display = '');
+		});
+		
         // Theme toggle functionality
 		const themeToggle = document.getElementById('themeToggle');
 		const themeIcon = themeToggle.querySelector('i');
