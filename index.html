@@ -850,44 +850,84 @@
             }
         }
         
-        /* Modal table */
-        .intro-table75 {
-            width: 100%;
-            border-collapse: collapse;
-            border: 2px solid transparent;
-            background-image: linear-gradient(#1a2b56, #1a2b56), 
-                             linear-gradient(90deg, #3b82f6, #60a5fa);
-            background-origin: border-box;
-            background-clip: padding-box, border-box;
-        }
-        
-        .intro-table75 th {
-            text-align: center;
-            padding: 20px 15px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            border-bottom: 2px solid rgba(59, 130, 246, 0.8);
-            color: #ffffff;
-            text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
-            background: linear-gradient(to right, #1a2b56, #243b76);
-        }
-        
-        .intro-table75 td {
-            padding: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            font-family: 'Montserrat', sans-serif;
-            vertical-align: middle;
-        }
-        
-        .intro-table75 td:first-child {
-            font-weight: 600;
-            color: #60a5fa;
-        }
-        
-        .intro-table75 tr:last-child td {
-            border-bottom: none;
-        }
+        /* Modal table with responsive resizing */
+		.intro-table75 {
+			width: 100%;
+			max-width: 100%;
+			border-collapse: collapse;
+			border: 2px solid transparent;
+			background-image: linear-gradient(#1a2b56, #1a2b56), 
+							 linear-gradient(90deg, #3b82f6, #60a5fa);
+			background-origin: border-box;
+			background-clip: padding-box, border-box;
+			/* Resize properties */
+			resize: auto;
+			overflow: auto;
+			min-width: 500px;
+			min-height: 700px;
+		}
+
+		.intro-table75 th {
+			text-align: center;
+			padding: 20px 15px;
+			font-family: 'Poppins', sans-serif;
+			font-size: 1.5rem;
+			font-weight: 700;
+			border-bottom: 2px solid rgba(59, 130, 246, 0.8);
+			color: #ffffff;
+			text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+			background: linear-gradient(to right, #1a2b56, #243b76);
+		}
+
+		.intro-table75 td {
+			padding: 15px;
+			border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+			font-family: 'Montserrat', sans-serif;
+			vertical-align: middle;
+		}
+
+		.intro-table75 td:first-child {
+			font-weight: 600;
+			color: #60a5fa;
+		}
+
+		.intro-table75 tr:last-child td {
+			border-bottom: none;
+		}
+
+		/* Responsive sizing */
+		@media screen and (max-width: 768px) {
+			.intro-table75 th {
+				font-size: 1.2rem;
+				padding: 15px 10px;
+			}
+			
+			.intro-table75 td {
+				padding: 10px;
+				font-size: 0.9rem;
+			}
+		}
+
+		@media screen and (max-width: 480px) {
+			.intro-table75 th {
+				font-size: 1rem;
+				padding: 10px 5px;
+			}
+			
+			.intro-table75 td {
+				padding: 8px 5px;
+				font-size: 0.8rem;
+			}
+		}
+
+		/* Container for the table to control resize behavior */
+		.table-container {
+			position: relative;
+			width: 100%;
+			max-width: 100%;
+			overflow: auto;
+			padding-bottom: 10px; /* Space for resize handle */
+		}
 
         .welcome-message75 {
             font-family: 'Poppins', sans-serif;
@@ -1140,68 +1180,68 @@
             <table class="intro-table75">
                 <thead>
                     <tr>
-                        <th colspan="2">අපගේ වෙබ් අඩවියට සාදරයෙන් පිළිගනිමු</th>
+                        <th colspan="2">Welcome To A/L Mehewara</th>
                     </tr>
                 </thead>
                 <tbody id="modalContent75">
                     <!-- First page content -->
                     <tr class="modal-page75 page-1-glow75" data-page="1">
                         <td colspan="2" class="welcome-message75">
-                            ඔබගේ අත්දැකීම වැඩිදියුණු කිරීමට සැලසුම් කර ඇති විශිෂ්ට විශේෂාංග සොයා ගන්න!
+                            ඹයාගේ වැඩ පහසු කරන විශේෂාංග රාශීයකින් මෙය සමන්විත වේ.
                         </td>
                     </tr>
                     <tr class="modal-page75 page-1-glow75" data-page="1">
                         <td><i class="fas fa-tachometer-alt feature-icon75"></i>Dashboard</td>
-                        <td><strong>ඉතා අලංකාර ලෙස මෙම වෙබ් අඩවිය සකස් කොට ඇත.</strong></td>
+                        <td><strong>Creative විදිහට මේ APP එක හදලා තියෙනවා </strong></td>
                     </tr>
                     <tr class="modal-page75 page-1-glow75" data-page="1">
                         <td><i class="fas fa-book feature-icon75"></i> My To-Do List</td>
-                        <td><strong>ඔයා ඉදිරි දවස් වල කරන්න ඉන්න කොටස මෙකේ සටහන් කරලා ඒ වැඩ ඉවර කරාට පස්සේ "Complete Task Bin" එකට Add කරන්න පුළුවන් විදිහට හදලා තියෙනවා.</strong></td>
+                        <td><strong>ඔයා ඉදිරි දවස් වල කරන්න ඉන්න වැඩ ටික මේ APP එකේ,  සටහන් කරලා  වැඩ ඉවර කරාට පස්සේ "Complete Task Bin" එකට Add කරන්න පුළුවන් විදිහට හදලා තියෙනවා..</strong></td>
                     </tr>
                     <tr class="modal-page75 page-1-glow75" data-page="1">
                         <td><i class="fas fa-search feature-icon75"></i>My Notes</td>
-                        <td><strong>ඔයාට තියෙන වැදගත් SHORT NOTES, මේ සයිට් එකේ type කරලා (Highlights) වගේ වැඩ කෑලි දාලා Save karnna puluwn අමතක වුන වෙලාවට බලාගන්න.</strong></td>
+                        <td><strong>ඔයාට තියෙන වැදගත් "SHORT NOTES", මේ APP එකේ type කරලා (Highlights) වගේ වැඩ කෑලි දාලා save karnna puluwn අමතක වුන වෙලාවට බලාගන්න.</strong></td>
                     </tr>
                     
                     <!-- Second page content (hidden initially) -->
                     <tr class="modal-page75 page-2-glow75" data-page="2" style="display: none;">
                         <td colspan="2" class="welcome-message75">
-                            මෙම අභිරුචිකරණ විකල්ප සමඟ ඔබේ අත්දැකීම පුද්ගලීකරණය කරන්න!
+                            <i class="fa-solid fa-dove">  Try And Try One Day! You Can Fly..
                         </td>
                     </tr>
                   
                     <tr class="modal-page75 page-2-glow75" data-page="2" style="display: none;">
                         <td><i class="fa-solid fa-stopwatch-20"></i>  Time Countdown</td>
-                        <td><strong>මේකත් ඉතාම වැදගත් Feature එකක් ඔයාට තව A/L Exam ekt තියෙන දවස් ගාණ Countdown වෙනවා, මේ සයිට් එකේ.</strong></td>
+                        <td><strong>මේකත් ඉතාම වැදගත් Option එකක් ඔයාට තව 2025 A/L Exam ekt තියෙන දවස් ගාණ Countdown වෙනවා මේ APP එකේ.</strong></td>
                     </tr>
                     <tr class="modal-page75 page-2-glow75" data-page="2" style="display: none;">
                         <td><i class="fas fa-bell feature-icon75"></i>Motivation Quotes</td>
-                        <td><strong>තව ඔයාව දිරිමත් කරන්න Motivations Quotes අන්තර්ගත කරලා තියෙනවා ඒවා කියවන්න.</strong></td>
+                        <td><strong>ඔයාව දිරිමත් කරන්න Motivations අන්තර්ගත කරලා තියෙනවා ඒවා කියවන්න.</strong></td>
                     </tr>
 
                     <!-- Third page content (new) -->
                     <tr class="modal-page75 page-3-glow75" data-page="3" style="display: none;">
                         <td colspan="2" class="welcome-message75">
-                            අපගේ ප්‍රජා විශේෂාංග සමඟ සම්බන්ධ වී සහයෝගයෙන් කටයුතු කරන්න!
+                            Never GiveUp..
                         </td>
                     </tr>
                     <tr class="modal-page75 page-3-glow75" data-page="3" style="display: none;">
                         <td><i class="fa-solid fa-download"></i>  Download PDF</td>
-                        <td><strong>මේක තමයි සුපිරිම feature එක ඔයා අර කලින් හැම දවසකම වැඩ කරපු පැය ගාන Work Sheet Chart එකේ, Save කරාට පස්සේ, මාසේ අන්තිමට ඔයාට ඔයාගේම Work_Sheet_Hours_Pdf File එක ලස්සනට Chart එකත් එක්කම download කරගන්න පුළුවන්.</strong></td>
+                        <td><strong>මේක තමයි සුපිරිම Feature එක, ඔයා අර කලින් හැම දවසකම වැඩ කරපු පැය ගාන Chart එකේ Save කරාට පස්සේ, මාසේ අන්තිමට ඔයාට ඔයාගේම Work Sheet_Hours_Pdf File එක ලස්සනට Chart එකත් එක්කම Download කරගන්න පුළුවන්.</strong></td>
                     </tr>
                     <tr class="modal-page75 page-3-glow75" data-page="3" style="display: none;">
-                        <td><i class="fas fa-comments feature-icon75"></i>April To November</td>
-                        <td><strong>මේ කියන්නේ ඔයාගේ හැම මාසයකම අලුත් Work Hours Sheet ek ගන්න පුළුවන් විදිහට (Switch To Next Month) කියලා Button එකක් Add කරලා තියෙනවා ඒක Click කරලා මැයි මාසය අරගෙන හැම දවසකම වැඩ කරපු පැය ගණන Save කරන දවස අවසාන වෙලාවේ.</strong></td>
+                        <td><i class="fas fa-calendar-alt feature-icon75"></i>April To November</td>
+                        <td><strong>මේ කියන්නේ ඔයාගේ හැම මාසයකම අලුත් Work Hours Sheet ek ගන්න පුළුවන් විදිහට (Switch To Next Month) කියලා Button එකක් Add කරලා තියෙනවා, ඒ Button එක Click කරලා, (මැයි,ජූනී,ජූලී...)මාස අරගෙන හැම දවසකම වැඩ කරපු පැය ගණන Save කරන දවස අවසාන වෙලාවේ.</strong></td>
                     </tr>
                     <tr class="modal-page75 page-3-glow75" data-page="3" style="display: none;">
-                        <td><i class="fas fa-calendar-alt feature-icon75"></i>Up Coming Features</td>
+                        <td><i class="fas fa-comments feature-icon75"></i>Up Coming Features</td>
                         <td><strong></strong></td>
                     </tr>
 
                     <!-- Fourth page content (new) -->
                     <tr class="modal-page75 page-4-glow75" data-page="4" style="display: none;">
                         <td colspan="2" class="welcome-message75">
-                            ඔබේ ඵලදායීතාව වැඩි කිරීමට උසස් මෙවලම්!
+                            ඔබේ අනාගතය ඔබ විසින් නිර්මාණය කරන්නක්ය.
                         </td>
                     </tr>
                     <tr class="modal-page75 page-4-glow75" data-page="4" style="display: none;">
@@ -1353,10 +1393,10 @@
             <h3 class="footer-title">A/L Mehewara</h3>
 			<h4 class="footer-niko">Designed by Lakshan</h4>
             <div class="social-links">
-                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+				<a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://wa.me/94768855659 " class="social-link"><i class="fa-brands fa-whatsapp"></i></a>
                 <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-                <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                <a href="https://t.me/Lakshan856_004" class="social-link"><i class="fab fa-telegram"></i></a>
             </div>
             <p class="copyright">&copy; 2025 A/L Prep. All Rights Reserved.</p>
         </div>
