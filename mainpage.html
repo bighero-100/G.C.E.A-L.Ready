@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G.C.E.A-L.Ready - Subject Streams</title>
+    <style>
+        :root {
+            --primary-bg: #f5f5f5;
+            --secondary-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #dddddd;
+            --highlight: #3498db;
+            --stream-science: #4caf50;
+            --stream-commerce: #2196f3;
+            --stream-arts: #ff9800;
+            --star-color: #ffd700;
+        }
+
+        .dark-theme {
+            --primary-bg: #121212;
+            --secondary-bg: #1e1e1e;
+            --text-color: #f5f5f5;
+            --border-color: #333333;
+            --highlight: #2980b9;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        header {
+            background-color: var(--secondary-bg);
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--highlight);
+        }
+
+        .theme-toggle {
+		     display: inline-block;
+			  padding: 12px 30px;
+			  font-size: 20px;
+			  color: #111;
+			  background-color: #00f7ff;
+			  border: 2px solid #00f7ff;
+			  border-radius: 8px;
+			  text-decoration: none;
+			  font-weight: bold;
+			  text-shadow: 0 0 8px #00f7ff, 0 0 12px #00f7ff;
+			  box-shadow: 0 0 10px #00f7ff, 0 0 20px #00f7ff inset;
+			  transition: 0.3s ease;
+			}
+
+        .theme-toggle:hover {
+           background-color: #00f7ff;
+		  color: #111;
+		  box-shadow: 0 0 20px #00f7ff, 0 0 30px #00f7ff, 0 0 40px #00f7ff;
+		}
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1, h2, h3 {
+            color: var(--highlight);
+        }
+
+        .stream-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stream-card {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--secondary-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .stream-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stream-science {
+            border-top: 5px solid var(--stream-science);
+        }
+
+        .stream-commerce {
+            border-top: 5px solid var(--stream-commerce);
+        }
+
+        .stream-arts {
+            border-top: 5px solid var(--stream-arts);
+        }
+
+        .stream-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .science-title {
+            color: var(--stream-science);
+        }
+
+        .commerce-title {
+            color: var(--stream-commerce);
+        }
+
+        .arts-title {
+            color: var(--stream-arts);
+        }
+
+        .category {
+            margin-bottom: 1.5rem;
+        }
+
+        .subject-combo {
+            background-color: var(--primary-bg);
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .common-subjects {
+            font-style: italic;
+            margin-top: 1rem;
+            padding-top: 0.5rem;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .planner-section {
+            background-color: var(--secondary-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: center;
+        }
+
+        th {
+            background-color: var(--highlight);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--primary-bg);
+        }
+
+        .star {
+            color: var(--star-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .subject-selector {
+            margin-bottom: 2rem;
+        }
+
+        select {
+            padding: 0.5rem;
+            margin-right: 1rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background-color: var(--secondary-bg);
+            color: var(--text-color);
+        }
+
+        button {
+          display: inline-block;
+		  padding: 7px 20px;
+		  font-size: 12px;
+		  color: #111;
+		  background-color: #00f7ff;
+		  border: 2px solid #00f7ff;
+		  border-radius: 8px;
+		  text-decoration: none;
+		  font-weight: bold;
+		  text-shadow: 0 0 8px #00f7ff, 0 0 12px #00f7ff;
+		  box-shadow: 0 0 10px #00f7ff, 0 0 20px #00f7ff inset;
+		  transition: 0.3s ease;
+		}
+
+        .selected-subjects {
+            background-color: var(--primary-bg);
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: var(--secondary-bg);
+            color: var(--text-color);
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">G.C.E.A-L.Ready</div>
+        <button class="theme-toggle" id="themeToggle">Dark Theme</button>
+    </header>
+
+    <div class="container">
+        <h1>A/L Main Subject Streams</h1>
+        
+        <div class="stream-container">
+            <!-- Science Stream -->
+            <div class="stream-card stream-science">
+                <h2 class="stream-title science-title">Science</h2>
+                
+                <div class="category">
+                    <h3>Physical Science Stream</h3>
+                    <div class="subject-combo">
+                        <strong>Subjects combination:</strong> Combined Mathematics, Physics, Chemistry
+                    </div>
+                </div>
+                
+                <div class="category">
+                    <h3>Biological Science Stream</h3>
+                    <div class="subject-combo">
+                        <strong>Subjects combination:</strong> Biology, Physics/Agriculture, Chemistry
+                    </div>
+                </div>
+                
+                <div class="category">
+                    <h3>Common Stream</h3>
+                    <div class="subject-combo">
+                        <strong>Subjects combination:</strong> Combined Mathematics, Physics, ICT
+                    </div>
+                </div>
+                
+                <div class="common-subjects">
+                    <strong>Common Subjects:</strong> General English, General Information Technology
+                </div>
+            </div>
+            
+            <!-- Commerce Stream -->
+            <div class="stream-card stream-commerce">
+                <h2 class="stream-title commerce-title">Commerce</h2>
+                
+                <div class="category">
+                    <h3>First Category</h3>
+                    <div class="subject-combo">
+                        <strong>Subjects combination:</strong> Accounting, Business Studies, Economics
+                    </div>
+                </div>
+                
+                <div class="category">
+                    <h3>Second Category</h3>
+                    <div class="subject-combo">
+                        <strong>Subjects combination:</strong> Accounting, Business Studies, ICT
+                    </div>
+                </div>
+                
+                <div class="category">
+                    <h3>Third Category</h3>
+                    <div class="subject-combo">
+                        <strong>Subjects combination:</strong> Accounting, Economics, ICT
+                    </div>
+                </div>
+                
+                <div class="category">
+                    <h3>Fourth Category</h3>
+                    <div class="subject-combo">
+                        <strong>Subjects combination:</strong> Accounting, Economics, Business Statistics
+                    </div>
+                </div>
+                
+                <div class="common-subjects">
+                    <strong>Common Subjects:</strong> General English, General Information Technology
+                </div>
+            </div>
+            
+            <!-- Arts Stream -->
+            <div class="stream-card stream-arts">
+                <h2 class="stream-title arts-title">Arts</h2>
+                
+                <div class="category">
+                    <h3>First Category</h3>
+                    <div class="subject-combo">
+                        <strong>Subjects combination:</strong> European History, Buddhist Civilization, Geography(S.M/E.M), Dancing, Oriental Music, German (E.M), Agriculture
+                    </div>
+                </div>
+                
+                <div class="category">
+                    <h3>Second Category</h3>
+                    <div class="subject-combo">
+                        <strong>Subjects combination:</strong> Political Science, English Literature, Media Studies, Drama and Theater, Art
+                    </div>
+                </div>
+                
+                <div class="category">
+                    <h3>Third Category</h3>
+                    <div class="subject-combo">
+                        <strong>Subjects combination:</strong> Economics(S.M/E.), Sinhala, Logic, French (E.M), Japanese (S.M), ICT (E.M)
+                    </div>
+                </div>
+                
+                <div class="common-subjects">
+                    <strong>Common Subjects:</strong> General English, General Information Technology
+                </div>
+            </div>
+        </div>
+        
+        <div class="planner-section">
+            <h2>Personal Study Planner</h2>
+            
+            <div class="subject-selector">
+                <h3>Select Your Subjects</h3>
+                
+                <div>
+                    <select id="streamSelect">
+                        <option value="">Select Stream</option>
+                        <option value="science">Science</option>
+                        <option value="commerce">Commerce</option>
+                        <option value="arts">Arts</option>
+                    </select>
+                    
+                    <select id="categorySelect" disabled>
+                        <option value="">Select Category</option>
+                    </select>
+                    
+                    <button id="confirmSelection">Confirm Selection</button>
+                </div>
+                
+                <div class="selected-subjects" id="selectedSubjects">
+                    <p>Your selected subjects will appear here</p>
+                </div>
+            </div>
+            
+            <h3>Work Plan Star Sheet</h3>
+            <p>Track your study progress with stars: ⭐ 1 hour = 1 star, 30 min = 0.5 star, 15 min = 0.25 star</p>
+            
+            <table id="workPlanTable">
+                <tbody id="plannerBody">
+                    <!-- Planner rows will be added here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <footer>
+        &copy; 2025 G.C.E.A-L.Ready - Your A/L Preparation Partner
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        let isDarkTheme = false;
+        
+        themeToggleBtn.addEventListener('click', function() {
+            isDarkTheme = !isDarkTheme;
+            
+            if (isDarkTheme) {
+                body.classList.add('dark-theme');
+                themeToggleBtn.textContent = 'Light Theme';
+            } else {
+                body.classList.remove('dark-theme');
+                themeToggleBtn.textContent = 'Dark Theme';
+            }
+            
+            // Save theme preference
+            localStorage.setItem('darkTheme', isDarkTheme);
+        });
+        
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('darkTheme') === 'true';
+        if (savedTheme) {
+            body.classList.add('dark-theme');
+            themeToggleBtn.textContent = 'Light Theme';
+            isDarkTheme = true;
+        }
+        
+        // Subject stream selection logic
+        const streamSelect = document.getElementById('streamSelect');
+        const categorySelect = document.getElementById('categorySelect');
+        const confirmBtn = document.getElementById('confirmSelection');
+        const selectedSubjectsDiv = document.getElementById('selectedSubjects');
+        const plannerBody = document.getElementById('plannerBody');
+        
+        // Subject combinations by stream and category
+        const subjectCombinations = {
+            science: {
+                'physical': ['Combined Mathematics', 'Physics', 'Chemistry', 'General English', 'General IT'],
+                'biological': ['Biology', 'Physics/Agriculture', 'Chemistry', 'General English', 'General IT'],
+                'common': ['Combined Mathematics', 'Physics', 'ICT', 'General English', 'General IT']
+            },
+            commerce: {
+                'first': ['Accounting', 'Business Studies', 'Economics', 'General English', 'General IT'],
+                'second': ['Accounting', 'Business Studies', 'ICT', 'General English', 'General IT'],
+                'third': ['Accounting', 'Economics', 'ICT', 'General English', 'General IT'],
+                'fourth': ['Accounting', 'Economics', 'Business Statistics', 'General English', 'General IT']
+            },
+            arts: {
+                'first': ['European History', 'Buddhist Civilization', 'Geography', 'General English', 'General IT'],
+                'second': ['Political Science', 'English Literature', 'Media Studies', 'General English', 'General IT'],
+                'third': ['Economics', 'Sinhala', 'Logic', 'General English', 'General IT']
+            }
+        };
+        
+        // Update category options based on stream selection
+        streamSelect.addEventListener('change', function() {
+            const selectedStream = this.value;
+            
+            // Reset and disable category dropdown if no stream selected
+            if (!selectedStream) {
+                categorySelect.innerHTML = '<option value="">Select Category</option>';
+                categorySelect.disabled = true;
+                return;
+            }
+            
+            // Enable category dropdown and populate based on selected stream
+            categorySelect.disabled = false;
+            categorySelect.innerHTML = '<option value="">Select Category</option>';
+            
+            const categories = {
+                'science': [
+                    {value: 'physical', text: 'Physical Science Stream'},
+                    {value: 'biological', text: 'Biological Science Stream'},
+                    {value: 'common', text: 'Common Stream'}
+                ],
+                'commerce': [
+                    {value: 'first', text: 'First Category'},
+                    {value: 'second', text: 'Second Category'},
+                    {value: 'third', text: 'Third Category'},
+                    {value: 'fourth', text: 'Fourth Category'}
+                ],
+                'arts': [
+                    {value: 'first', text: 'First Category'},
+                    {value: 'second', text: 'Second Category'},
+                    {value: 'third', text: 'Third Category'}
+                ]
+            };
+            
+            categories[selectedStream].forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.value;
+                option.textContent = category.text;
+                categorySelect.appendChild(option);
+            });
+        });
+        
+        // Handle confirmation of subject selection
+        confirmBtn.addEventListener('click', function() {
+            const selectedStream = streamSelect.value;
+            const selectedCategory = categorySelect.value;
+            
+            if (!selectedStream || !selectedCategory) {
+                alert('Please select both stream and category');
+                return;
+            }
+            
+            // Display selected subjects
+            const subjects = subjectCombinations[selectedStream][selectedCategory];
+            let subjectsHTML = '<h4>Your Selected Subjects:</h4><ul>';
+            
+            subjects.forEach(subject => {
+                subjectsHTML += `<li>${subject}</li>`;
+            });
+            
+            subjectsHTML += '</ul>';
+            selectedSubjectsDiv.innerHTML = subjectsHTML;
+            
+            // Create planner rows for selected subjects
+            createPlannerRows(subjects);
+        });
+        
+        // Create planner table rows
+        function createPlannerRows(subjects) {
+            plannerBody.innerHTML = '';
+            
+            // Create an array of colors for different subjects
+            const colors = ['#FFD700', '#FF6347', '#4169E1', '#32CD32', '#9370DB'];
+            
+            subjects.forEach((subject, index) => {
+                const row = document.createElement('tr');
+                const subjectCell = document.createElement('td');
+                subjectCell.textContent = subject;
+                row.appendChild(subjectCell);
+                
+                // Assign a color to this subject
+                const starColor = colors[index % colors.length];
+                
+                // Add cells for each day
+                for (let i = 0; i < 7; i++) {
+                    const dayCell = document.createElement('td');
+                    
+                    // Create stars for tracking
+                    const fullStar = document.createElement('span');
+                    fullStar.className = 'star';
+                    fullStar.textContent = '★';
+                    fullStar.style.color = starColor;
+                    fullStar.dataset.value = 1;
+                    fullStar.addEventListener('click', toggleStar);
+                    
+                    const halfStar = document.createElement('span');
+                    halfStar.className = 'star';
+                    halfStar.textContent = '☆';
+                    halfStar.style.color = starColor;
+                    halfStar.dataset.value = 0.5;
+                    halfStar.addEventListener('click', toggleStar);
+                    
+                    const quarterStar = document.createElement('span');
+                    quarterStar.className = 'star';
+                    quarterStar.textContent = '·';
+                    quarterStar.style.color = starColor;
+                    quarterStar.dataset.value = 0.25;
+                    quarterStar.addEventListener('click', toggleStar);
+                    
+                    dayCell.appendChild(fullStar);
+                    dayCell.appendChild(document.createTextNode(' '));
+                    dayCell.appendChild(halfStar);
+                    dayCell.appendChild(document.createTextNode(' '));
+                    dayCell.appendChild(quarterStar);
+                    
+                    row.appendChild(dayCell);
+                }
+                
+                // Add total cell
+                const totalCell = document.createElement('td');
+                totalCell.textContent = '0';
+                totalCell.className = 'total';
+                row.appendChild(totalCell);
+                
+                plannerBody.appendChild(row);
+            });
+        }
+        
+        // Star toggle functionality
+        function toggleStar() {
+            const isActive = this.style.opacity === '1' || this.style.opacity === '';
+            
+            if (isActive) {
+                this.style.opacity = '0.3';
+                this.dataset.active = 'false';
+            } else {
+                this.style.opacity = '1';
+                this.dataset.active = 'true';
+            }
+            
+            // Update total for this row
+            updateRowTotal(this.closest('tr'));
+        }
+        
+        // Update row total based on active stars
+        function updateRowTotal(row) {
+            const stars = row.querySelectorAll('.star');
+            let total = 0;
+            
+            stars.forEach(star => {
+                if (star.dataset.active === 'true' || (!star.dataset.active && star.style.opacity !== '0.3')) {
+                    total += parseFloat(star.dataset.value);
+                }
+            });
+            
+            const totalCell = row.querySelector('.total');
+            totalCell.textContent = total.toFixed(2);
+        }
+		
+		// Add this code to the main page's JavaScript section
+		// Place it right after the existing confirmBtn click handler
+
+		// Modified confirmBtn click handler that saves subject selection to localStorage
+		confirmBtn.addEventListener('click', function() {
+			const selectedStream = streamSelect.value;
+			const selectedCategory = categorySelect.value;
+			
+			if (!selectedStream || !selectedCategory) {
+				alert('Please select both stream and category');
+				return;
+			}
+			
+			// Display selected subjects
+			const subjects = subjectCombinations[selectedStream][selectedCategory];
+			let subjectsHTML = '<h4>Your Selected Subjects:</h4><ul>';
+			
+			subjects.forEach(subject => {
+				subjectsHTML += `<li>${subject}</li>`;
+			});
+			
+			subjectsHTML += '</ul>';
+			selectedSubjectsDiv.innerHTML = subjectsHTML;
+			
+			// Create planner rows for selected subjects
+			createPlannerRows(subjects);
+			
+			// Save selected subjects to localStorage for the star sheet page
+			localStorage.setItem('selectedStream', selectedStream);
+			localStorage.setItem('selectedCategory', selectedCategory);
+			localStorage.setItem('selectedSubjects', JSON.stringify(subjects));
+			
+			// Add link to star sheet if not already present
+			if (!document.getElementById('starSheetLink')) {
+				const starSheetLink = document.createElement('div');
+				starSheetLink.id = 'starSheetLink';
+				starSheetLink.style.marginTop = '20px';
+				starSheetLink.innerHTML = `
+					<a href="work_plan_star_sheet.html" style="display: inline-block;
+					  padding: 12px 30px;
+					  font-size: 20px;
+					  color: #111;
+					  background-color: yellow;
+					  border: 2px solid yellow;
+					  border-radius: 8px;
+					  text-decoration: none;
+					  font-weight: bold;
+					  text-shadow: 0 0 8px yellow, 0 0 12px yellow;
+					  box-shadow: 0 0 10px yellow, 0 0 20px yellow inset;
+					  transition: 0.3s ease;
+					}">
+						Open තරු ක්‍රමය (Star Sheet)
+					</a>
+				`;
+				selectedSubjectsDiv.appendChild(starSheetLink);
+			}
+		});
+    </script>
+</body>
+</html>
