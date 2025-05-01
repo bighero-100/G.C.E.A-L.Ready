@@ -226,6 +226,29 @@
             color: var(--text-color);
             margin-top: 2rem;
         }
+		
+		.osi-lak {
+		     display: inline-block;
+			  padding: 12px 80px;
+			  margin-bottom: 20px;
+			  margin-top: 30px;
+			  font-size: 29px;
+			  color: white;
+			  background-color: red;
+			  border: 2px solid red;
+			  border-radius: 8px;
+			  text-decoration: none;
+			  font-weight: bold;
+			  text-shadow: 0 0 8px red, 0 0 12px red;
+			  box-shadow: 0 0 10px red, 0 0 20px red inset;
+			  transition: 0.3s ease;
+			}
+
+        .osi-lak:hover {
+           background-color: red;
+		  color: #111;
+		  box-shadow: 0 0 20px red, 0 0 30px red, 0 0 40px red;
+		}
     </style>
 </head>
 <body>
@@ -341,7 +364,11 @@
             
             <div class="subject-selector">
                 <h3>Select Your Subjects</h3>
-                
+				
+				<div style="text-align: right; margin-right: 30px;">
+                <a class="osi-lak">මෙතනින් ඉදිරියට යන්න</a>
+				</div>
+				
                 <div>
                     <select id="streamSelect">
                         <option value="">Select Stream</option>
