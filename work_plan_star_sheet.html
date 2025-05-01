@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G.C.E.A-L.Ready - තරු ක්‍රමය</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        :root {
+            --primary-bg: #f5f5f5;
+            --secondary-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #dddddd;
+            --highlight: #3498db;
+            --stream-science: #4caf50;
+            --stream-commerce: #2196f3;
+            --stream-arts: #ff9800;
+            --star-color: #ffd700;
+            --header-bg: #184e77;
+            --calendar-header: #1e6091;
+        }
+
+        .dark-theme {
+            --primary-bg: #121212;
+            --secondary-bg: #1e1e1e;
+            --text-color: #f5f5f5;
+            --border-color: #333333;
+            --highlight: #2980b9;
+            --header-bg: #0d2b45;
+            --calendar-header: #14395a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        header {
+            background-color: var(--header-bg);
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            animation: logoShine 2s infinite alternate;
+        }
+
+        @keyframes logoShine {
+            from {
+                text-shadow: 0 0 5px rgba(255,255,255,0.5);
+            }
+            to {
+                text-shadow: 0 0 15px rgba(255,255,255,0.8), 0 0 20px rgba(52, 152, 219, 0.8);
+            }
+        }
+
+        .theme-toggle {
+            display: inline-block;
+            padding: 12px 30px;
+            font-size: 20px;
+            color: #111;
+            background-color: #00f7ff;
+            border: 2px solid #00f7ff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            text-shadow: 0 0 8px #00f7ff, 0 0 12px #00f7ff;
+            box-shadow: 0 0 10px #00f7ff, 0 0 20px #00f7ff inset;
+            transition: 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background-color: #00f7ff;
+            color: #111;
+            box-shadow: 0 0 20px #00f7ff, 0 0 30px #00f7ff, 0 0 40px #00f7ff;
+            transform: scale(1.05);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1, h2, h3 {
+            color: var(--highlight);
+        }
+
+        h1.main-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--highlight);
+            animation: titlePulse 3s infinite alternate;
+        }
+
+        @keyframes titlePulse {
+            0% {
+                transform: scale(1);
+                text-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+            }
+            100% {
+                transform: scale(1.03);
+                text-shadow: 0 0 15px rgba(52, 152, 219, 0.8);
+            }
+        }
+
+        h1.main-title .sinhalese {
+            display: block;
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Month tabs styling */
+        .month-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            gap: 0.5rem;
+        }
+
+        .month-tab {
+            background-color: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            padding: 0.75rem 1.5rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .month-tab:hover {
+            background-color: var(--highlight);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .month-tab.active {
+            background-color: var(--highlight);
+            color: white;
+            font-weight: bold;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Calendar styling */
+        .calendar-container {
+            background-color: var(--secondary-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-container:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .calendar-header {
+            background-color: var(--calendar-header);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px 8px 0 0;
+            margin: -2rem -2rem 2rem -2rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .weekday-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            font-weight: bold;
+            background-color: var(--primary-bg);
+            border-radius: 4px;
+            padding: 0.5rem 0;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .calendar-grid.with-gap {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-column-gap: 0.5rem;
+            grid-row-gap: 0.5rem;
+        }
+
+        .grid-placeholder {
+            visibility: hidden;
+        }
+
+        .day-card {
+            background-color: var(--primary-bg);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .day-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .day-card.today {
+            border: 2px solid var(--highlight);
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+        }
+
+        .day-card.today:before {
+            content: "Today";
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--highlight);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 5px;
+            border-radius: 0 0 0 5px;
+        }
+
+        .day-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .time-input {
+            width: 80%;
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 0.5rem;
+            background-color: var(--secondary-bg);
+            color: var(--text-color);
+            text-align: center;
+        }
+
+        .stars-display {
+            min-height: 2rem;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 3px;
+        }
+
+        .subject-star {
+            animation: starPulse 2s infinite alternate;
+            transition: transform 0.3s ease;
+        }
+
+        .subject-star:hover {
+            transform: scale(1.2);
+            animation: starGlow 1s infinite alternate;
+        }
+
+        @keyframes starPulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.9;
+            }
+            100% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes starGlow {
+            0% {
+                filter: drop-shadow(0 0 2px currentColor);
+            }
+            100% {
+                filter: drop-shadow(0 0 5px currentColor);
+            }
+        }
+
+        /* Data Entry Form */
+        .data-entry {
+            background-color: var(--secondary-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .data-entry:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .form-row label {
+            flex: 0 0 100px;
+        }
+
+        .form-row select, .form-row input {
+            flex: 1;
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .form-row select:focus, .form-row input:focus {
+            border-color: var(--highlight);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+            outline: none;
+        }
+
+        .form-row button {
+            background-color: var(--highlight);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .form-row button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+
+        .form-row button:active {
+            transform: translateY(0);
+        }
+
+        /* Legend for subject colors */
+        .color-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: var(--secondary-bg);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .color-legend:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .color-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .color-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .color-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .color-item:hover .color-dot {
+            transform: scale(1.2);
+            box-shadow: 0 0 8px currentColor;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: var(--secondary-bg);
+            color: var(--text-color);
+            margin-top: 2rem;
+        }
+
+        /* Hide all months except the active one */
+        .month-calendar {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .month-calendar.active {
+            display: block;
+        }
+
+        /* Summary section */
+        .summary-container {
+            background-color: var(--secondary-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .summary-container:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .summary-card {
+            background-color: var(--primary-bg);
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .subject-name {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background-color: var(--border-color);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 1s ease-in-out;
+            animation: progressPulse 2s infinite alternate;
+        }
+
+        @keyframes progressPulse {
+            0% {
+                opacity: 0.8;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Export button */
+        .export-btn {
+            display: block;
+            margin: 2rem auto;
+            background-color: var(--highlight);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .export-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .export-btn:active {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .export-btn::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.7);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .export-btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            20% {
+                transform: scale(25, 25);
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(40, 40);
+            }
+        }
+
+        /* Alert message styling */
+        .alert-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background-color: #ff5252;
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .alert-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Day stats tooltip */
+        .day-stats {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0,0,0,0.7);
+            color: white;
+            font-size: 0.8rem;
+            padding: 5px;
+            border-radius: 0 0 8px 8px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .day-card:hover .day-stats {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">G.C.E.A-L.Ready</div>
+        <button class="theme-toggle" id="themeToggle">Dark Theme</button>
+    </header>
+
+    <div class="container">
+        <h1 class="main-title">
+            <span class="sinhalese">තරු ක්‍රමය</span>
+            Work Plan Star Sheet
+        </h1>
+        
+        <div class="data-entry">
+            <h2>Add Study Hours</h2>
+            <div class="form-row">
+                <label for="subjectSelect">Subject:</label>
+                <select id="subjectSelect">
+                    <option value="">Select subject</option>
+                    <!-- Subjects will be populated by JavaScript -->
+                </select>
+            </div>
+            <div class="form-row">
+                <label for="dateSelect">Date:</label>
+                <input type="date" id="dateSelect">
+            </div>
+            <div class="form-row">
+                <label for="hoursInput">Hours:</label>
+                <input type="number" id="hoursInput" min="0.25" max="24" step="0.25" placeholder="Hours studied (max 24h per day)">
+            </div>
+            <div class="form-row">
+                <button id="addEntryBtn">Add Entry</button>
+                <button id="clearAllBtn">Clear All Data</button>
+            </div>
+        </div>
+        
+        <div class="month-tabs" id="monthTabs">
+            <div class="month-tab" data-month="april">April</div>
+            <div class="month-tab" data-month="may">May</div>
+            <div class="month-tab" data-month="june">June</div>
+            <div class="month-tab" data-month="july">July</div>
+            <div class="month-tab" data-month="august">August</div>
+            <div class="month-tab" data-month="september">September</div>
+            <div class="month-tab" data-month="october">October</div>
+            <div class="month-tab" data-month="november">November</div>
+        </div>
+        
+        <!-- Calendar containers for each month -->
+        <div id="calendarContainers">
+            <!-- Will be populated by JavaScript -->
+        </div>
+        
+        <div class="summary-container">
+            <h2>Study Summary</h2>
+            <div class="summary-grid" id="subjectSummary">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="color-legend" id="colorLegend">
+            <!-- Will be populated by JavaScript -->
+        </div>
+        
+        <button class="export-btn" id="exportBtn">Export Study Data</button>
+    </div>
+    
+    <footer>
+        &copy; 2025 G.C.E.A-L.Ready - Your A/L Preparation Partner
+    </footer>
+
+    <div id="alertMessage" class="alert-message"></div>
+	
+	<script>
+        // Theme toggle functionality
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        let isDarkTheme = false;
+        
+        themeToggleBtn.addEventListener('click', function() {
+            isDarkTheme = !isDarkTheme;
+            
+            if (isDarkTheme) {
+                body.classList.add('dark-theme');
+                themeToggleBtn.textContent = 'Light Theme';
+            } else {
+                body.classList.remove('dark-theme');
+                themeToggleBtn.textContent = 'Dark Theme';
+            }
+            
+            // Save theme preference
+            localStorage.setItem('darkTheme', isDarkTheme);
+        });
+        
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('darkTheme') === 'true';
+        if (savedTheme) {
+            body.classList.add('dark-theme');
+            themeToggleBtn.textContent = 'Light Theme';
+            isDarkTheme = true;
+        }
+        
+        // Function to save selected subjects to localStorage
+        function saveSubjectsToLocalStorage(stream, category, subjects) {
+            localStorage.setItem('selectedStream', stream);
+            localStorage.setItem('selectedCategory', category);
+            localStorage.setItem('selectedSubjects', JSON.stringify(subjects));
+        }
+        
+        // Subject combinations from the main page
+        const subjectCombinations = {
+            science: {
+                'physical': ['Combined Mathematics', 'Physics', 'Chemistry', 'General English', 'General IT'],
+                'biological': ['Biology', 'Physics/Agriculture', 'Chemistry', 'General English', 'General IT'],
+                'common': ['Combined Mathematics', 'Physics', 'ICT', 'General English', 'General IT']
+            },
+            commerce: {
+                'first': ['Accounting', 'Business Studies', 'Economics', 'General English', 'General IT'],
+                'second': ['Accounting', 'Business Studies', 'ICT', 'General English', 'General IT'],
+                'third': ['Accounting', 'Economics', 'ICT', 'General English', 'General IT'],
+                'fourth': ['Accounting', 'Economics', 'Business Statistics', 'General English', 'General IT']
+            },
+            arts: {
+                'first': ['European History', 'Buddhist Civilization', 'Geography', 'General English', 'General IT'],
+                'second': ['Political Science', 'English Literature', 'Media Studies', 'General English', 'General IT'],
+                'third': ['Economics', 'Sinhala', 'Logic', 'General English', 'General IT']
+            }
+        };
+        
+        // Get subjects from parent page or use empty array
+        let selectedSubjects = [];
+        
+        // Try to get the selected stream and category from parent page localStorage
+        const selectedStream = localStorage.getItem('selectedStream');
+        const selectedCategory = localStorage.getItem('selectedCategory');
+        
+        if (selectedStream && selectedCategory && subjectCombinations[selectedStream] && subjectCombinations[selectedStream][selectedCategory]) {
+            // Get subjects from selected stream and category
+            selectedSubjects = subjectCombinations[selectedStream][selectedCategory];
+        } else {
+            // Try to get any saved subjects
+            const savedSubjects = localStorage.getItem('selectedSubjects');
+            if (savedSubjects) {
+                selectedSubjects = JSON.parse(savedSubjects);
+            } else {
+                // Default to empty - will show message to select subjects first
+                selectedSubjects = [];
+            }
+        }
+        
+        // Subject colors - we'll use a fixed set
+        const subjectColors = {
+            'Combined Mathematics': '#9C27B0', // Purple
+            'Physics': '#F44336', // Red
+            'Chemistry': '#2196F3', // Blue
+            'Biology': '#4CAF50', // Green
+            'ICT': '#FF9800', // Orange
+            'General English': '#795548', // Brown
+            'General IT': '#607D8B', // Blue Grey
+            'Accounting': '#E91E63', // Pink
+            'Business Studies': '#009688', // Teal
+            'Economics': '#FFEB3B', // Yellow
+            'Business Statistics': '#3F51B5', // Indigo
+            'European History': '#FF5722', // Deep Orange
+            'Buddhist Civilization': '#8BC34A', // Light Green
+            'Geography': '#00BCD4', // Cyan
+            'Political Science': '#9E9E9E', // Grey
+            'English Literature': '#CDDC39', // Lime
+            'Media Studies': '#673AB7', // Deep Purple
+            'Sinhala': '#FFC107', // Amber
+            'Logic': '#03A9F4', // Light Blue
+            'Physics/Agriculture': '#F44336' // Same as Physics
+        };
+        
+        // Default colors for any subjects not in the list
+        const defaultColors = [
+            '#9C27B0', '#F44336', '#2196F3', '#4CAF50', '#FF9800',
+            '#795548', '#607D8B', '#E91E63', '#009688', '#FFEB3B'
+        ];
+        
+        // Get color for a subject
+        function getSubjectColor(subject) {
+            return subjectColors[subject] || defaultColors[Math.abs(subject.charCodeAt(0)) % defaultColors.length];
+        }
+        
+        // Month data with first day of the month
+        const months = {
+            april: { name: 'April 2025', days: 30, firstDay: 2 }, // Tuesday (2)
+            may: { name: 'May 2025', days: 31, firstDay: 4 },     // Thursday (4)
+            june: { name: 'June 2025', days: 30, firstDay: 0 },   // Sunday (0)
+            july: { name: 'July 2025', days: 31, firstDay: 2 },    // Tuesday (2)
+            august: { name: 'August 2025', days: 31, firstDay: 5 }, // Friday (5)
+            september: { name: 'September 2025', days: 30, firstDay: 1 }, // Monday (1)
+            october: { name: 'October 2025', days: 31, firstDay: 3 },    // Wednesday (3)
+            november: { name: 'November 2025', days: 30, firstDay: 6 }   // Saturday (6)
+        };
+        
+        // Days of the week
+        const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        
+        // Initialize study data storage
+        let studyData = {};
+        
+        // Load saved study data if it exists
+        const savedStudyData = localStorage.getItem('studyData');
+        if (savedStudyData) {
+            studyData = JSON.parse(savedStudyData);
+        }
+        
+        // Show alert message function
+        function showAlert(message, duration = 3000) {
+            const alertElement = document.getElementById('alertMessage');
+            alertElement.textContent = message;
+            alertElement.classList.add('show');
+            
+            setTimeout(() => {
+                alertElement.classList.remove('show');
+            }, duration);
+        }
+        
+        // Populate subject dropdown
+        function populateSubjects() {
+            const subjectSelect = document.getElementById('subjectSelect');
+            subjectSelect.innerHTML = '<option value="">Select subject</option>';
+            
+            selectedSubjects.forEach(subject => {
+                const option = document.createElement('option');
+                option.value = subject;
+                option.textContent = subject;
+                subjectSelect.appendChild(option);
+            });
+        }
+        
+        // Create color legend
+        function createColorLegend() {
+            const legendContainer = document.getElementById('colorLegend');
+            legendContainer.innerHTML = '<h3>Subject Colors</h3>';
+            
+            selectedSubjects.forEach(subject => {
+                const colorItem = document.createElement('div');
+                colorItem.className = 'color-item';
+                
+                const colorDot = document.createElement('div');
+                colorDot.className = 'color-dot';
+                colorDot.style.backgroundColor = getSubjectColor(subject);
+                
+                const subjectName = document.createElement('span');
+                subjectName.textContent = subject;
+                
+                colorItem.appendChild(colorDot);
+                colorItem.appendChild(subjectName);
+                legendContainer.appendChild(colorItem);
+            });
+        }
+        
+        // Create calendars for all months
+        function createCalendars() {
+            const calendarContainers = document.getElementById('calendarContainers');
+            calendarContainers.innerHTML = '';
+            
+            Object.keys(months).forEach(monthKey => {
+                const month = months[monthKey];
+                
+                // Create calendar container
+                const monthContainer = document.createElement('div');
+                monthContainer.className = 'month-calendar';
+                monthContainer.id = `calendar-${monthKey}`;
+                monthContainer.setAttribute('data-month', monthKey);
+                
+                // Create calendar header
+                const calendarContainer = document.createElement('div');
+                calendarContainer.className = 'calendar-container';
+                
+                const calendarHeader = document.createElement('div');
+                calendarHeader.className = 'calendar-header';
+                calendarHeader.textContent = month.name;
+                calendarContainer.appendChild(calendarHeader);
+                
+                // Create weekday header
+                const weekdayHeader = document.createElement('div');
+                weekdayHeader.className = 'weekday-header';
+                
+                daysOfWeek.forEach(day => {
+                    const dayHeader = document.createElement('div');
+                    dayHeader.textContent = day;
+                    weekdayHeader.appendChild(dayHeader);
+                });
+                
+                calendarContainer.appendChild(weekdayHeader);
+                
+                // Create calendar grid
+                const calendarGrid = document.createElement('div');
+                calendarGrid.className = 'calendar-grid with-gap';
+                
+                // Add placeholder for empty cells at the beginning
+                for (let i = 0; i < month.firstDay; i++) {
+                    const placeholder = document.createElement('div');
+                    placeholder.className = 'grid-placeholder';
+                    calendarGrid.appendChild(placeholder);
+                }
+                
+                // Create day cards
+                for (let day = 1; day <= month.days; day++) {
+                    const dayCard = createDayCard(monthKey, day);
+                    calendarGrid.appendChild(dayCard);
+                }
+                
+                calendarContainer.appendChild(calendarGrid);
+                monthContainer.appendChild(calendarContainer);
+                calendarContainers.appendChild(monthContainer);
+            });
+            
+            // Activate the current month tab and calendar
+            const currentDate = new Date();
+            const currentMonthName = currentDate.toLocaleString('default', { month: 'long' }).toLowerCase();
+            
+            // Default to April if current month is not in our range
+            const monthToActivate = months[currentMonthName] ? currentMonthName : 'april';
+            
+            activateMonth(monthToActivate);
+            updateStudyData();
+        }
+        
+        // Create a day card
+        function createDayCard(monthKey, day) {
+            const dayCard = document.createElement('div');
+            dayCard.className = 'day-card';
+            dayCard.setAttribute('data-month', monthKey);
+            dayCard.setAttribute('data-day', day);
+            
+            // Check if this is today
+            const today = new Date();
+            const currentMonth = today.toLocaleString('default', { month: 'long' }).toLowerCase();
+            const currentDay = today.getDate();
+            
+            if (monthKey === currentMonth && day === currentDay) {
+                dayCard.classList.add('today');
+            }
+            
+            const dayNumber = document.createElement('div');
+            dayNumber.className = 'day-number';
+            dayNumber.textContent = day;
+            dayCard.appendChild(dayNumber);
+            
+            const starsDisplay = document.createElement('div');
+            starsDisplay.className = 'stars-display';
+            starsDisplay.id = `stars-${monthKey}-${day}`;
+            dayCard.appendChild(starsDisplay);
+            
+            // Add day stats tooltip
+            const dayStats = document.createElement('div');
+            dayStats.className = 'day-stats';
+            dayStats.id = `stats-${monthKey}-${day}`;
+            dayCard.appendChild(dayStats);
+            
+            return dayCard;
+        }
+        
+        // Activate a specific month tab and calendar
+        function activateMonth(monthKey) {
+            // Deactivate all tabs and calendars
+            document.querySelectorAll('.month-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.month-calendar').forEach(calendar => {
+                calendar.classList.remove('active');
+            });
+            
+            // Activate the selected month
+            const tabToActivate = document.querySelector(`.month-tab[data-month="${monthKey}"]`);
+            if (tabToActivate) {
+                tabToActivate.classList.add('active');
+            }
+            
+            const calendarToActivate = document.querySelector(`.month-calendar[data-month="${monthKey}"]`);
+            if (calendarToActivate) {
+                calendarToActivate.classList.add('active');
+            }
+        }
+        
+        // Handle subject star display
+        function displaySubjectStars() {
+            // Clear all star displays first
+            document.querySelectorAll('.stars-display').forEach(display => {
+                display.innerHTML = '';
+            });
+            
+            // Clear all stats displays
+            document.querySelectorAll('.day-stats').forEach(stats => {
+                stats.innerHTML = '';
+            });
+            
+            // Loop through study data and add stars
+            for (const dateKey in studyData) {
+                const [year, month, day] = dateKey.split('-');
+                const monthName = new Date(year, month - 1, day).toLocaleString('default', { month: 'long' }).toLowerCase();
+                
+                // Skip if month is not in our display range
+                if (!months[monthName]) continue;
+                
+                const starsDisplayId = `stars-${monthName}-${parseInt(day)}`;
+                const statsDisplayId = `stats-${monthName}-${parseInt(day)}`;
+                
+                const starsDisplay = document.getElementById(starsDisplayId);
+                const statsDisplay = document.getElementById(statsDisplayId);
+                
+                if (!starsDisplay || !statsDisplay) continue;
+                
+                // Clear displays
+                starsDisplay.innerHTML = '';
+                
+                // Add stars for each subject
+                let totalHours = 0;
+                let statsHTML = '';
+                
+                for (const subject in studyData[dateKey]) {
+                    const hours = studyData[dateKey][subject];
+                    totalHours += hours;
+                    
+                    // Add to stats
+                    statsHTML += `${subject}: ${hours}h<br>`;
+                    
+                    // Calculate number of stars (1 star per hour, round to nearest 0.5)
+                    const numStars = Math.round(hours * 2) / 2;
+                    
+                    // Create stars
+                    for (let i = 0; i < Math.floor(numStars); i++) {
+                        addStar(starsDisplay, subject);
+                    }
+                    
+                    // Add half star if needed
+                    if (numStars % 1 === 0.5) {
+                        addHalfStar(starsDisplay, subject);
+                    }
+                }
+                
+                // Set stats tooltip
+                statsDisplay.innerHTML = statsHTML + `<strong>Total: ${totalHours.toFixed(2)}h</strong>`;
+            }
+        }
+        
+        // Add a star to display
+        function addStar(container, subject) {
+            const star = document.createElement('span');
+            star.className = 'subject-star';
+            star.textContent = '★';
+            star.style.color = getSubjectColor(subject);
+            star.title = subject;
+            container.appendChild(star);
+        }
+        
+        // Add a half star to display
+        function addHalfStar(container, subject) {
+            const star = document.createElement('span');
+            star.className = 'subject-star';
+            star.textContent = '½';
+            star.style.color = getSubjectColor(subject);
+            star.title = `${subject} (0.5h)`;
+            container.appendChild(star);
+        }
+        
+        // Update study data across the UI
+        function updateStudyData() {
+            // Save data to localStorage
+            localStorage.setItem('studyData', JSON.stringify(studyData));
+            
+            // Update star displays
+            displaySubjectStars();
+            
+            // Update summary
+            updateSummary();
+        }
+        
+        // Update the summary section
+        function updateSummary() {
+            const summaryContainer = document.getElementById('subjectSummary');
+            summaryContainer.innerHTML = '';
+            
+            // Calculate total hours per subject
+            const subjectTotals = {};
+            let grandTotal = 0;
+            
+            // Initialize totals for all subjects
+            selectedSubjects.forEach(subject => {
+                subjectTotals[subject] = 0;
+            });
+            
+            // Calculate totals from study data
+            for (const dateKey in studyData) {
+                for (const subject in studyData[dateKey]) {
+                    subjectTotals[subject] = (subjectTotals[subject] || 0) + studyData[dateKey][subject];
+                    grandTotal += studyData[dateKey][subject];
+                }
+            }
+            
+            // Calculate target hours (arbitrary - for display purposes)
+            const targetHoursPerSubject = {
+                'Combined Mathematics': 120,
+                'Physics': 100,
+                'Chemistry': 100,
+                'Biology': 110,
+                'ICT': 90,
+                'General English': 60,
+                'General IT': 40,
+                'Accounting': 110,
+                'Business Studies': 100,
+                'Economics': 100,
+                'Business Statistics': 80,
+                'European History': 100,
+                'Buddhist Civilization': 90,
+                'Geography': 100,
+                'Political Science': 100,
+                'English Literature': 110,
+                'Media Studies': 90,
+                'Sinhala': 80,
+                'Logic': 90,
+                'Physics/Agriculture': 100
+            };
+            
+            // Default target hours for subjects not in the list
+            const defaultTargetHours = 100;
+            
+            // Create summary cards for each subject
+            selectedSubjects.forEach(subject => {
+                const hours = subjectTotals[subject] || 0;
+                const target = targetHoursPerSubject[subject] || defaultTargetHours;
+                const percentage = Math.min(100, Math.round((hours / target) * 100));
+                
+                const summaryCard = document.createElement('div');
+                summaryCard.className = 'summary-card';
+                
+                const subjectName = document.createElement('div');
+                subjectName.className = 'subject-name';
+                subjectName.textContent = subject;
+                
+                const progressBar = document.createElement('div');
+                progressBar.className = 'progress-bar';
+                
+                const progressFill = document.createElement('div');
+                progressFill.className = 'progress-fill';
+                progressFill.style.width = `${percentage}%`;
+                progressFill.style.backgroundColor = getSubjectColor(subject);
+                
+                const progressText = document.createElement('div');
+                progressText.textContent = `${hours.toFixed(1)} / ${target} hours (${percentage}%)`;
+                
+                progressBar.appendChild(progressFill);
+                
+                summaryCard.appendChild(subjectName);
+                summaryCard.appendChild(progressBar);
+                summaryCard.appendChild(progressText);
+                
+                summaryContainer.appendChild(summaryCard);
+            });
+            
+            // Add grand total card
+            const totalCard = document.createElement('div');
+            totalCard.className = 'summary-card';
+            totalCard.style.gridColumn = '1 / -1';
+            totalCard.style.backgroundColor = 'var(--highlight)';
+            totalCard.style.color = 'white';
+            
+            const totalTitle = document.createElement('div');
+            totalTitle.className = 'subject-name';
+            totalTitle.textContent = 'Total Study Hours';
+            totalTitle.style.fontSize = '1.2rem';
+            
+            const totalHours = document.createElement('div');
+            totalHours.textContent = `${grandTotal.toFixed(1)} hours`;
+            totalHours.style.fontSize = '1.5rem';
+            totalHours.style.fontWeight = 'bold';
+            
+            totalCard.appendChild(totalTitle);
+            totalCard.appendChild(totalHours);
+            
+            summaryContainer.appendChild(totalCard);
+        }
+        
+        // Add new study hours entry
+        function addStudyEntry() {
+            const subject = document.getElementById('subjectSelect').value;
+            const dateInput = document.getElementById('dateSelect').value;
+            const hours = parseFloat(document.getElementById('hoursInput').value);
+            
+            // Validate input
+            if (!subject) {
+                showAlert('Please select a subject.');
+                return;
+            }
+            
+            if (!dateInput) {
+                showAlert('Please select a date.');
+                return;
+            }
+            
+            if (isNaN(hours) || hours <= 0 || hours > 24) {
+                showAlert('Please enter valid hours (between 0.25 and 24).');
+                return;
+            }
+            
+            // Format date key
+            const dateKey = dateInput; // Already in YYYY-MM-DD format
+            
+            // Initialize date entry if needed
+            if (!studyData[dateKey]) {
+                studyData[dateKey] = {};
+            }
+            
+            // Add or update hours
+            if (studyData[dateKey][subject]) {
+                studyData[dateKey][subject] += hours;
+            } else {
+                studyData[dateKey][subject] = hours;
+            }
+            
+            // Validate that total hours per day doesn't exceed 24
+            let totalHoursForDay = 0;
+            for (const subj in studyData[dateKey]) {
+                totalHoursForDay += studyData[dateKey][subj];
+            }
+            
+            if (totalHoursForDay > 24) {
+                showAlert('Total study hours for this day exceeds 24 hours. Please adjust.');
+                // Remove the hours we just added
+                if (studyData[dateKey][subject] === hours) {
+                    delete studyData[dateKey][subject];
+                } else {
+                    studyData[dateKey][subject] -= hours;
+                }
+                return;
+            }
+            
+            // Update UI
+            updateStudyData();
+            
+            // Clear input fields
+            document.getElementById('hoursInput').value = '';
+            
+            showAlert('Study hours added successfully!', 2000);
+        }
+        
+        // Clear all study data
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear all study data? This cannot be undone.')) {
+                studyData = {};
+                updateStudyData();
+                showAlert('All study data has been cleared.');
+            }
+        }
+        
+        // Export study data to CSV
+        function exportStudyData() {
+            let csvContent = 'Date,Subject,Hours\n';
+            
+            // Convert study data to CSV rows
+            for (const dateKey in studyData) {
+                for (const subject in studyData[dateKey]) {
+                    const hours = studyData[dateKey][subject];
+                    csvContent += `${dateKey},${subject},${hours}\n`;
+                }
+            }
+            
+            // Create download link
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'study_data.csv');
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showAlert('Study data exported successfully!');
+        }
+        
+        // Initialize the app
+        function initApp() {
+            // Check if we have selected subjects
+            if (selectedSubjects.length === 0) {
+                showAlert('Please select your subject stream and combination on the main page first.');
+            }
+            
+            // Populate subject dropdown
+            populateSubjects();
+            
+            // Create color legend
+            createColorLegend();
+            
+            // Create calendars
+            createCalendars();
+            
+            // Set default date to today
+            const today = new Date();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            document.getElementById('dateSelect').value = `${today.getFullYear()}-${month}-${day}`;
+        }
+        
+        // Event listeners
+        document.getElementById('addEntryBtn').addEventListener('click', addStudyEntry);
+        document.getElementById('clearAllBtn').addEventListener('click', clearAllData);
+        document.getElementById('exportBtn').addEventListener('click', exportStudyDataToPDF);
+		
+		// Change the button text in the HTML
+		document.getElementById('exportBtn').textContent = 'Download PDF File';
+
+		// Update the event listener
+		document.getElementById('exportBtn').addEventListener('click', exportStudyDataToPDF);
+        
+        // Month tab click event listeners
+        document.querySelectorAll('.month-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const monthKey = this.getAttribute('data-month');
+                activateMonth(monthKey);
+            });
+        });
+        
+        // Initialize app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+		
+		// PDF Export functionality using jsPDF with month selection
+	function exportStudyDataToPDF(selectedMonth) {
+		// Check if jsPDF is loaded, if not load it
+		if (typeof window.jspdf === 'undefined') {
+			const script = document.createElement('script');
+			script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+			script.onload = function() {
+				// Load jspdf-autotable plugin
+				const autotableScript = document.createElement('script');
+				autotableScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js';
+				autotableScript.onload = function() {
+					generatePDF(selectedMonth);
+				};
+				document.head.appendChild(autotableScript);
+			};
+			document.head.appendChild(script);
+		} else {
+			generatePDF(selectedMonth);
+		}
+	}
+
+	function generatePDF(selectedMonth) {
+		try {
+			// Initialize PDF document in portrait mode
+			const { jsPDF } = window.jspdf;
+			const doc = new jsPDF();
+			
+			// Set font styles
+			const titleFont = 'helvetica';
+			const normalFont = 'helvetica';
+			
+			// Get today's date 
+			const today = new Date();
+			
+			// If no month is selected, use current month
+			if (!selectedMonth) {
+				selectedMonth = today.toLocaleString('default', { month: 'long' }).toLowerCase();
+			}
+			
+			// Convert month name to month index (0-11)
+			const monthNames = ["january", "february", "march", "april", "may", "june", 
+								 "july", "august", "september", "october", "november", "december"];
+			const monthIndex = monthNames.indexOf(selectedMonth.toLowerCase());
+			
+			// Create a date object for the selected month
+			const selectedDate = new Date(today.getFullYear(), monthIndex, 1);
+			
+			// Add title to the first page
+			doc.setFont(titleFont, 'bold');
+			doc.setFontSize(20);
+			doc.setTextColor(24, 78, 119); // Header blue color
+			doc.text('Study Hours Report', 105, 20, { align: 'center' });
+			doc.setFontSize(12);
+			doc.setTextColor(0, 0, 0);
+			doc.text(selectedDate.toLocaleDateString(), 105, 30, { align: 'center' });
+			
+			// Format today's date in YYYY-MM-DD format
+			const month = String(today.getMonth() + 1).padStart(2, '0');
+			const day = String(today.getDate()).padStart(2, '0');
+			const todayKey = `${today.getFullYear()}-${month}-${day}`;
+			
+			// Calculate today's study hours
+			const todayHours = {};
+			let todayTotalHours = 0;
+			
+			if (studyData[todayKey]) {
+				for (const subject in studyData[todayKey]) {
+					todayHours[subject] = studyData[todayKey][subject];
+					todayTotalHours += studyData[todayKey][subject];
+				}
+			}
+			
+			// Draw today's study hours card
+			doc.setFont(normalFont, 'bold');
+			doc.setFontSize(16);
+			doc.text("Today's Study Hours", 20, 45);
+			
+			// Create today's hours table
+			const todayTableData = [];
+			for (const subject in todayHours) {
+				todayTableData.push([subject, todayHours[subject].toFixed(2) + ' hours']);
+			}
+			
+			if (todayTableData.length > 0) {
+				doc.autoTable({
+					startY: 50,
+					head: [['Subject', 'Hours']],
+					body: todayTableData,
+					theme: 'striped',
+					headStyles: { fillColor: [24, 78, 119], textColor: [255, 255, 255] },
+					margin: { top: 50, left: 20, right: 20 },
+					styles: { fontSize: 12 },
+					columnStyles: { 
+						0: { cellWidth: 140 },
+						1: { cellWidth: 30, halign: 'right' }
+					},
+					footStyles: { fillColor: [52, 152, 219] },
+					foot: [['Total Today', todayTotalHours.toFixed(2) + ' hours']]
+				});
+			} else {
+				doc.setFont(normalFont, 'normal');
+				doc.setFontSize(12);
+				doc.text('No study hours recorded for today.', 20, 55);
+				doc.line(20, 60, 190, 60);
+			}
+			
+			// Calculate total study hours per subject across all dates
+			const subjectTotals = {};
+			let grandTotal = 0;
+			
+			// Initialize totals for all subjects
+			selectedSubjects.forEach(subject => {
+				subjectTotals[subject] = 0;
+			});
+			
+			// Calculate totals from study data
+			for (const dateKey in studyData) {
+				for (const subject in studyData[dateKey]) {
+					subjectTotals[subject] = (subjectTotals[subject] || 0) + studyData[dateKey][subject];
+					grandTotal += studyData[dateKey][subject];
+				}
+			}
+			
+			// Create study summary table data
+			const summaryTableData = [];
+			selectedSubjects.forEach(subject => {
+				const totalHours = subjectTotals[subject] || 0;
+				const todaySubjectHours = todayHours[subject] || 0;
+				summaryTableData.push([
+					subject, 
+					todaySubjectHours.toFixed(2) + ' hours', 
+					totalHours.toFixed(2) + ' hours'
+				]);
+			});
+			
+			// Calculate where to start the summary table
+			const startY = doc.previousAutoTable ? doc.previousAutoTable.finalY + 15 : 80;
+			
+			// Add study summary title
+			doc.setFont(normalFont, 'bold');
+			doc.setFontSize(16);
+			doc.text('Study Summary by Subject', 20, startY);
+			
+			// Create summary table
+			doc.autoTable({
+				startY: startY + 5,
+				head: [['Subject', 'Today Hours', 'Total Hours']],
+				body: summaryTableData,
+				theme: 'striped',
+				headStyles: { fillColor: [24, 78, 119], textColor: [255, 255, 255] },
+				margin: { left: 20, right: 20 },
+				styles: { fontSize: 12 },
+				columnStyles: { 
+					0: { cellWidth: 100 },
+					1: { cellWidth: 35, halign: 'right' },
+					2: { cellWidth: 35, halign: 'right' }
+				},
+				footStyles: { fillColor: [52, 152, 219] },
+				foot: [['Grand Total', todayTotalHours.toFixed(2) + ' hours', grandTotal.toFixed(2) + ' hours']]
+			});
+			
+			// Add new page for monthly calendar
+			doc.addPage();
+			
+			// Add title to the second page
+			doc.setFont(titleFont, 'bold');
+			doc.setFontSize(20);
+			doc.setTextColor(24, 78, 119);
+			doc.text('Monthly Star Sheet', 105, 20, { align: 'center' });
+			
+			// Get selected month name and year
+			const selectedMonthName = selectedDate.toLocaleString('default', { month: 'long' });
+			doc.setFontSize(16);
+			doc.text(selectedMonthName + ' ' + selectedDate.getFullYear(), 105, 30, { align: 'center' });
+			
+			// Create calendar table for the selected month
+			const monthData = getMonthData(selectedDate.getFullYear(), monthIndex);
+			
+			if (!monthData) {
+				doc.setFont(normalFont, 'normal');
+				doc.setFontSize(12);
+				doc.text('Month data not available.', 20, 40);
+			} else {
+				// Create calendar grid header (days of week)
+				const calendarHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+				
+				// Create calendar data
+				const rows = Math.ceil((monthData.firstDay + monthData.days) / 7);
+				const calendarData = Array(rows).fill().map(() => Array(7).fill(''));
+				
+				let dayCounter = 1;
+				for (let row = 0; row < rows; row++) {
+					for (let col = 0; col < 7; col++) {
+						// Skip cells before the first day of the month
+						if (row === 0 && col < monthData.firstDay) {
+							continue;
+						}
+						
+						// Stop after reaching the last day of the month
+						if (dayCounter > monthData.days) {
+							break;
+						}
+						
+						// Format date key for looking up study data
+						const dateObj = new Date(selectedDate.getFullYear(), monthIndex, dayCounter);
+						const yyyy = dateObj.getFullYear();
+						const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+						const dd = String(dayCounter).padStart(2, '0');
+						const dateKey = `${yyyy}-${mm}-${dd}`;
+						
+						// Get star data for this day
+						let cellContent = dayCounter.toString();
+						
+						// Add stars info if we have study data for this day
+						if (studyData[dateKey]) {
+							cellContent += '\n';
+							for (const subject in studyData[dateKey]) {
+								const hours = studyData[dateKey][subject];
+								// Add subject initial and stars based on hours
+								const subjectInitial = subject.split(' ')[0][0];
+								const numStars = Math.round(hours * 2) / 2;
+								const fullStars = Math.floor(numStars);
+								const hasHalfStar = numStars % 1 === 0.5;
+								
+								cellContent += `${subjectInitial}: ${'★'.repeat(fullStars)}${hasHalfStar ? '½' : ''}\n`;
+							}
+						}
+						
+						calendarData[row][col] = cellContent;
+						dayCounter++;
+					}
+				}
+				
+				// Draw the calendar
+				doc.autoTable({
+					startY: 40,
+					head: [calendarHeaders],
+					body: calendarData,
+					theme: 'grid',
+					headStyles: { fillColor: [30, 96, 145], textColor: [255, 255, 255] },
+					margin: { left: 20, right: 20 },
+					styles: { 
+						fontSize: 10, 
+						cellPadding: 3,
+						valign: 'top',
+						overflow: 'linebreak',
+						lineWidth: 0.1,
+						lineColor: [200, 200, 200]
+					},
+					columnStyles: {
+						0: { cellWidth: 24 },
+						1: { cellWidth: 24 },
+						2: { cellWidth: 24 },
+						3: { cellWidth: 24 },
+						4: { cellWidth: 24 },
+						5: { cellWidth: 24 },
+						6: { cellWidth: 24 }
+					},
+					didDrawPage: function(data) {
+						// Add brown footer with name
+						doc.setFillColor(139, 69, 19); // Brown color
+						doc.rect(20, doc.internal.pageSize.height - 20, doc.internal.pageSize.width - 40, 10, 'F');
+						
+						doc.setFont(normalFont, 'bold');
+						doc.setFontSize(10);
+						doc.setTextColor(255, 255, 255); // White text
+						doc.text("Student Study Tracker", 105, doc.internal.pageSize.height - 14, { align: 'center' });
+					}
+				});
+			}
+			
+			// Add subject color legend at the bottom of the page
+			const legendY = doc.previousAutoTable ? doc.previousAutoTable.finalY + 15 : 180;
+			
+			doc.setFont(normalFont, 'bold');
+			doc.setFontSize(14);
+			doc.text('Subject Color Legend', 105, legendY, { align: 'center' });
+			
+			// Create legend items
+			let startX = 20;
+			let currentY = legendY + 10;
+			const itemsPerRow = 3;
+			let itemCount = 0;
+			
+			selectedSubjects.forEach(subject => {
+				if (itemCount % itemsPerRow === 0 && itemCount > 0) {
+					currentY += 10;
+					startX = 20;
+				}
+				
+				// Draw color dot
+				const subjectColor = getSubjectColor(subject);
+				const [r, g, b] = hexToRgb(subjectColor);
+				doc.setFillColor(r, g, b);
+				doc.circle(startX + 3, currentY, 3, 'F');
+				
+				// Draw subject name
+				doc.setFont(normalFont, 'normal');
+				doc.setFontSize(10);
+				doc.setTextColor(0, 0, 0);
+				doc.text(subject, startX + 8, currentY + 1);
+				
+				startX += 60;
+				itemCount++;
+			});
+			
+			// Add brown footer with name on the last page as well
+			doc.setFillColor(139, 69, 19); // Brown color
+			doc.rect(20, doc.internal.pageSize.height - 20, doc.internal.pageSize.width - 40, 10, 'F');
+			
+			doc.setFont(normalFont, 'bold');
+			doc.setFontSize(10);
+			doc.setTextColor(255, 255, 255); // White text
+			doc.text("Student Study Tracker", 105, doc.internal.pageSize.height - 14, { align: 'center' });
+			
+			// Save the PDF
+			doc.save('study_star_sheet_' + selectedMonthName.toLowerCase() + '.pdf');
+			showAlert('PDF exported successfully!');
+		} catch (error) {
+			console.error('Error generating PDF:', error);
+			showAlert('Error generating PDF. Please check the console for details.');
+		}
+	}
+
+	// Add month selection UI to the page
+	function addMonthSelector() {
+		const container = document.createElement('div');
+		container.className = 'month-export-selector';
+		container.style.margin = '20px 0';
+		container.style.textAlign = 'center';
+		
+		const label = document.createElement('label');
+		label.textContent = 'Export Month: ';
+		label.style.marginRight = '10px';
+		label.style.fontWeight = 'bold';
+		
+		const select = document.createElement('select');
+		select.id = 'monthSelector';
+		select.className = 'month-select';
+		
+		// Add months from April to November
+		const months = [
+			{value: 'april', text: 'April'},
+			{value: 'may', text: 'May'},
+			{value: 'june', text: 'June'},
+			{value: 'july', text: 'July'},
+			{value: 'august', text: 'August'},
+			{value: 'september', text: 'September'},
+			{value: 'october', text: 'October'},
+			{value: 'november', text: 'November'}
+		];
+		
+		months.forEach(month => {
+			const option = document.createElement('option');
+			option.value = month.value;
+			option.textContent = month.text;
+			select.appendChild(option);
+		});
+		
+		// Set current month if in range
+		const currentMonth = new Date().toLocaleString('default', { month: 'long' }).toLowerCase();
+		if (months.some(m => m.value === currentMonth)) {
+			select.value = currentMonth;
+		}
+		
+		const button = document.createElement('button');
+		button.textContent = 'Export PDF';
+		button.className = 'pdf-export-btn';
+		button.style.marginLeft = '10px';
+		button.style.padding = '5px 15px';
+		button.style.backgroundColor = '#184e77';
+		button.style.color = 'white';
+		button.style.border = 'none';
+		button.style.borderRadius = '4px';
+		button.style.cursor = 'pointer';
+		
+		button.addEventListener('click', function() {
+			const selectedMonth = document.getElementById('monthSelector').value;
+			exportStudyDataToPDF(selectedMonth);
+		});
+		
+		container.appendChild(label);
+		container.appendChild(select);
+		container.appendChild(button);
+		
+		// Find the target element to insert before
+		const exportBtn = document.getElementById('exportBtn');
+		if (exportBtn) {
+			// Insert before the existing export button
+			exportBtn.parentNode.insertBefore(container, exportBtn);
+			
+			// Hide the old export button as we've replaced it
+			exportBtn.style.display = 'none';
+		} else {
+			// Fallback - add to app or body
+			const targetElement = document.querySelector('#app') || document.body;
+			targetElement.prepend(container);
+		}
+	}
+
+	// Utility function to convert hex color to RGB
+	function hexToRgb(hex) {
+		// Remove # if present
+		hex = hex.replace('#', '');
+		
+		// Parse the hex values
+		const r = parseInt(hex.substring(0, 2), 16);
+		const g = parseInt(hex.substring(2, 4), 16);
+		const b = parseInt(hex.substring(4, 6), 16);
+		
+		return [r, g, b];
+	}
+
+	// Initialize the month selector when DOM is loaded
+	document.addEventListener('DOMContentLoaded', function() {
+		addMonthSelector();
+	});
+	</script>
+</body>
+</html>
