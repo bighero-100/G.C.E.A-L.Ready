@@ -35,20 +35,31 @@
         }
 
         header {
-            background-color: var(--secondary-bg);
+            background-color: #102336;
             padding: 1rem;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            color: white;
         }
 
         .logo {
             font-size: 1.5rem;
             font-weight: bold;
-            color: var(--highlight);
+            color: white;
+            animation: logoShine 2s infinite alternate;
         }
 
+        @keyframes logoShine {
+            from {
+                text-shadow: 0 0 5px rgba(255,255,255,0.5);
+            }
+            to {
+                text-shadow: 0 0 15px rgba(255,255,255,0.8), 0 0 20px rgba(52, 152, 219, 0.8);
+            }
+        }
+		
         .theme-toggle {
 		     display: inline-block;
 			  padding: 12px 30px;
@@ -253,7 +264,7 @@
 </head>
 <body>
     <header>
-        <div class="logo">G.C.E.A-L.Ready</div>
+        <div class="logo">A/L Mehewara</div>
         <button class="theme-toggle" id="themeToggle">Dark Theme</button>
     </header>
 
