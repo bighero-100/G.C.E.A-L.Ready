@@ -60,7 +60,7 @@
             }
         }
 		
-        .theme-toggle {
+        .theme-toggle122 {
 		     display: inline-block;
 			  padding: 12px 30px;
 			  font-size: 20px;
@@ -75,7 +75,7 @@
 			  transition: 0.3s ease;
 			}
 
-        .theme-toggle:hover {
+        .theme-toggle122:hover {
            background-color: #00f7ff;
 		  color: #111;
 		  box-shadow: 0 0 20px #00f7ff, 0 0 30px #00f7ff, 0 0 40px #00f7ff;
@@ -260,12 +260,201 @@
 		  color: #111;
 		  box-shadow: 0 0 20px red, 0 0 30px red, 0 0 40px red;
 		}
+		
+		.selection-container856 {
+        max-width: 500px;
+        margin: 30px auto;
+        padding: 25px;
+        background-color: #2d3748;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    /* Animated border effect */
+    .selection-container856::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 2px solid transparent;
+        border-radius: 12px;
+        background: linear-gradient(90deg, #0066ff, #00c6ff, #0066ff) border-box;
+        -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        animation: borderAnimation 4s linear infinite;
+        z-index: 0;
+    }
+    
+    @keyframes borderAnimation {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+    
+    .form-title {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #ffffff;
+        font-size: 24px;
+        font-weight: 600;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .select-group856 {
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .select-group856 label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #ffffff;
+    }
+    
+    select {
+        width: 100%;
+        padding: 12px 15px;
+        border-radius: 8px;
+        border: 1px solid #d1d9e6;
+        background-color: #ffffff;
+        font-size: 16px;
+        color: #000000;
+        transition: all 0.3s ease;
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+        background-repeat: no-repeat;
+        background-position: right 15px top 50%;
+        background-size: 12px auto;
+    }
+    
+    select:focus {
+        outline: none;
+        border-color: #0066ff;
+        box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.15);
+    }
+    
+    select:disabled {
+        background-color: #f1f1f1;
+        cursor: not-allowed;
+    }
+    
+    button856 {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #0066ff, #00c6ff);
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    button856::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: 0.5s;
+    }
+    
+    button856:hover::after {
+        left: 100%;
+    }
+    
+    button856:hover {
+        box-shadow: 0 5px 15px rgba(0, 102, 255, 0.4);
+        transform: translateY(-2px);
+    }
+    
+    .selected-subjects856 {
+        margin-top: 25px;
+        padding: 15px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        position: relative;
+        z-index: 1;
+    }
+    
+    .selected-subjects856 p {
+        color: #2c3e50;
+        font-size: 16px;
+        margin: 0;
+        text-align: center;
+    }
+    
+    .subject-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #eaeaea;
+    }
+    
+    .subject-item:last-child {
+        border-bottom: none;
+    }
+    
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+        .selection-container856 {
+            background-color: #2d3748;
+        }
+        
+        .form-title {
+            color: #e2e8f0;
+        }
+        
+        .select-group label {
+            color: #e2e8f0;
+        }
+        
+        select {
+            background-color: #ffffff;
+            border-color: #4a5568;
+            color: #000000;
+        }
+        
+        .selected-subjects856 {
+            background-color: #1a202c;
+        }
+        
+        .selected-subjects856 p {
+            color: #e2e8f0;
+        }
+        
+        .subject-item {
+            border-bottom-color: #4a5568;
+        }
+    }
     </style>
 </head>
 <body>
     <header>
         <div class="logo">A/L Mehewara</div>
-        <button class="theme-toggle" id="themeToggle">Dark Theme</button>
+        <button class="theme-toggle122" id="themeToggle">Dark Theme</button>
     </header>
 
     <div class="container">
@@ -377,29 +566,38 @@
                 <h3>Select Your Subjects</h3>
 				
 				<div style="text-align: right; margin-right: 30px;">
-                <a class="osi-lak">මෙතනින් ඉදිරියට යන්න</a>
+                <a class="osi-lak">Fill Your Subject Stream & Category</a>
 				</div>
 				
-                <div>
-                    <select id="streamSelect">
-                        <option value="">Select Stream</option>
-                        <option value="science">Science</option>
-                        <option value="commerce">Commerce</option>
-                        <option value="arts">Arts</option>
-                    </select>
-                    
-                    <select id="categorySelect" disabled>
-                        <option value="">Select Category</option>
-                    </select>
-                    
-                    <button id="confirmSelection">Confirm Selection</button>
-                </div>
-                
-                <div class="selected-subjects" id="selectedSubjects">
-                    <p>Your selected subjects will appear here</p>
-                </div>
-            </div>
-           
+                <div class="selection-container856">
+				<h2 class="form-title">Subject Selection</h2>
+				
+				<div class="select-group856">
+					<label for="streamSelect">Select Stream:</label>
+					<select id="streamSelect">
+						<option value="">Select Stream</option>
+						<option value="science">Science</option>
+						<option value="commerce">Commerce</option>
+						<option value="arts">Arts</option>
+					</select>
+				</div>
+				
+				<div class="select-group856">
+					<label for="categorySelect">Select Category:</label>
+					<select id="categorySelect" disabled>
+						<option value="">Select Category</option>
+					</select>
+				</div>
+				
+				<div class="select-group856">
+					<button id="confirmSelection">Confirm Selection</button>
+				</div>
+			</div>
+
+			<div class="selected-subjects856" id="selectedSubjects">
+				<p>Your selected subjects will appear here</p>
+			</div>
+					   
             
             <table id="workPlanTable">
                 <tbody id="plannerBody">
