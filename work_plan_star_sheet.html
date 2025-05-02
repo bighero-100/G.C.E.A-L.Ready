@@ -98,13 +98,44 @@
             color: var(--highlight);
         }
 
-        h1.main-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            color: var(--highlight);
-            animation: titlePulse 3s infinite alternate;
-        }
+       h1.main-title12 {
+		text-align: center;
+		font-size: 2.5rem;
+		margin-bottom: 2rem;
+		color: #c91e7a; 
+		animation: gradientText 4s ease-in-out infinite;
+		background: linear-gradient(90deg, #27cf11, #f9d423, #c91e7a); 
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-size: 200% auto;
+	}
+	
+	.main-title12::before,
+	.main-title12::after {
+		content: '⭐';
+		margin: 0 0.5rem;
+		animation: glowStar 2s infinite alternate;
+	}
+
+	@keyframes glowStar {
+		0% {
+			color: gold;
+			text-shadow: 0 0 5px #ffd700;
+		}
+		100% {
+			color: #ff8c00;
+			text-shadow: 0 0 15px #ffa500;
+		}
+	}
+		@keyframes gradientText {
+			0% {
+				background-position: 0% 50%;
+			}
+			100% {
+				background-position: 100% 50%;
+			}
+		}
+
 
         @keyframes titlePulse {
             0% {
@@ -559,14 +590,15 @@
             top: 20px;
             right: 20px;
             padding: 15px 20px;
-            background-color: #ff5252;
+            background-color: Red;
             color: white;
+			font-weight: 600;
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             z-index: 1000;
             opacity: 0;
             transform: translateY(-20px);
-            transition: all 0.3s ease;
+            transition: all 2s ease;
         }
 
         .alert-message.show {
@@ -601,9 +633,8 @@
     </header>
 
     <div class="container">
-        <h1 class="main-title">
-            <span class="sinhalese">තරු ක්‍රමය</span>
-            Work Plan Star Sheet
+        <h1 class="main-title12">
+            <span class="sinhalese">Work Plan Star Sheet </span>
         </h1>
         
         <div class="data-entry">
@@ -1355,6 +1386,8 @@
 			const todayDate = today.getDate();
 			const todayMonth = today.getMonth() + 1;
 			const todayMonthStr = String(todayMonth).padStart(2, '0');
+			const todayDateStr = String(todayDate).padStart(2, '0');
+			const todayKey = `${currentYear}-${todayMonthStr}-${todayDateStr}`;
 
 			const startOfWeek = new Date(today);
 			startOfWeek.setDate(today.getDate() - today.getDay());
@@ -1419,10 +1452,12 @@
 			doc.text(`Subject Hours Summary`, 105, 110, { align: 'center' });
 
 			const monthlySubjectTotals = {};
+			const todaySubjectTotals = {};
 			let totalMonthHours = 0;
 
 			selectedSubjects.forEach(subject => {
 				monthlySubjectTotals[subject] = 0;
+				todaySubjectTotals[subject] = 0;
 			});
 
 			for (const dateKey in studyData) {
@@ -1433,6 +1468,11 @@
 						const hours = parseFloat(studyData[dateKey][subject]) || 0;
 						monthlySubjectTotals[subject] = (monthlySubjectTotals[subject] || 0) + hours;
 						totalMonthHours += hours;
+						
+						// Track today's hours per subject
+						if (dateKey === todayKey) {
+							todaySubjectTotals[subject] = (todaySubjectTotals[subject] || 0) + hours;
+						}
 					}
 				}
 			}
@@ -1442,14 +1482,16 @@
 
 			doc.setFontSize(12);
 			doc.text("Subject", 35, 127);
-			doc.text("Hours", 115, 127);
-			doc.text("Percentage", 155, 127);
+			doc.text("Today H", 95, 127);
+			doc.text("Month H", 125, 127);
+			doc.text("Percentage", 160, 127);
 
 			let yPos = 135;
 
 			selectedSubjects.forEach(subject => {
-				const hours = monthlySubjectTotals[subject] || 0;
-				const percentage = totalMonthHours > 0 ? Math.round((hours / totalMonthHours) * 100) : 0;
+				const monthHours = monthlySubjectTotals[subject] || 0;
+				const todayHours = todaySubjectTotals[subject] || 0;
+				const percentage = totalMonthHours > 0 ? Math.round((monthHours / totalMonthHours) * 100) : 0;
 
 				const colorHex = getSubjectColor(subject);
 				const r = parseInt(colorHex.slice(1, 3), 16);
@@ -1462,8 +1504,9 @@
 				doc.setFont('helvetica', 'normal');
 				doc.setFontSize(11);
 				doc.text(subject, 35, yPos + 1);
-				doc.text(`${hours.toFixed(1)}h`, 115, yPos + 1);
-				doc.text(`${percentage}%`, 155, yPos + 1);
+				doc.text(`${todayHours.toFixed(1)}h`, 95, yPos + 1);
+				doc.text(`${monthHours.toFixed(1)}h`, 125, yPos + 1);
+				doc.text(`${percentage}%`, 160, yPos + 1);
 
 				yPos += 12;
 			});
@@ -1473,8 +1516,9 @@
 			yPos += 5;
 			doc.line(25, yPos - 5, 185, yPos - 5);
 			doc.text("Total Hours:", 35, yPos + 1);
-			doc.text(`${totalMonthHours.toFixed(1)}h`, 115, yPos + 1);
-			doc.text("100%", 155, yPos + 1);
+			doc.text(`${todayHours.toFixed(1)}h`, 95, yPos + 1);
+			doc.text(`${totalMonthHours.toFixed(1)}h`, 125, yPos + 1);
+			doc.text("100%", 160, yPos + 1);
 
 			// ===== ✅ FOOTER with link =====
 			const pageHeight = doc.internal.pageSize.height;
@@ -1697,12 +1741,12 @@
 			
 			// Add hover and focus effects
 			monthSelect.addEventListener('mouseover', () => {
-				monthSelect.style.borderColor = '#4CAF50';
+				monthSelect.style.borderColor = '#bef50a';
 			});
 			
 			monthSelect.addEventListener('mouseout', () => {
 				if (document.activeElement !== monthSelect) {
-					monthSelect.style.borderColor = '#ddd';
+					monthSelect.style.borderColor = '#e80c0c';
 				}
 			});
 			
@@ -1776,7 +1820,7 @@
 			
 			// Add button hover/active states
 			exportPDFBtn.addEventListener('mouseover', () => {
-				exportPDFBtn.style.backgroundColor = '#45a049';
+				exportPDFBtn.style.backgroundColor = '#b4e807';
 				exportPDFBtn.style.boxShadow = '0 0 20px rgba(76, 175, 80, 0.8)';
 				exportPDFBtn.style.transform = 'translateY(-2px)';
 			});
@@ -1794,7 +1838,7 @@
 			});
 			
 			exportPDFBtn.addEventListener('mouseup', () => {
-				exportPDFBtn.style.backgroundColor = '#45a049';
+				exportPDFBtn.style.backgroundColor = '#b4e807';
 				exportPDFBtn.style.boxShadow = '0 0 20px rgba(76, 175, 80, 0.8)';
 				exportPDFBtn.style.transform = 'translateY(-2px)';
 			});
