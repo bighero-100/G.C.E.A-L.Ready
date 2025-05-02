@@ -660,7 +660,7 @@
     </div>
     
     <footer>
-        &copy; 2025 G.C.E.A-L.Ready - Your A/L Preparation Partner
+        &copy; 2025 G.C.E.A-L.Ready - Your A/L Mehewara
     </footer>
 
     <div id="alertMessage" class="alert-message"></div>
@@ -1396,24 +1396,19 @@
 					}
 				}
 			}
-			
-			// Draw summary cards with the specified color (#b5b2b1)
-			// Convert hex to RGB
-			const cardR = 181; // B5 in decimal
-			const cardG = 178; // B2 in decimal
-			const cardB = 177; // B1 in decimal
-			doc.setFillColor(cardR, cardG, cardB);
-			
-			// Today's hours card
-			doc.roundedRect(20, 50, 50, 40, 3, 3, 'F');
+						
+			// Monthly hours card
+			doc.setFillColor('#b85b3d');
+			doc.roundedRect(140, 50, 50, 40, 3, 3, 'F');
 			doc.setFontSize(12);
 			doc.setFont('helvetica', 'bold');
-			doc.setTextColor(0, 0, 0); // Black text
-			doc.text("Today's Hours", 45, 62, { align: 'center' });
+			doc.setTextColor(0, 0, 0); // white text
+			doc.text("Monthly Hours", 165, 62, { align: 'center' });
 			doc.setFontSize(18);
-			doc.text(`${todayHours.toFixed(1)}h`, 45, 78, { align: 'center' });
+			doc.text(`${monthlyHours.toFixed(1)}h`, 165, 78, { align: 'center' });
 			
 			// Weekly hours card
+			doc.setFillColor('#5cd6bc');
 			doc.roundedRect(80, 50, 50, 40, 3, 3, 'F');
 			doc.setFontSize(12);
 			doc.setFont('helvetica', 'bold');
@@ -1422,14 +1417,17 @@
 			doc.setFontSize(18);
 			doc.text(`${weeklyHours.toFixed(1)}h`, 105, 78, { align: 'center' });
 			
-			// Monthly hours card
-			doc.roundedRect(140, 50, 50, 40, 3, 3, 'F');
+			// Today's hours card
+			doc.setFillColor('#95e810');
+			doc.roundedRect(20, 50, 50, 40, 3, 3, 'F');
 			doc.setFontSize(12);
 			doc.setFont('helvetica', 'bold');
-			doc.setTextColor(0, 0, 0); // white text
-			doc.text("Monthly Hours", 165, 62, { align: 'center' });
+			doc.setTextColor(0, 0, 0); // Black text
+			doc.text("Today's Hours", 45, 62, { align: 'center' });
 			doc.setFontSize(18);
-			doc.text(`${monthlyHours.toFixed(1)}h`, 165, 78, { align: 'center' });
+			doc.text(`${todayHours.toFixed(1)}h`, 45, 78, { align: 'center' });
+			
+			
 			
 			// Add subject hours summary to page 1
 			doc.setFontSize(16);
@@ -1675,6 +1673,7 @@
 					currentLegendY += 15;
 				}
 			});
+			
 			
 			// Save the PDF
 			doc.save(`${monthData.name}_study_report.pdf`);
