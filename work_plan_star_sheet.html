@@ -656,7 +656,7 @@
             <!-- Will be populated by JavaScript -->
         </div>
         
-        <button class="export-btn" id="exportBtn">Export Study Data</button>
+        <button class="export-btn" id="exportBtn">Export Study Data XL File</button>
     </div>
     
     <footer>
@@ -666,764 +666,413 @@
     <div id="alertMessage" class="alert-message"></div>
 	
 	<script>
-        // Theme toggle functionality
-        const themeToggleBtn = document.getElementById('themeToggle');
-        const body = document.body;
-        
-        let isDarkTheme = false;
-        
-        themeToggleBtn.addEventListener('click', function() {
-            isDarkTheme = !isDarkTheme;
-            
-            if (isDarkTheme) {
-                body.classList.add('dark-theme');
-                themeToggleBtn.textContent = 'Light Theme';
-            } else {
-                body.classList.remove('dark-theme');
-                themeToggleBtn.textContent = 'Dark Theme';
-            }
-            
-            // Save theme preference
-            localStorage.setItem('darkTheme', isDarkTheme);
-        });
-        
-        // Check for saved theme preference
-        const savedTheme = localStorage.getItem('darkTheme') === 'true';
-        if (savedTheme) {
-            body.classList.add('dark-theme');
-            themeToggleBtn.textContent = 'Light Theme';
-            isDarkTheme = true;
-        }
-        
-        // Function to save selected subjects to localStorage
-        function saveSubjectsToLocalStorage(stream, category, subjects) {
-            localStorage.setItem('selectedStream', stream);
-            localStorage.setItem('selectedCategory', category);
-            localStorage.setItem('selectedSubjects', JSON.stringify(subjects));
-        }
-        
-        // Subject combinations from the main page
-        const subjectCombinations = {
-            science: {
-                'physical': ['Combined Mathematics', 'Physics', 'Chemistry', 'General English', 'General IT'],
-                'biological': ['Biology', 'Physics/Agriculture', 'Chemistry', 'General English', 'General IT'],
-                'common': ['Combined Mathematics', 'Physics', 'ICT', 'General English', 'General IT']
-            },
-            commerce: {
-                'first': ['Accounting', 'Business Studies', 'Economics', 'General English', 'General IT'],
-                'second': ['Accounting', 'Business Studies', 'ICT', 'General English', 'General IT'],
-                'third': ['Accounting', 'Economics', 'ICT', 'General English', 'General IT'],
-                'fourth': ['Accounting', 'Economics', 'Business Statistics', 'General English', 'General IT']
-            },
-            arts: {
-                'first': ['European History', 'Buddhist Civilization', 'Geography', 'General English', 'General IT'],
-                'second': ['Political Science', 'English Literature', 'Media Studies', 'General English', 'General IT'],
-                'third': ['Economics', 'Sinhala', 'Logic', 'General English', 'General IT']
-            }
-        };
-        
-        // Get subjects from parent page or use empty array
-        let selectedSubjects = [];
-        
-        // Try to get the selected stream and category from parent page localStorage
-        const selectedStream = localStorage.getItem('selectedStream');
-        const selectedCategory = localStorage.getItem('selectedCategory');
-        
-        if (selectedStream && selectedCategory && subjectCombinations[selectedStream] && subjectCombinations[selectedStream][selectedCategory]) {
-            // Get subjects from selected stream and category
-            selectedSubjects = subjectCombinations[selectedStream][selectedCategory];
-        } else {
-            // Try to get any saved subjects
-            const savedSubjects = localStorage.getItem('selectedSubjects');
-            if (savedSubjects) {
-                selectedSubjects = JSON.parse(savedSubjects);
-            } else {
-                // Default to empty - will show message to select subjects first
-                selectedSubjects = [];
-            }
-        }
-        
-        // Subject colors - we'll use a fixed set
-        const subjectColors = {
-            'Combined Mathematics': '#9C27B0', // Purple
-            'Physics': '#F44336', // Red
-            'Chemistry': '#2196F3', // Blue
-            'Biology': '#4CAF50', // Green
-            'ICT': '#FF9800', // Orange
-            'General English': '#795548', // Brown
-            'General IT': '#607D8B', // Blue Grey
-            'Accounting': '#E91E63', // Pink
-            'Business Studies': '#009688', // Teal
-            'Economics': '#FFEB3B', // Yellow
-            'Business Statistics': '#3F51B5', // Indigo
-            'European History': '#FF5722', // Deep Orange
-            'Buddhist Civilization': '#8BC34A', // Light Green
-            'Geography': '#00BCD4', // Cyan
-            'Political Science': '#9E9E9E', // Grey
-            'English Literature': '#CDDC39', // Lime
-            'Media Studies': '#673AB7', // Deep Purple
-            'Sinhala': '#FFC107', // Amber
-            'Logic': '#03A9F4', // Light Blue
-            'Physics/Agriculture': '#F44336' // Same as Physics
-        };
-        
-        // Default colors for any subjects not in the list
-        const defaultColors = [
-            '#9C27B0', '#F44336', '#2196F3', '#4CAF50', '#FF9800',
-            '#795548', '#607D8B', '#E91E63', '#009688', '#FFEB3B'
-        ];
-        
-        // Get color for a subject
-        function getSubjectColor(subject) {
-            return subjectColors[subject] || defaultColors[Math.abs(subject.charCodeAt(0)) % defaultColors.length];
-        }
-        
-        // Month data with first day of the month
-        const months = {
-            april: { name: 'April 2025', days: 30, firstDay: 2 }, // Tuesday (2)
-            may: { name: 'May 2025', days: 31, firstDay: 4 },     // Thursday (4)
-            june: { name: 'June 2025', days: 30, firstDay: 0 },   // Sunday (0)
-            july: { name: 'July 2025', days: 31, firstDay: 2 },    // Tuesday (2)
-            august: { name: 'August 2025', days: 31, firstDay: 5 }, // Friday (5)
-            september: { name: 'September 2025', days: 30, firstDay: 1 }, // Monday (1)
-            october: { name: 'October 2025', days: 31, firstDay: 3 },    // Wednesday (3)
-            november: { name: 'November 2025', days: 30, firstDay: 6 }   // Saturday (6)
-        };
-        
-        // Days of the week
-        const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        
-        // Initialize study data storage
-        let studyData = {};
-        
-        // Load saved study data if it exists
-        const savedStudyData = localStorage.getItem('studyData');
-        if (savedStudyData) {
-            studyData = JSON.parse(savedStudyData);
-        }
-        
-        // Show alert message function
-        function showAlert(message, duration = 3000) {
-            const alertElement = document.getElementById('alertMessage');
-            alertElement.textContent = message;
-            alertElement.classList.add('show');
-            
-            setTimeout(() => {
-                alertElement.classList.remove('show');
-            }, duration);
-        }
-        
-        // Populate subject dropdown
-        function populateSubjects() {
-            const subjectSelect = document.getElementById('subjectSelect');
-            subjectSelect.innerHTML = '<option value="">Select subject</option>';
-            
-            selectedSubjects.forEach(subject => {
-                const option = document.createElement('option');
-                option.value = subject;
-                option.textContent = subject;
-                subjectSelect.appendChild(option);
-            });
-        }
-        
-        // Create color legend
-        function createColorLegend() {
-            const legendContainer = document.getElementById('colorLegend');
-            legendContainer.innerHTML = '<h3>Subject Colors</h3>';
-            
-            selectedSubjects.forEach(subject => {
-                const colorItem = document.createElement('div');
-                colorItem.className = 'color-item';
-                
-                const colorDot = document.createElement('div');
-                colorDot.className = 'color-dot';
-                colorDot.style.backgroundColor = getSubjectColor(subject);
-                
-                const subjectName = document.createElement('span');
-                subjectName.textContent = subject;
-                
-                colorItem.appendChild(colorDot);
-                colorItem.appendChild(subjectName);
-                legendContainer.appendChild(colorItem);
-            });
-        }
-        
-        // Create calendars for all months
-        function createCalendars() {
-            const calendarContainers = document.getElementById('calendarContainers');
-            calendarContainers.innerHTML = '';
-            
-            Object.keys(months).forEach(monthKey => {
-                const month = months[monthKey];
-                
-                // Create calendar container
-                const monthContainer = document.createElement('div');
-                monthContainer.className = 'month-calendar';
-                monthContainer.id = `calendar-${monthKey}`;
-                monthContainer.setAttribute('data-month', monthKey);
-                
-                // Create calendar header
-                const calendarContainer = document.createElement('div');
-                calendarContainer.className = 'calendar-container';
-                
-                const calendarHeader = document.createElement('div');
-                calendarHeader.className = 'calendar-header';
-                calendarHeader.textContent = month.name;
-                calendarContainer.appendChild(calendarHeader);
-                
-                // Create weekday header
-                const weekdayHeader = document.createElement('div');
-                weekdayHeader.className = 'weekday-header';
-                
-                daysOfWeek.forEach(day => {
-                    const dayHeader = document.createElement('div');
-                    dayHeader.textContent = day;
-                    weekdayHeader.appendChild(dayHeader);
-                });
-                
-                calendarContainer.appendChild(weekdayHeader);
-                
-                // Create calendar grid
-                const calendarGrid = document.createElement('div');
-                calendarGrid.className = 'calendar-grid with-gap';
-                
-                // Add placeholder for empty cells at the beginning
-                for (let i = 0; i < month.firstDay; i++) {
-                    const placeholder = document.createElement('div');
-                    placeholder.className = 'grid-placeholder';
-                    calendarGrid.appendChild(placeholder);
-                }
-                
-                // Create day cards
-                for (let day = 1; day <= month.days; day++) {
-                    const dayCard = createDayCard(monthKey, day);
-                    calendarGrid.appendChild(dayCard);
-                }
-                
-                calendarContainer.appendChild(calendarGrid);
-                monthContainer.appendChild(calendarContainer);
-                calendarContainers.appendChild(monthContainer);
-            });
-            
-            // Activate the current month tab and calendar
-            const currentDate = new Date();
-            const currentMonthName = currentDate.toLocaleString('default', { month: 'long' }).toLowerCase();
-            
-            // Default to April if current month is not in our range
-            const monthToActivate = months[currentMonthName] ? currentMonthName : 'april';
-            
-            activateMonth(monthToActivate);
-            updateStudyData();
-        }
-        
-        // Create a day card
-        function createDayCard(monthKey, day) {
-            const dayCard = document.createElement('div');
-            dayCard.className = 'day-card';
-            dayCard.setAttribute('data-month', monthKey);
-            dayCard.setAttribute('data-day', day);
-            
-            // Check if this is today
-            const today = new Date();
-            const currentMonth = today.toLocaleString('default', { month: 'long' }).toLowerCase();
-            const currentDay = today.getDate();
-            
-            if (monthKey === currentMonth && day === currentDay) {
-                dayCard.classList.add('today');
-            }
-            
-            const dayNumber = document.createElement('div');
-            dayNumber.className = 'day-number';
-            dayNumber.textContent = day;
-            dayCard.appendChild(dayNumber);
-            
-            const starsDisplay = document.createElement('div');
-            starsDisplay.className = 'stars-display';
-            starsDisplay.id = `stars-${monthKey}-${day}`;
-            dayCard.appendChild(starsDisplay);
-            
-            // Add day stats tooltip
-            const dayStats = document.createElement('div');
-            dayStats.className = 'day-stats';
-            dayStats.id = `stats-${monthKey}-${day}`;
-            dayCard.appendChild(dayStats);
-            
-            return dayCard;
-        }
-        
-        // Activate a specific month tab and calendar
-        function activateMonth(monthKey) {
-            // Deactivate all tabs and calendars
-            document.querySelectorAll('.month-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            document.querySelectorAll('.month-calendar').forEach(calendar => {
-                calendar.classList.remove('active');
-            });
-            
-            // Activate the selected month
-            const tabToActivate = document.querySelector(`.month-tab[data-month="${monthKey}"]`);
-            if (tabToActivate) {
-                tabToActivate.classList.add('active');
-            }
-            
-            const calendarToActivate = document.querySelector(`.month-calendar[data-month="${monthKey}"]`);
-            if (calendarToActivate) {
-                calendarToActivate.classList.add('active');
-            }
-        }
-        
-        // Handle subject star display
-        function displaySubjectStars() {
-            // Clear all star displays first
-            document.querySelectorAll('.stars-display').forEach(display => {
-                display.innerHTML = '';
-            });
-            
-            // Clear all stats displays
-            document.querySelectorAll('.day-stats').forEach(stats => {
-                stats.innerHTML = '';
-            });
-            
-            // Loop through study data and add stars
-            for (const dateKey in studyData) {
-                const [year, month, day] = dateKey.split('-');
-                const monthName = new Date(year, month - 1, day).toLocaleString('default', { month: 'long' }).toLowerCase();
-                
-                // Skip if month is not in our display range
-                if (!months[monthName]) continue;
-                
-                const starsDisplayId = `stars-${monthName}-${parseInt(day)}`;
-                const statsDisplayId = `stats-${monthName}-${parseInt(day)}`;
-                
-                const starsDisplay = document.getElementById(starsDisplayId);
-                const statsDisplay = document.getElementById(statsDisplayId);
-                
-                if (!starsDisplay || !statsDisplay) continue;
-                
-                // Clear displays
-                starsDisplay.innerHTML = '';
-                
-                // Add stars for each subject
-                let totalHours = 0;
-                let statsHTML = '';
-                
-                for (const subject in studyData[dateKey]) {
-                    const hours = studyData[dateKey][subject];
-                    totalHours += hours;
-                    
-                    // Add to stats
-                    statsHTML += `${subject}: ${hours}h<br>`;
-                    
-                    // Calculate number of stars (1 star per hour, round to nearest 0.5)
-                    const numStars = Math.round(hours * 2) / 2;
-                    
-                    // Create stars
-                    for (let i = 0; i < Math.floor(numStars); i++) {
-                        addStar(starsDisplay, subject);
-                    }
-                    
-                    // Add half star if needed
-                    if (numStars % 1 === 0.5) {
-                        addHalfStar(starsDisplay, subject);
-                    }
-                }
-                
-                // Set stats tooltip
-                statsDisplay.innerHTML = statsHTML + `<strong>Total: ${totalHours.toFixed(2)}h</strong>`;
-            }
-        }
-        
-        // Add a star to display
-        function addStar(container, subject) {
-            const star = document.createElement('span');
-            star.className = 'subject-star';
-            star.textContent = '★';
-            star.style.color = getSubjectColor(subject);
-            star.title = subject;
-            container.appendChild(star);
-        }
-        
-        // Add a half star to display
-        function addHalfStar(container, subject) {
-            const star = document.createElement('span');
-            star.className = 'subject-star';
-            star.textContent = '½';
-            star.style.color = getSubjectColor(subject);
-            star.title = `${subject} (0.5h)`;
-            container.appendChild(star);
-        }
-        
-        // Update study data across the UI
-        function updateStudyData() {
-            // Save data to localStorage
-            localStorage.setItem('studyData', JSON.stringify(studyData));
-            
-            // Update star displays
-            displaySubjectStars();
-            
-            // Update summary
-            updateSummary();
-        }
-        
-        // Update the summary section
-        function updateSummary() {
-            const summaryContainer = document.getElementById('subjectSummary');
-            summaryContainer.innerHTML = '';
-            
-            // Calculate total hours per subject
-            const subjectTotals = {};
-            let grandTotal = 0;
-            
-            // Initialize totals for all subjects
-            selectedSubjects.forEach(subject => {
-                subjectTotals[subject] = 0;
-            });
-            
-            // Calculate totals from study data
-            for (const dateKey in studyData) {
-                for (const subject in studyData[dateKey]) {
-                    subjectTotals[subject] = (subjectTotals[subject] || 0) + studyData[dateKey][subject];
-                    grandTotal += studyData[dateKey][subject];
-                }
-            }
-            
-            // Calculate target hours (arbitrary - for display purposes)
-            const targetHoursPerSubject = {
-                'Combined Mathematics': 120,
-                'Physics': 100,
-                'Chemistry': 100,
-                'Biology': 110,
-                'ICT': 90,
-                'General English': 60,
-                'General IT': 40,
-                'Accounting': 110,
-                'Business Studies': 100,
-                'Economics': 100,
-                'Business Statistics': 80,
-                'European History': 100,
-                'Buddhist Civilization': 90,
-                'Geography': 100,
-                'Political Science': 100,
-                'English Literature': 110,
-                'Media Studies': 90,
-                'Sinhala': 80,
-                'Logic': 90,
-                'Physics/Agriculture': 100
-            };
-            
-            // Default target hours for subjects not in the list
-            const defaultTargetHours = 100;
-            
-            // Create summary cards for each subject
-            selectedSubjects.forEach(subject => {
-                const hours = subjectTotals[subject] || 0;
-                const target = targetHoursPerSubject[subject] || defaultTargetHours;
-                const percentage = Math.min(100, Math.round((hours / target) * 100));
-                
-                const summaryCard = document.createElement('div');
-                summaryCard.className = 'summary-card';
-                
-                const subjectName = document.createElement('div');
-                subjectName.className = 'subject-name';
-                subjectName.textContent = subject;
-                
-                const progressBar = document.createElement('div');
-                progressBar.className = 'progress-bar';
-                
-                const progressFill = document.createElement('div');
-                progressFill.className = 'progress-fill';
-                progressFill.style.width = `${percentage}%`;
-                progressFill.style.backgroundColor = getSubjectColor(subject);
-                
-                const progressText = document.createElement('div');
-                progressText.textContent = `${hours.toFixed(1)} / ${target} hours (${percentage}%)`;
-                
-                progressBar.appendChild(progressFill);
-                
-                summaryCard.appendChild(subjectName);
-                summaryCard.appendChild(progressBar);
-                summaryCard.appendChild(progressText);
-                
-                summaryContainer.appendChild(summaryCard);
-            });
-            
-            // Add grand total card
-            const totalCard = document.createElement('div');
-            totalCard.className = 'summary-card';
-            totalCard.style.gridColumn = '1 / -1';
-            totalCard.style.backgroundColor = 'var(--highlight)';
-            totalCard.style.color = 'white';
-            
-            const totalTitle = document.createElement('div');
-            totalTitle.className = 'subject-name';
-            totalTitle.textContent = 'Total Study Hours';
-            totalTitle.style.fontSize = '1.2rem';
-            
-            const totalHours = document.createElement('div');
-            totalHours.textContent = `${grandTotal.toFixed(1)} hours`;
-            totalHours.style.fontSize = '1.5rem';
-            totalHours.style.fontWeight = 'bold';
-            
-            totalCard.appendChild(totalTitle);
-            totalCard.appendChild(totalHours);
-            
-            summaryContainer.appendChild(totalCard);
-        }
-        
-        // Add new study hours entry
-        function addStudyEntry() {
-            const subject = document.getElementById('subjectSelect').value;
-            const dateInput = document.getElementById('dateSelect').value;
-            const hours = parseFloat(document.getElementById('hoursInput').value);
-            
-            // Validate input
-            if (!subject) {
-                showAlert('Please select a subject.');
-                return;
-            }
-            
-            if (!dateInput) {
-                showAlert('Please select a date.');
-                return;
-            }
-            
-            if (isNaN(hours) || hours <= 0 || hours > 24) {
-                showAlert('Please enter valid hours (between 0.25 and 24).');
-                return;
-            }
-            
-            // Format date key
-            const dateKey = dateInput; // Already in YYYY-MM-DD format
-            
-            // Initialize date entry if needed
-            if (!studyData[dateKey]) {
-                studyData[dateKey] = {};
-            }
-            
-            // Add or update hours
-            if (studyData[dateKey][subject]) {
-                studyData[dateKey][subject] += hours;
-            } else {
-                studyData[dateKey][subject] = hours;
-            }
-            
-            // Validate that total hours per day doesn't exceed 24
-            let totalHoursForDay = 0;
-            for (const subj in studyData[dateKey]) {
-                totalHoursForDay += studyData[dateKey][subj];
-            }
-            
-            if (totalHoursForDay > 24) {
-                showAlert('Total study hours for this day exceeds 24 hours. Please adjust.');
-                // Remove the hours we just added
-                if (studyData[dateKey][subject] === hours) {
-                    delete studyData[dateKey][subject];
-                } else {
-                    studyData[dateKey][subject] -= hours;
-                }
-                return;
-            }
-            
-            // Update UI
-            updateStudyData();
-            
-            // Clear input fields
-            document.getElementById('hoursInput').value = '';
-            
-            showAlert('Study hours added successfully!', 2000);
-        }
-        
-        // Clear all study data
-        function clearAllData() {
-            if (confirm('Are you sure you want to clear all study data? This cannot be undone.')) {
-                studyData = {};
-                updateStudyData();
-                showAlert('All study data has been cleared.');
-            }
-        }
-        
-        // Export study data to CSV
-        function exportStudyData() {
-            let csvContent = 'Date,Subject,Hours\n';
-            
-            // Convert study data to CSV rows
-            for (const dateKey in studyData) {
-                for (const subject in studyData[dateKey]) {
-                    const hours = studyData[dateKey][subject];
-                    csvContent += `${dateKey},${subject},${hours}\n`;
-                }
-            }
-            
-            // Create download link
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            
-            const link = document.createElement('a');
-            link.setAttribute('href', url);
-            link.setAttribute('download', 'study_data.csv');
-            link.style.visibility = 'hidden';
-            
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            showAlert('Study data exported successfully!');
-        }
-        
-        // Initialize the app
-        function initApp() {
-            // Check if we have selected subjects
-            if (selectedSubjects.length === 0) {
-                showAlert('Please select your subject stream and combination on the main page first.');
-            }
-            
-            // Populate subject dropdown
-            populateSubjects();
-            
-            // Create color legend
-            createColorLegend();
-            
-            // Create calendars
-            createCalendars();
-            
-            // Set default date to today
-            const today = new Date();
-            const month = String(today.getMonth() + 1).padStart(2, '0');
-            const day = String(today.getDate()).padStart(2, '0');
-            document.getElementById('dateSelect').value = `${today.getFullYear()}-${month}-${day}`;
-        }
-        
-        // Event listeners
-        document.getElementById('addEntryBtn').addEventListener('click', addStudyEntry);
-        document.getElementById('clearAllBtn').addEventListener('click', clearAllData);
-        document.getElementById('exportBtn').addEventListener('click', exportStudyDataToPDF);
-		
-		// Change the button text in the HTML
-		document.getElementById('exportBtn').textContent = 'Download PDF File';
+       // Theme toggle functionality
+		const themeToggleBtn = document.getElementById('themeToggle');
+		const body = document.body;
 
-		// Update the event listener
-		document.getElementById('exportBtn').addEventListener('click', exportStudyDataToPDF);
-        
-        // Month tab click event listeners
-        document.querySelectorAll('.month-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                const monthKey = this.getAttribute('data-month');
-                activateMonth(monthKey);
-            });
-        });
-        
-        // Initialize app when DOM is loaded
-        document.addEventListener('DOMContentLoaded', initApp);
-		
-		// PDF Export functionality using jsPDF with month selection
-	function exportStudyDataToPDF(selectedMonth) {
-		// Check if jsPDF is loaded, if not load it
-		if (typeof window.jspdf === 'undefined') {
-			const script = document.createElement('script');
-			script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
-			script.onload = function() {
-				// Load jspdf-autotable plugin
-				const autotableScript = document.createElement('script');
-				autotableScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js';
-				autotableScript.onload = function() {
-					generatePDF(selectedMonth);
-				};
-				document.head.appendChild(autotableScript);
-			};
-			document.head.appendChild(script);
-		} else {
-			generatePDF(selectedMonth);
-		}
-	}
+		let isDarkTheme = false;
 
-	function generatePDF(selectedMonth) {
-		try {
-			// Initialize PDF document in portrait mode
-			const { jsPDF } = window.jspdf;
-			const doc = new jsPDF();
+		themeToggleBtn.addEventListener('click', function() {
+			isDarkTheme = !isDarkTheme;
 			
-			// Set font styles
-			const titleFont = 'helvetica';
-			const normalFont = 'helvetica';
-			
-			// Get today's date 
-			const today = new Date();
-			
-			// If no month is selected, use current month
-			if (!selectedMonth) {
-				selectedMonth = today.toLocaleString('default', { month: 'long' }).toLowerCase();
-			}
-			
-			// Convert month name to month index (0-11)
-			const monthNames = ["january", "february", "march", "april", "may", "june", 
-								 "july", "august", "september", "october", "november", "december"];
-			const monthIndex = monthNames.indexOf(selectedMonth.toLowerCase());
-			
-			// Create a date object for the selected month
-			const selectedDate = new Date(today.getFullYear(), monthIndex, 1);
-			
-			// Add title to the first page
-			doc.setFont(titleFont, 'bold');
-			doc.setFontSize(20);
-			doc.setTextColor(24, 78, 119); // Header blue color
-			doc.text('Study Hours Report', 105, 20, { align: 'center' });
-			doc.setFontSize(12);
-			doc.setTextColor(0, 0, 0);
-			doc.text(selectedDate.toLocaleDateString(), 105, 30, { align: 'center' });
-			
-			// Format today's date in YYYY-MM-DD format
-			const month = String(today.getMonth() + 1).padStart(2, '0');
-			const day = String(today.getDate()).padStart(2, '0');
-			const todayKey = `${today.getFullYear()}-${month}-${day}`;
-			
-			// Calculate today's study hours
-			const todayHours = {};
-			let todayTotalHours = 0;
-			
-			if (studyData[todayKey]) {
-				for (const subject in studyData[todayKey]) {
-					todayHours[subject] = studyData[todayKey][subject];
-					todayTotalHours += studyData[todayKey][subject];
-				}
-			}
-			
-			// Draw today's study hours card
-			doc.setFont(normalFont, 'bold');
-			doc.setFontSize(16);
-			doc.text("Today's Study Hours", 20, 45);
-			
-			// Create today's hours table
-			const todayTableData = [];
-			for (const subject in todayHours) {
-				todayTableData.push([subject, todayHours[subject].toFixed(2) + ' hours']);
-			}
-			
-			if (todayTableData.length > 0) {
-				doc.autoTable({
-					startY: 50,
-					head: [['Subject', 'Hours']],
-					body: todayTableData,
-					theme: 'striped',
-					headStyles: { fillColor: [24, 78, 119], textColor: [255, 255, 255] },
-					margin: { top: 50, left: 20, right: 20 },
-					styles: { fontSize: 12 },
-					columnStyles: { 
-						0: { cellWidth: 140 },
-						1: { cellWidth: 30, halign: 'right' }
-					},
-					footStyles: { fillColor: [52, 152, 219] },
-					foot: [['Total Today', todayTotalHours.toFixed(2) + ' hours']]
-				});
+			if (isDarkTheme) {
+				body.classList.add('dark-theme');
+				themeToggleBtn.textContent = 'Light Theme';
 			} else {
-				doc.setFont(normalFont, 'normal');
-				doc.setFontSize(12);
-				doc.text('No study hours recorded for today.', 20, 55);
-				doc.line(20, 60, 190, 60);
+				body.classList.remove('dark-theme');
+				themeToggleBtn.textContent = 'Dark Theme';
 			}
 			
-			// Calculate total study hours per subject across all dates
+			// Save theme preference
+			localStorage.setItem('darkTheme', isDarkTheme);
+		});
+
+		// Check for saved theme preference
+		const savedTheme = localStorage.getItem('darkTheme') === 'true';
+		if (savedTheme) {
+			body.classList.add('dark-theme');
+			themeToggleBtn.textContent = 'Light Theme';
+			isDarkTheme = true;
+		}
+
+		// Function to save selected subjects to localStorage
+		function saveSubjectsToLocalStorage(stream, category, subjects) {
+			localStorage.setItem('selectedStream', stream);
+			localStorage.setItem('selectedCategory', category);
+			localStorage.setItem('selectedSubjects', JSON.stringify(subjects));
+		}
+
+		// Subject combinations from the main page
+		const subjectCombinations = {
+			science: {
+				'physical': ['Combined Mathematics', 'Physics', 'Chemistry', 'General English', 'General IT'],
+				'biological': ['Biology', 'Physics/Agriculture', 'Chemistry', 'General English', 'General IT'],
+				'common': ['Combined Mathematics', 'Physics', 'ICT', 'General English', 'General IT']
+			},
+			commerce: {
+				'first': ['Accounting', 'Business Studies', 'Economics', 'General English', 'General IT'],
+				'second': ['Accounting', 'Business Studies', 'ICT', 'General English', 'General IT'],
+				'third': ['Accounting', 'Economics', 'ICT', 'General English', 'General IT'],
+				'fourth': ['Accounting', 'Economics', 'Business Statistics', 'General English', 'General IT']
+			},
+			arts: {
+				'first': ['European History', 'Buddhist Civilization', 'Geography', 'General English', 'General IT'],
+				'second': ['Political Science', 'English Literature', 'Media Studies', 'General English', 'General IT'],
+				'third': ['Economics', 'Sinhala', 'Logic', 'General English', 'General IT']
+			}
+		};
+
+		// Get subjects from parent page or use empty array
+		let selectedSubjects = [];
+
+		// Try to get the selected stream and category from parent page localStorage
+		const selectedStream = localStorage.getItem('selectedStream');
+		const selectedCategory = localStorage.getItem('selectedCategory');
+
+		if (selectedStream && selectedCategory && subjectCombinations[selectedStream] && subjectCombinations[selectedStream][selectedCategory]) {
+			// Get subjects from selected stream and category
+			selectedSubjects = subjectCombinations[selectedStream][selectedCategory];
+		} else {
+			// Try to get any saved subjects
+			const savedSubjects = localStorage.getItem('selectedSubjects');
+			if (savedSubjects) {
+				selectedSubjects = JSON.parse(savedSubjects);
+			} else {
+				// Default to empty - will show message to select subjects first
+				selectedSubjects = [];
+			}
+		}
+
+		// Subject colors - we'll use a fixed set
+		const subjectColors = {
+			'Combined Mathematics': '#9C27B0', // Purple
+			'Physics': '#F44336', // Red
+			'Chemistry': '#2196F3', // Blue
+			'Biology': '#4CAF50', // Green
+			'ICT': '#FF9800', // Orange
+			'General English': '#795548', // Brown
+			'General IT': '#607D8B', // Blue Grey
+			'Accounting': '#E91E63', // Pink
+			'Business Studies': '#009688', // Teal
+			'Economics': '#FFEB3B', // Yellow
+			'Business Statistics': '#3F51B5', // Indigo
+			'European History': '#FF5722', // Deep Orange
+			'Buddhist Civilization': '#8BC34A', // Light Green
+			'Geography': '#00BCD4', // Cyan
+			'Political Science': '#9E9E9E', // Grey
+			'English Literature': '#CDDC39', // Lime
+			'Media Studies': '#673AB7', // Deep Purple
+			'Sinhala': '#FFC107', // Amber
+			'Logic': '#03A9F4', // Light Blue
+			'Physics/Agriculture': '#F44336' // Same as Physics
+		};
+
+		// Default colors for any subjects not in the list
+		const defaultColors = [
+			'#9C27B0', '#F44336', '#2196F3', '#4CAF50', '#FF9800',
+			'#795548', '#607D8B', '#E91E63', '#009688', '#FFEB3B'
+		];
+
+		// Get color for a subject
+		function getSubjectColor(subject) {
+			return subjectColors[subject] || defaultColors[Math.abs(subject.charCodeAt(0)) % defaultColors.length];
+		}
+
+		// Month data with first day of the month
+		const months = {
+			april: { name: 'April 2025', days: 30, firstDay: 2 }, // Tuesday (2)
+			may: { name: 'May 2025', days: 31, firstDay: 4 },     // Thursday (4)
+			june: { name: 'June 2025', days: 30, firstDay: 0 },   // Sunday (0)
+			july: { name: 'July 2025', days: 31, firstDay: 2 },    // Tuesday (2)
+			august: { name: 'August 2025', days: 31, firstDay: 5 }, // Friday (5)
+			september: { name: 'September 2025', days: 30, firstDay: 1 }, // Monday (1)
+			october: { name: 'October 2025', days: 31, firstDay: 3 },    // Wednesday (3)
+			november: { name: 'November 2025', days: 30, firstDay: 6 }   // Saturday (6)
+		};
+
+		// Days of the week
+		const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+		// Initialize study data storage
+		let studyData = {};
+
+		// Load saved study data if it exists
+		const savedStudyData = localStorage.getItem('studyData');
+		if (savedStudyData) {
+			studyData = JSON.parse(savedStudyData);
+		}
+
+		// Show alert message function
+		function showAlert(message, duration = 3000) {
+			const alertElement = document.getElementById('alertMessage');
+			alertElement.textContent = message;
+			alertElement.classList.add('show');
+			
+			setTimeout(() => {
+				alertElement.classList.remove('show');
+			}, duration);
+		}
+
+		// Populate subject dropdown
+		function populateSubjects() {
+			const subjectSelect = document.getElementById('subjectSelect');
+			subjectSelect.innerHTML = '<option value="">Select subject</option>';
+			
+			selectedSubjects.forEach(subject => {
+				const option = document.createElement('option');
+				option.value = subject;
+				option.textContent = subject;
+				subjectSelect.appendChild(option);
+			});
+		}
+
+		// Create color legend
+		function createColorLegend() {
+			const legendContainer = document.getElementById('colorLegend');
+			legendContainer.innerHTML = '<h3>Subject Colors</h3>';
+			
+			selectedSubjects.forEach(subject => {
+				const colorItem = document.createElement('div');
+				colorItem.className = 'color-item';
+				
+				const colorDot = document.createElement('div');
+				colorDot.className = 'color-dot';
+				colorDot.style.backgroundColor = getSubjectColor(subject);
+				
+				const subjectName = document.createElement('span');
+				subjectName.textContent = subject;
+				
+				colorItem.appendChild(colorDot);
+				colorItem.appendChild(subjectName);
+				legendContainer.appendChild(colorItem);
+			});
+		}
+
+		// Create calendars for all months
+		function createCalendars() {
+			const calendarContainers = document.getElementById('calendarContainers');
+			calendarContainers.innerHTML = '';
+			
+			Object.keys(months).forEach(monthKey => {
+				const month = months[monthKey];
+				
+				// Create calendar container
+				const monthContainer = document.createElement('div');
+				monthContainer.className = 'month-calendar';
+				monthContainer.id = `calendar-${monthKey}`;
+				monthContainer.setAttribute('data-month', monthKey);
+				
+				// Create calendar header
+				const calendarContainer = document.createElement('div');
+				calendarContainer.className = 'calendar-container';
+				
+				const calendarHeader = document.createElement('div');
+				calendarHeader.className = 'calendar-header';
+				calendarHeader.textContent = month.name;
+				calendarContainer.appendChild(calendarHeader);
+				
+				// Create weekday header
+				const weekdayHeader = document.createElement('div');
+				weekdayHeader.className = 'weekday-header';
+				
+				daysOfWeek.forEach(day => {
+					const dayHeader = document.createElement('div');
+					dayHeader.textContent = day;
+					weekdayHeader.appendChild(dayHeader);
+				});
+				
+				calendarContainer.appendChild(weekdayHeader);
+				
+				// Create calendar grid
+				const calendarGrid = document.createElement('div');
+				calendarGrid.className = 'calendar-grid with-gap';
+				
+				// Add placeholder for empty cells at the beginning
+				for (let i = 0; i < month.firstDay; i++) {
+					const placeholder = document.createElement('div');
+					placeholder.className = 'grid-placeholder';
+					calendarGrid.appendChild(placeholder);
+				}
+				
+				// Create day cards
+				for (let day = 1; day <= month.days; day++) {
+					const dayCard = createDayCard(monthKey, day);
+					calendarGrid.appendChild(dayCard);
+				}
+				
+				calendarContainer.appendChild(calendarGrid);
+				monthContainer.appendChild(calendarContainer);
+				calendarContainers.appendChild(monthContainer);
+			});
+			
+			// Activate the current month tab and calendar
+			const currentDate = new Date();
+			const currentMonthName = currentDate.toLocaleString('default', { month: 'long' }).toLowerCase();
+			
+			// Default to April if current month is not in our range
+			const monthToActivate = months[currentMonthName] ? currentMonthName : 'april';
+			
+			activateMonth(monthToActivate);
+			updateStudyData();
+		}
+
+		// Create a day card
+		function createDayCard(monthKey, day) {
+			const dayCard = document.createElement('div');
+			dayCard.className = 'day-card';
+			dayCard.setAttribute('data-month', monthKey);
+			dayCard.setAttribute('data-day', day);
+			
+			// Check if this is today
+			const today = new Date();
+			const currentMonth = today.toLocaleString('default', { month: 'long' }).toLowerCase();
+			const currentDay = today.getDate();
+			
+			if (monthKey === currentMonth && day === currentDay) {
+				dayCard.classList.add('today');
+			}
+			
+			const dayNumber = document.createElement('div');
+			dayNumber.className = 'day-number';
+			dayNumber.textContent = day;
+			dayCard.appendChild(dayNumber);
+			
+			const starsDisplay = document.createElement('div');
+			starsDisplay.className = 'stars-display';
+			starsDisplay.id = `stars-${monthKey}-${day}`;
+			dayCard.appendChild(starsDisplay);
+			
+			// Add day stats tooltip
+			const dayStats = document.createElement('div');
+			dayStats.className = 'day-stats';
+			dayStats.id = `stats-${monthKey}-${day}`;
+			dayCard.appendChild(dayStats);
+			
+			return dayCard;
+		}
+
+		// Activate a specific month tab and calendar
+		function activateMonth(monthKey) {
+			// Deactivate all tabs and calendars
+			document.querySelectorAll('.month-tab').forEach(tab => {
+				tab.classList.remove('active');
+			});
+			
+			document.querySelectorAll('.month-calendar').forEach(calendar => {
+				calendar.classList.remove('active');
+			});
+			
+			// Activate the selected month
+			const tabToActivate = document.querySelector(`.month-tab[data-month="${monthKey}"]`);
+			if (tabToActivate) {
+				tabToActivate.classList.add('active');
+			}
+			
+			const calendarToActivate = document.querySelector(`.month-calendar[data-month="${monthKey}"]`);
+			if (calendarToActivate) {
+				calendarToActivate.classList.add('active');
+			}
+		}
+
+		// Handle subject star display
+		function displaySubjectStars() {
+			// Clear all star displays first
+			document.querySelectorAll('.stars-display').forEach(display => {
+				display.innerHTML = '';
+			});
+			
+			// Clear all stats displays
+			document.querySelectorAll('.day-stats').forEach(stats => {
+				stats.innerHTML = '';
+			});
+			
+			// Loop through study data and add stars
+			for (const dateKey in studyData) {
+				const [year, month, day] = dateKey.split('-');
+				const monthName = new Date(year, month - 1, day).toLocaleString('default', { month: 'long' }).toLowerCase();
+				
+				// Skip if month is not in our display range
+				if (!months[monthName]) continue;
+				
+				const starsDisplayId = `stars-${monthName}-${parseInt(day)}`;
+				const statsDisplayId = `stats-${monthName}-${parseInt(day)}`;
+				
+				const starsDisplay = document.getElementById(starsDisplayId);
+				const statsDisplay = document.getElementById(statsDisplayId);
+				
+				if (!starsDisplay || !statsDisplay) continue;
+				
+				// Clear displays
+				starsDisplay.innerHTML = '';
+				
+				// Add stars for each subject
+				let totalHours = 0;
+				let statsHTML = '';
+				
+				for (const subject in studyData[dateKey]) {
+					const hours = studyData[dateKey][subject];
+					totalHours += hours;
+					
+					// Add to stats
+					statsHTML += `${subject}: ${hours}h<br>`;
+					
+					// Calculate number of stars (1 star per hour, round to nearest 0.5)
+					const numStars = Math.round(hours * 2) / 2;
+					
+					// Create stars
+					for (let i = 0; i < Math.floor(numStars); i++) {
+						addStar(starsDisplay, subject);
+					}
+					
+					// Add half star if needed
+					if (numStars % 1 === 0.5) {
+						addHalfStar(starsDisplay, subject);
+					}
+				}
+				
+				// Set stats tooltip
+				statsDisplay.innerHTML = statsHTML + `<strong>Total: ${totalHours.toFixed(2)}h</strong>`;
+			}
+		}
+
+		// Add a star to display
+		function addStar(container, subject) {
+			const star = document.createElement('span');
+			star.className = 'subject-star';
+			star.textContent = '★';
+			star.style.color = getSubjectColor(subject);
+			star.title = subject;
+			container.appendChild(star);
+		}
+
+		// Add a half star to display
+		function addHalfStar(container, subject) {
+			const star = document.createElement('span');
+			star.className = 'subject-star';
+			star.textContent = '½';
+			star.style.color = getSubjectColor(subject);
+			star.title = `${subject} (0.5h)`;
+			container.appendChild(star);
+		}
+
+		// Update study data across the UI
+		function updateStudyData() {
+			// Save data to localStorage
+			localStorage.setItem('studyData', JSON.stringify(studyData));
+			
+			// Update star displays
+			displaySubjectStars();
+			
+			// Update summary
+			updateSummary();
+		}
+
+		// Update the summary section
+		function updateSummary() {
+			const summaryContainer = document.getElementById('subjectSummary');
+			summaryContainer.innerHTML = '';
+			
+			// Calculate total hours per subject
 			const subjectTotals = {};
 			let grandTotal = 0;
 			
@@ -1440,300 +1089,1016 @@
 				}
 			}
 			
-			// Create study summary table data
-			const summaryTableData = [];
+			// Calculate target hours (arbitrary - for display purposes)
+			const targetHoursPerSubject = {
+				'Combined Mathematics': 120,
+				'Physics': 100,
+				'Chemistry': 100,
+				'Biology': 110,
+				'ICT': 90,
+				'General English': 60,
+				'General IT': 40,
+				'Accounting': 110,
+				'Business Studies': 100,
+				'Economics': 100,
+				'Business Statistics': 80,
+				'European History': 100,
+				'Buddhist Civilization': 90,
+				'Geography': 100,
+				'Political Science': 100,
+				'English Literature': 110,
+				'Media Studies': 90,
+				'Sinhala': 80,
+				'Logic': 90,
+				'Physics/Agriculture': 100
+			};
+			
+			// Default target hours for subjects not in the list
+			const defaultTargetHours = 100;
+			
+			// Create summary cards for each subject
 			selectedSubjects.forEach(subject => {
-				const totalHours = subjectTotals[subject] || 0;
-				const todaySubjectHours = todayHours[subject] || 0;
-				summaryTableData.push([
-					subject, 
-					todaySubjectHours.toFixed(2) + ' hours', 
-					totalHours.toFixed(2) + ' hours'
-				]);
+				const hours = subjectTotals[subject] || 0;
+				const target = targetHoursPerSubject[subject] || defaultTargetHours;
+				const percentage = Math.min(100, Math.round((hours / target) * 100));
+				
+				const summaryCard = document.createElement('div');
+				summaryCard.className = 'summary-card';
+				
+				const subjectName = document.createElement('div');
+				subjectName.className = 'subject-name';
+				subjectName.textContent = subject;
+				
+				const progressBar = document.createElement('div');
+				progressBar.className = 'progress-bar';
+				
+				const progressFill = document.createElement('div');
+				progressFill.className = 'progress-fill';
+				progressFill.style.width = `${percentage}%`;
+				progressFill.style.backgroundColor = getSubjectColor(subject);
+				
+				const progressText = document.createElement('div');
+				progressText.textContent = `${hours.toFixed(1)} / ${target} hours (${percentage}%)`;
+				
+				progressBar.appendChild(progressFill);
+				
+				summaryCard.appendChild(subjectName);
+				summaryCard.appendChild(progressBar);
+				summaryCard.appendChild(progressText);
+				
+				summaryContainer.appendChild(summaryCard);
 			});
 			
-			// Calculate where to start the summary table
-			const startY = doc.previousAutoTable ? doc.previousAutoTable.finalY + 15 : 80;
+			// Add grand total card
+			const totalCard = document.createElement('div');
+			totalCard.className = 'summary-card';
+			totalCard.style.gridColumn = '1 / -1';
+			totalCard.style.backgroundColor = 'var(--highlight)';
+			totalCard.style.color = 'white';
 			
-			// Add study summary title
-			doc.setFont(normalFont, 'bold');
-			doc.setFontSize(16);
-			doc.text('Study Summary by Subject', 20, startY);
+			const totalTitle = document.createElement('div');
+			totalTitle.className = 'subject-name';
+			totalTitle.textContent = 'Total Study Hours';
+			totalTitle.style.fontSize = '1.2rem';
 			
-			// Create summary table
-			doc.autoTable({
-				startY: startY + 5,
-				head: [['Subject', 'Today Hours', 'Total Hours']],
-				body: summaryTableData,
-				theme: 'striped',
-				headStyles: { fillColor: [24, 78, 119], textColor: [255, 255, 255] },
-				margin: { left: 20, right: 20 },
-				styles: { fontSize: 12 },
-				columnStyles: { 
-					0: { cellWidth: 100 },
-					1: { cellWidth: 35, halign: 'right' },
-					2: { cellWidth: 35, halign: 'right' }
-				},
-				footStyles: { fillColor: [52, 152, 219] },
-				foot: [['Grand Total', todayTotalHours.toFixed(2) + ' hours', grandTotal.toFixed(2) + ' hours']]
-			});
+			const totalHours = document.createElement('div');
+			totalHours.textContent = `${grandTotal.toFixed(1)} hours`;
+			totalHours.style.fontSize = '1.5rem';
+			totalHours.style.fontWeight = 'bold';
 			
-			// Add new page for monthly calendar
-			doc.addPage();
+			totalCard.appendChild(totalTitle);
+			totalCard.appendChild(totalHours);
 			
-			// Add title to the second page
-			doc.setFont(titleFont, 'bold');
-			doc.setFontSize(20);
-			doc.setTextColor(24, 78, 119);
-			doc.text('Monthly Star Sheet', 105, 20, { align: 'center' });
+			summaryContainer.appendChild(totalCard);
+		}
+
+		// Add new study hours entry
+		function addStudyEntry() {
+			const subject = document.getElementById('subjectSelect').value;
+			const dateInput = document.getElementById('dateSelect').value;
+			const hours = parseFloat(document.getElementById('hoursInput').value);
 			
-			// Get selected month name and year
-			const selectedMonthName = selectedDate.toLocaleString('default', { month: 'long' });
-			doc.setFontSize(16);
-			doc.text(selectedMonthName + ' ' + selectedDate.getFullYear(), 105, 30, { align: 'center' });
-			
-			// Create calendar table for the selected month
-			const monthData = getMonthData(selectedDate.getFullYear(), monthIndex);
-			
-			if (!monthData) {
-				doc.setFont(normalFont, 'normal');
-				doc.setFontSize(12);
-				doc.text('Month data not available.', 20, 40);
-			} else {
-				// Create calendar grid header (days of week)
-				const calendarHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-				
-				// Create calendar data
-				const rows = Math.ceil((monthData.firstDay + monthData.days) / 7);
-				const calendarData = Array(rows).fill().map(() => Array(7).fill(''));
-				
-				let dayCounter = 1;
-				for (let row = 0; row < rows; row++) {
-					for (let col = 0; col < 7; col++) {
-						// Skip cells before the first day of the month
-						if (row === 0 && col < monthData.firstDay) {
-							continue;
-						}
-						
-						// Stop after reaching the last day of the month
-						if (dayCounter > monthData.days) {
-							break;
-						}
-						
-						// Format date key for looking up study data
-						const dateObj = new Date(selectedDate.getFullYear(), monthIndex, dayCounter);
-						const yyyy = dateObj.getFullYear();
-						const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
-						const dd = String(dayCounter).padStart(2, '0');
-						const dateKey = `${yyyy}-${mm}-${dd}`;
-						
-						// Get star data for this day
-						let cellContent = dayCounter.toString();
-						
-						// Add stars info if we have study data for this day
-						if (studyData[dateKey]) {
-							cellContent += '\n';
-							for (const subject in studyData[dateKey]) {
-								const hours = studyData[dateKey][subject];
-								// Add subject initial and stars based on hours
-								const subjectInitial = subject.split(' ')[0][0];
-								const numStars = Math.round(hours * 2) / 2;
-								const fullStars = Math.floor(numStars);
-								const hasHalfStar = numStars % 1 === 0.5;
-								
-								cellContent += `${subjectInitial}: ${'★'.repeat(fullStars)}${hasHalfStar ? '½' : ''}\n`;
-							}
-						}
-						
-						calendarData[row][col] = cellContent;
-						dayCounter++;
-					}
-				}
-				
-				// Draw the calendar
-				doc.autoTable({
-					startY: 40,
-					head: [calendarHeaders],
-					body: calendarData,
-					theme: 'grid',
-					headStyles: { fillColor: [30, 96, 145], textColor: [255, 255, 255] },
-					margin: { left: 20, right: 20 },
-					styles: { 
-						fontSize: 10, 
-						cellPadding: 3,
-						valign: 'top',
-						overflow: 'linebreak',
-						lineWidth: 0.1,
-						lineColor: [200, 200, 200]
-					},
-					columnStyles: {
-						0: { cellWidth: 24 },
-						1: { cellWidth: 24 },
-						2: { cellWidth: 24 },
-						3: { cellWidth: 24 },
-						4: { cellWidth: 24 },
-						5: { cellWidth: 24 },
-						6: { cellWidth: 24 }
-					},
-					didDrawPage: function(data) {
-						// Add brown footer with name
-						doc.setFillColor(139, 69, 19); // Brown color
-						doc.rect(20, doc.internal.pageSize.height - 20, doc.internal.pageSize.width - 40, 10, 'F');
-						
-						doc.setFont(normalFont, 'bold');
-						doc.setFontSize(10);
-						doc.setTextColor(255, 255, 255); // White text
-						doc.text("Student Study Tracker", 105, doc.internal.pageSize.height - 14, { align: 'center' });
-					}
-				});
+			// Validate input
+			if (!subject) {
+				showAlert('Please select a subject.');
+				return;
 			}
 			
-			// Add subject color legend at the bottom of the page
-			const legendY = doc.previousAutoTable ? doc.previousAutoTable.finalY + 15 : 180;
+			if (!dateInput) {
+				showAlert('Please select a date.');
+				return;
+			}
 			
-			doc.setFont(normalFont, 'bold');
-			doc.setFontSize(14);
-			doc.text('Subject Color Legend', 105, legendY, { align: 'center' });
+			if (isNaN(hours) || hours <= 0 || hours > 24) {
+				showAlert('Please enter valid hours (between 0.25 and 24).');
+				return;
+			}
 			
-			// Create legend items
-			let startX = 20;
-			let currentY = legendY + 10;
-			const itemsPerRow = 3;
-			let itemCount = 0;
+			// Format date key
+			const dateKey = dateInput; // Already in YYYY-MM-DD format
 			
-			selectedSubjects.forEach(subject => {
-				if (itemCount % itemsPerRow === 0 && itemCount > 0) {
-					currentY += 10;
-					startX = 20;
+			// Initialize date entry if needed
+			if (!studyData[dateKey]) {
+				studyData[dateKey] = {};
+			}
+			
+			// Add or update hours
+			if (studyData[dateKey][subject]) {
+				studyData[dateKey][subject] += hours;
+			} else {
+				studyData[dateKey][subject] = hours;
+			}
+			
+			// Validate that total hours per day doesn't exceed 24
+			let totalHoursForDay = 0;
+			for (const subj in studyData[dateKey]) {
+				totalHoursForDay += studyData[dateKey][subj];
+			}
+			
+			if (totalHoursForDay > 24) {
+				showAlert('Total study hours for this day exceeds 24 hours. Please adjust.');
+				// Remove the hours we just added
+				if (studyData[dateKey][subject] === hours) {
+					delete studyData[dateKey][subject];
+				} else {
+					studyData[dateKey][subject] -= hours;
 				}
+				return;
+			}
+			
+			// Update UI
+			updateStudyData();
+			
+			// Clear input fields
+			document.getElementById('hoursInput').value = '';
+			
+			showAlert('Study hours added successfully!', 2000);
+		}
+
+		// Clear all study data
+		function clearAllData() {
+			if (confirm('Are you sure you want to clear all study data? This cannot be undone.')) {
+				studyData = {};
+				updateStudyData();
+				showAlert('All study data has been cleared.');
+			}
+		}
+
+		// Export study data to CSV
+		function exportStudyData() {
+			let csvContent = 'Date,Subject,Hours\n';
+			
+			// Convert study data to CSV rows
+			for (const dateKey in studyData) {
+				for (const subject in studyData[dateKey]) {
+					const hours = studyData[dateKey][subject];
+					csvContent += `${dateKey},${subject},${hours}\n`;
+				}
+			}
+			
+			// Create download link
+			const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+			const url = URL.createObjectURL(blob);
+			
+			const link = document.createElement('a');
+			link.setAttribute('href', url);
+			link.setAttribute('download', 'study_data.csv');
+			link.style.visibility = 'hidden';
+			
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+			
+			showAlert('Study data exported successfully!');
+		}
+
+		// Initialize the app
+		function initApp() {
+			// Check if we have selected subjects
+			if (selectedSubjects.length === 0) {
+				showAlert('Please select your subject stream and combination on the main page first.');
+			}
+			
+			// Populate subject dropdown
+			populateSubjects();
+			
+			// Create color legend
+			createColorLegend();
+			
+			// Create calendars
+			createCalendars();
+			
+			// Set default date to today
+			const today = new Date();
+			const month = String(today.getMonth() + 1).padStart(2, '0');
+			const day = String(today.getDate()).padStart(2, '0');
+			document.getElementById('dateSelect').value = `${today.getFullYear()}-${month}-${day}`;
+		}
+
+		// Event listeners
+		document.getElementById('addEntryBtn').addEventListener('click', addStudyEntry);
+		document.getElementById('clearAllBtn').addEventListener('click', clearAllData);
+		document.getElementById('exportBtn').addEventListener('click', exportStudyData);
+
+		// Month tab click event listeners
+		document.querySelectorAll('.month-tab').forEach(tab => {
+			tab.addEventListener('click', function() {
+				const monthKey = this.getAttribute('data-month');
+				activateMonth(monthKey);
+			});
+		});
+
+		// Initialize app when DOM is loaded
+		document.addEventListener('DOMContentLoaded', initApp);
+		
+		// Export selected month to PDF
+		function exportMonthToPDF() {
+			// Get the selected month from dropdown
+			const monthSelect = document.getElementById('pdfMonthSelect');
+			const selectedMonth = monthSelect.value;
+			
+			if (!selectedMonth) {
+				showAlert('Please select a month to export.');
+				return;
+			}
+			
+			const monthData = months[selectedMonth];
+			if (!monthData) {
+				showAlert('Invalid month selected.');
+				return;
+			}
+			
+			// Create a new jsPDF instance
+			const { jsPDF } = window.jspdf;
+			const doc = new jsPDF();
+			
+			// Set font styles
+			doc.setFont('helvetica', 'bold');
+			
+			// ===== PAGE 1: Header and Summary Cards =====
+			doc.setFontSize(24);
+			doc.text('Study Tracker Report', 105, 20, { align: 'center' });
+			
+			doc.setFontSize(18);
+			doc.text(monthData.name, 105, 30, { align: 'center' });
+			
+			// Add current date
+			const today = new Date();
+			doc.setFontSize(10);
+			doc.setFont('helvetica', 'normal');
+			doc.text(`Generated on: ${today.toLocaleDateString()}`, 105, 40, { align: 'center' });
+			
+			// Get this month's data
+			const currentYear = new Date().getFullYear();
+			const monthNum = Object.keys(months).indexOf(selectedMonth) + 4; // Months start from April (4)
+			const monthNumStr = String(monthNum).padStart(2, '0');
+			
+			// Calculate today's hours, weekly hours, and monthly hours
+			let todayHours = 0;
+			let weeklyHours = 0;
+			let monthlyHours = 0;
+			
+			// Get current date info
+			const todayDate = today.getDate();
+			const todayMonth = today.getMonth() + 1; // JavaScript months are 0-indexed
+			const todayMonthStr = String(todayMonth).padStart(2, '0');
+			
+			// Calculate start of week (Sunday)
+			const startOfWeek = new Date(today);
+			startOfWeek.setDate(today.getDate() - today.getDay());
+			
+			// Loop through study data for this month
+			for (const dateKey in studyData) {
+				const [year, month, day] = dateKey.split('-');
 				
-				// Draw color dot
-				const subjectColor = getSubjectColor(subject);
-				const [r, g, b] = hexToRgb(subjectColor);
-				doc.setFillColor(r, g, b);
-				doc.circle(startX + 3, currentY, 3, 'F');
-				
-				// Draw subject name
-				doc.setFont(normalFont, 'normal');
-				doc.setFontSize(10);
-				doc.setTextColor(0, 0, 0);
-				doc.text(subject, startX + 8, currentY + 1);
-				
-				startX += 60;
-				itemCount++;
+				// Check if this entry belongs to the selected month
+				if (year == currentYear && month == monthNumStr) {
+					let dailyTotal = 0;
+					
+					// Add up all subject hours for this day
+					for (const subject in studyData[dateKey]) {
+						const hours = studyData[dateKey][subject];
+						dailyTotal += parseFloat(hours); // Ensure we're using numeric values
+					}
+					
+					// Add to monthly total
+					monthlyHours += dailyTotal;
+					
+					// Check if this is today's data (make sure we check both day and month)
+					if (parseInt(day) === todayDate && month === todayMonthStr) {
+						todayHours = dailyTotal;
+					}
+					
+					// Check if this is in the current week
+					const entryDate = new Date(`${year}-${month}-${day}`);
+					if (entryDate >= startOfWeek) {
+						weeklyHours += dailyTotal;
+					}
+				}
+			}
+			
+			// Draw summary cards with the specified color (#b5b2b1)
+			// Convert hex to RGB
+			const cardR = 181; // B5 in decimal
+			const cardG = 178; // B2 in decimal
+			const cardB = 177; // B1 in decimal
+			doc.setFillColor(cardR, cardG, cardB);
+			
+			// Today's hours card
+			doc.roundedRect(20, 50, 50, 40, 3, 3, 'F');
+			doc.setFontSize(12);
+			doc.setFont('helvetica', 'bold');
+			doc.setTextColor(0, 0, 0); // Black text
+			doc.text("Today's Hours", 45, 62, { align: 'center' });
+			doc.setFontSize(18);
+			doc.text(`${todayHours.toFixed(1)}h`, 45, 78, { align: 'center' });
+			
+			// Weekly hours card
+			doc.roundedRect(80, 50, 50, 40, 3, 3, 'F');
+			doc.setFontSize(12);
+			doc.setFont('helvetica', 'bold');
+			doc.setTextColor(0, 0, 0); // Black text
+			doc.text("Weekly Hours", 105, 62, { align: 'center' });
+			doc.setFontSize(18);
+			doc.text(`${weeklyHours.toFixed(1)}h`, 105, 78, { align: 'center' });
+			
+			// Monthly hours card
+			doc.roundedRect(140, 50, 50, 40, 3, 3, 'F');
+			doc.setFontSize(12);
+			doc.setFont('helvetica', 'bold');
+			doc.setTextColor(0, 0, 0); // white text
+			doc.text("Monthly Hours", 165, 62, { align: 'center' });
+			doc.setFontSize(18);
+			doc.text(`${monthlyHours.toFixed(1)}h`, 165, 78, { align: 'center' });
+			
+			// Add subject hours summary to page 1
+			doc.setFontSize(16);
+			doc.setFont('helvetica', 'bold');
+			doc.text(`Subject Hours Summary`, 105, 110, { align: 'center' });
+			
+			// Calculate total hours per subject for this month
+			const monthlySubjectTotals = {};
+			let totalMonthHours = 0;
+			
+			// Initialize totals for all subjects
+			selectedSubjects.forEach(subject => {
+				monthlySubjectTotals[subject] = 0;
 			});
 			
-			// Add brown footer with name on the last page as well
-			doc.setFillColor(139, 69, 19); // Brown color
-			doc.rect(20, doc.internal.pageSize.height - 20, doc.internal.pageSize.width - 40, 10, 'F');
+			// Calculate totals from study data for this month
+			for (const dateKey in studyData) {
+				const [year, month, day] = dateKey.split('-');
+				
+				// Check if this entry belongs to the selected month
+				if (year == currentYear && month == monthNumStr) {
+					for (const subject in studyData[dateKey]) {
+						const hours = parseFloat(studyData[dateKey][subject]) || 0; // Ensure we're using numeric values
+						monthlySubjectTotals[subject] = (monthlySubjectTotals[subject] || 0) + hours;
+						totalMonthHours += hours;
+					}
+				}
+			}
 			
-			doc.setFont(normalFont, 'bold');
+			// Draw subject summary table
+			doc.setFillColor(230, 230, 230);
+			doc.rect(25, 120, 160, 10, 'F');
+			
+			doc.setFontSize(12);
+			doc.text("Subject", 35, 127);
+			doc.text("Hours", 115, 127);
+			doc.text("Percentage", 155, 127);
+			
+			let yPos = 135;
+			
+			// Add each subject's data
+			selectedSubjects.forEach(subject => {
+				const hours = monthlySubjectTotals[subject] || 0;
+				const percentage = totalMonthHours > 0 ? Math.round((hours / totalMonthHours) * 100) : 0;
+				
+				// Set subject color
+				const colorHex = getSubjectColor(subject);
+				// Convert hex to RGB
+				const r = parseInt(colorHex.slice(1, 3), 16);
+				const g = parseInt(colorHex.slice(3, 5), 16);
+				const b = parseInt(colorHex.slice(5, 7), 16);
+				
+				// Draw colored circle
+				doc.setFillColor(r, g, b);
+				doc.circle(28, yPos, 3, 'F');
+				
+				// Draw subject text
+				doc.setFont('helvetica', 'normal');
+				doc.setFontSize(11);
+				doc.text(subject, 35, yPos + 1);
+				doc.text(`${hours.toFixed(1)}h`, 115, yPos + 1);
+				doc.text(`${percentage}%`, 155, yPos + 1);
+				
+				yPos += 12;
+			});
+			
+			// Add total hours
+			doc.setFont('helvetica', 'bold');
+			doc.setFontSize(12);
+			yPos += 5;
+			doc.line(25, yPos - 5, 185, yPos - 5);
+			doc.text("Total Hours:", 35, yPos + 1);
+			doc.text(`${totalMonthHours.toFixed(1)}h`, 115, yPos + 1);
+			doc.text("100%", 155, yPos + 1);
+			
+			// ===== PAGE 2: Calendar View =====
+			doc.addPage();
+			
+			doc.setFontSize(18);
+			doc.setFont('helvetica', 'bold');
+			doc.text(`${monthData.name} - Calendar View`, 105, 20, { align: 'center' });
+			
+			// Create calendar grid
+			const cellWidth = 25;
+			const cellHeight = 25;
+			const startX = 20;
+			let startY = 40;
+			
+			// Define the days of week with Monday first
+			const calendarDaysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+			
+			// Draw days of week header with specified color (#2e5e5a)
+			const headerR = 46;  // 2E in decimal
+			const headerG = 94;  // 5E in decimal
+			const headerB = 90;  // 5A in decimal
+			doc.setFillColor(headerR, headerG, headerB);
+			doc.setTextColor(255, 255, 255); // White text for better contrast
 			doc.setFontSize(10);
-			doc.setTextColor(255, 255, 255); // White text
-			doc.text("Student Study Tracker", 105, doc.internal.pageSize.height - 14, { align: 'center' });
+			
+			// Draw ALL 7 days headers
+			for (let i = 0; i < 7; i++) {
+				doc.rect(startX + (i * cellWidth), startY, cellWidth, 15, 'F');
+				doc.text(calendarDaysOfWeek[i], startX + (i * cellWidth) + (cellWidth / 2), startY + 9, { align: 'center' });
+			}
+			
+			doc.setTextColor(0, 0, 0); // Reset text color to black
+			startY += 15;
+			
+			// Adjust first day for Monday-based week (0 = Monday, 6 = Sunday)
+			// We need to convert from Sunday-based (0 = Sunday) to Monday-based (0 = Monday)
+			const mondayBasedFirstDay = (monthData.firstDay + 6) % 7;
+			
+			// Get month's number of days
+			const daysInMonth = monthData.days;
+			
+			// Start drawing calendar
+			let currentDay = 1;
+			let currentWeek = 0;
+			
+			while (currentDay <= daysInMonth) {
+				for (let weekday = 0; weekday < 7; weekday++) {
+					const x = startX + (weekday * cellWidth);
+					const y = startY + (currentWeek * cellHeight);
+					
+					// Skip days before the start of the month
+					if (currentWeek === 0 && weekday < mondayBasedFirstDay) {
+						doc.setFillColor(250, 250, 250);
+						doc.rect(x, y, cellWidth, cellHeight, 'F');
+						continue;
+					}
+					
+					// Stop if we've reached the end of the month
+					if (currentDay > daysInMonth) {
+						doc.setFillColor(250, 250, 250);
+						doc.rect(x, y, cellWidth, cellHeight, 'F');
+						continue;
+					}
+					
+					// Draw the day cell
+					doc.rect(x, y, cellWidth, cellHeight);
+					
+					// Add day number
+					doc.setFontSize(10);
+					doc.setFont('helvetica', 'normal');
+					doc.text(String(currentDay), x + 3, y + 7);
+					
+					// Check if there's study data for this day
+					const dayStr = String(currentDay).padStart(2, '0');
+					const dateKey = `${currentYear}-${monthNumStr}-${dayStr}`;
+					
+					// Draw subject markers if there's data
+					if (studyData[dateKey]) {
+						let markerX = x + 5;
+						let markerY = y + 15;
+						const circleSpacing = 5;
+						const maxCirclesPerRow = Math.floor((cellWidth - 6) / circleSpacing);
+						
+						// Draw a colored circle for each subject based on hours
+						for (const subject in studyData[dateKey]) {
+							const hours = parseFloat(studyData[dateKey][subject]) || 0;
+							
+							if (hours > 0) {
+								// Set subject color
+								const colorHex = getSubjectColor(subject);
+								// Convert hex to RGB
+								const r = parseInt(colorHex.slice(1, 3), 16);
+								const g = parseInt(colorHex.slice(3, 5), 16);
+								const b = parseInt(colorHex.slice(5, 7), 16);
+								
+								doc.setFillColor(r, g, b);
+								
+								// Draw filled circles based on hours (1h = 1 circle, 2h = 2 circles, etc.)
+								// Round to nearest whole number for simplicity
+								const numCircles = Math.round(hours);
+								let circlesDrawn = 0;
+								
+								// Draw all circles for this subject's hours
+								while (circlesDrawn < numCircles) {
+									// Check if we need to move to a new row
+									if ((circlesDrawn % maxCirclesPerRow) === 0 && circlesDrawn > 0) {
+										markerX = x + 5;
+										markerY += circleSpacing;
+									}
+									
+									// Check if we've run out of vertical space
+									if (markerY > y + cellHeight - 3) {
+										break;
+									}
+									
+									doc.circle(markerX, markerY, 2, 'F');
+									markerX += circleSpacing;
+									circlesDrawn++;
+								}
+								
+								// Move to next row for next subject
+								markerX = x + 5;
+								markerY += circleSpacing;
+								
+								// Check if we've run out of vertical space
+								if (markerY > y + cellHeight - 3) {
+									break;
+								}
+							}
+						}
+					}
+					
+					currentDay++;
+				}
+				currentWeek++;
+			}
+			
+			// Add legend at the bottom of the page
+			const legendY = startY + (currentWeek * cellHeight) + 20;
+			doc.setFontSize(12);
+			doc.setFont('helvetica', 'bold');
+			doc.text("Legend:", 20, legendY);
+			
+			let legendX = 20;
+			let currentLegendY = legendY + 15;
+			
+			// Add each subject color to the legend
+			selectedSubjects.forEach(subject => {
+				// Set subject color
+				const colorHex = getSubjectColor(subject);
+				// Convert hex to RGB
+				const r = parseInt(colorHex.slice(1, 3), 16);
+				const g = parseInt(colorHex.slice(3, 5), 16);
+				const b = parseInt(colorHex.slice(5, 7), 16);
+				
+				// Draw colored circle
+				doc.setFillColor(r, g, b);
+				doc.circle(legendX + 5, currentLegendY, 3, 'F');
+				
+				// Draw subject text
+				doc.setFont('helvetica', 'normal');
+				doc.setFontSize(10);
+				doc.text(subject, legendX + 12, currentLegendY);
+				
+				// Move to next position
+				legendX += 60;
+				if (legendX > 160) {
+					legendX = 20;
+					currentLegendY += 15;
+				}
+			});
 			
 			// Save the PDF
-			doc.save('study_star_sheet_' + selectedMonthName.toLowerCase() + '.pdf');
-			showAlert('PDF exported successfully!');
-		} catch (error) {
-			console.error('Error generating PDF:', error);
-			showAlert('Error generating PDF. Please check the console for details.');
-		}
-	}
-
-	// Add month selection UI to the page
-	function addMonthSelector() {
-		const container = document.createElement('div');
-		container.className = 'month-export-selector';
-		container.style.margin = '20px 0';
-		container.style.textAlign = 'center';
-		
-		const label = document.createElement('label');
-		label.textContent = 'Export Month: ';
-		label.style.marginRight = '10px';
-		label.style.fontWeight = 'bold';
-		
-		const select = document.createElement('select');
-		select.id = 'monthSelector';
-		select.className = 'month-select';
-		
-		// Add months from April to November
-		const months = [
-			{value: 'april', text: 'April'},
-			{value: 'may', text: 'May'},
-			{value: 'june', text: 'June'},
-			{value: 'july', text: 'July'},
-			{value: 'august', text: 'August'},
-			{value: 'september', text: 'September'},
-			{value: 'october', text: 'October'},
-			{value: 'november', text: 'November'}
-		];
-		
-		months.forEach(month => {
-			const option = document.createElement('option');
-			option.value = month.value;
-			option.textContent = month.text;
-			select.appendChild(option);
-		});
-		
-		// Set current month if in range
-		const currentMonth = new Date().toLocaleString('default', { month: 'long' }).toLowerCase();
-		if (months.some(m => m.value === currentMonth)) {
-			select.value = currentMonth;
+			doc.save(`${monthData.name}_study_report.pdf`);
+			showAlert(`${monthData.name} study report saved as PDF.`);
 		}
 		
-		const button = document.createElement('button');
-		button.textContent = 'Export PDF';
-		button.className = 'pdf-export-btn';
-		button.style.marginLeft = '10px';
-		button.style.padding = '5px 15px';
-		button.style.backgroundColor = '#184e77';
-		button.style.color = 'white';
-		button.style.border = 'none';
-		button.style.borderRadius = '4px';
-		button.style.cursor = 'pointer';
-		
-		button.addEventListener('click', function() {
-			const selectedMonth = document.getElementById('monthSelector').value;
-			exportStudyDataToPDF(selectedMonth);
-		});
-		
-		container.appendChild(label);
-		container.appendChild(select);
-		container.appendChild(button);
-		
-		// Find the target element to insert before
-		const exportBtn = document.getElementById('exportBtn');
-		if (exportBtn) {
-			// Insert before the existing export button
-			exportBtn.parentNode.insertBefore(container, exportBtn);
+		// Create floating button to scroll to PDF download section
+		function addScrollToPDFButton() {
+			// Create the floating button container
+			const scrollButtonContainer = document.createElement('div');
+			scrollButtonContainer.className = 'scroll-pdf-button-container';
+			scrollButtonContainer.style.position = 'fixed';
+			scrollButtonContainer.style.bottom = '30px';
+			scrollButtonContainer.style.right = '30px';
+			scrollButtonContainer.style.zIndex = '9999';
 			
-			// Hide the old export button as we've replaced it
-			exportBtn.style.display = 'none';
-		} else {
-			// Fallback - add to app or body
-			const targetElement = document.querySelector('#app') || document.body;
-			targetElement.prepend(container);
+			// Create the button itself
+			const scrollButton = document.createElement('button');
+			scrollButton.textContent = 'Go PDF Download';
+			scrollButton.className = 'scroll-pdf-button';
+			scrollButton.title = 'Scroll to PDF Download Section';
+			
+			// Style the button
+			scrollButton.style.backgroundColor = '#2e5e5a';
+			scrollButton.style.color = 'white';
+			scrollButton.style.padding = '12px 20px';
+			scrollButton.style.borderRadius = '30px';
+			scrollButton.style.border = 'none';
+			scrollButton.style.fontSize = '16px';
+			scrollButton.style.fontWeight = 'bold';
+			scrollButton.style.cursor = 'pointer';
+			scrollButton.style.boxShadow = '0 4px 8px rgba(0,0,0,0.3)';
+			scrollButton.style.transition = 'all 0.3s ease';
+			scrollButton.style.display = 'flex';
+			scrollButton.style.alignItems = 'center';
+			scrollButton.style.justifyContent = 'center';
+			
+			// Add PDF icon
+			const pdfIcon = document.createElement('span');
+			pdfIcon.innerHTML = '📄'; // PDF document emoji
+			pdfIcon.style.marginRight = '8px';
+			pdfIcon.style.fontSize = '18px';
+			scrollButton.prepend(pdfIcon);
+			
+			// Add arrow up icon
+			const arrowIcon = document.createElement('span');
+			arrowIcon.innerHTML = ' ↑'; // Up arrow
+			arrowIcon.style.marginLeft = '5px';
+			scrollButton.appendChild(arrowIcon);
+			
+			// Add hover effects
+			scrollButton.addEventListener('mouseover', () => {
+				scrollButton.style.backgroundColor = '#a81169';
+				scrollButton.style.boxShadow = '0 6px 12px rgba(0,0,0,0.4)';
+				scrollButton.style.transform = 'translateY(-3px)';
+			});
+			
+			scrollButton.addEventListener('mouseout', () => {
+				scrollButton.style.backgroundColor = '#2e5e5a';
+				scrollButton.style.boxShadow = '0 4px 8px rgba(0,0,0,0.3)';
+				scrollButton.style.transform = 'translateY(0)';
+			});
+			
+			// Add click effect
+			scrollButton.addEventListener('mousedown', () => {
+				scrollButton.style.transform = 'translateY(2px)';
+				scrollButton.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
+			});
+			
+			scrollButton.addEventListener('mouseup', () => {
+				scrollButton.style.transform = 'translateY(-3px)';
+				scrollButton.style.boxShadow = '0 6px 12px rgba(0,0,0,0.4)';
+			});
+			
+			// Add click functionality to scroll to PDF section
+			scrollButton.addEventListener('click', () => {
+				// Find the export container
+				const exportContainer = document.querySelector('.export-container');
+				
+				if (exportContainer) {
+					// Scroll to the export container with smooth animation
+					exportContainer.scrollIntoView({ 
+						behavior: 'smooth',
+						block: 'center'
+					});
+					
+					// Add highlight animation to the export container
+					exportContainer.style.animation = 'highlight-pulse 2s ease';
+					
+					// Remove the animation class after it completes
+					setTimeout(() => {
+						exportContainer.style.animation = '';
+					}, 2000);
+				} else {
+					console.error('PDF export container not found!');
+					alert('PDF download section not found. Please make sure it has been added to the page first.');
+				}
+			});
+			
+			// Add CSS for highlight animation
+			const style = document.createElement('style');
+			style.textContent = `
+				@keyframes highlight-pulse {
+					0% { box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+					50% { box-shadow: 0 0 25px rgba(76, 175, 80, 0.8); }
+					100% { box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+				}
+			`;
+			document.head.appendChild(style);
+			
+			// Add button to container and container to document
+			scrollButtonContainer.appendChild(scrollButton);
+			document.body.appendChild(scrollButtonContainer);
+			
+			// Add a small bounce animation when the button first appears
+			scrollButtonContainer.animate([
+				{ transform: 'scale(0)', opacity: 0 },
+				{ transform: 'scale(1.2)', opacity: 1 },
+				{ transform: 'scale(1)', opacity: 1 }
+			], {
+				duration: 500,
+				easing: 'ease-out'
+			});
 		}
-	}
 
-	// Utility function to convert hex color to RGB
-	function hexToRgb(hex) {
-		// Remove # if present
-		hex = hex.replace('#', '');
-		
-		// Parse the hex values
-		const r = parseInt(hex.substring(0, 2), 16);
-		const g = parseInt(hex.substring(2, 4), 16);
-		const b = parseInt(hex.substring(4, 6), 16);
-		
-		return [r, g, b];
-	}
+		// Call the function to add the scroll button
+		// Make sure this is called after the PDF export UI has been added
+		document.addEventListener('DOMContentLoaded', () => {
+			// Wait a short time to ensure the PDF export UI is added first
+			setTimeout(() => {
+				addScrollToPDFButton();
+			}, 1000);
+		});
 
-	// Initialize the month selector when DOM is loaded
-	document.addEventListener('DOMContentLoaded', function() {
-		addMonthSelector();
-	});
+		// Alternative: If you want to manually call this after addPDFExportUI
+		// You can add this line at the end of the addPDFExportUI function:
+		// addScrollToPDFButton();
+
+		// Create month selection dropdown and export button
+		function addPDFExportUI() {
+			// Create container
+			const exportContainer = document.createElement('div');
+			exportContainer.className = 'export-container';
+			exportContainer.style.marginTop = '20px';
+			exportContainer.style.padding = '50px';
+			exportContainer.style.backgroundColor = 'var(--card-bg)';
+			exportContainer.style.borderRadius = '12px';
+			exportContainer.style.boxShadow = '0 4px 8px rgba(0,0,0,0.15)';
+			exportContainer.style.display = 'flex';
+			exportContainer.style.flexDirection = 'column';
+			exportContainer.style.alignItems = 'center';
+			
+			// Add header
+			const exportHeader = document.createElement('h3');
+			exportHeader.textContent = 'Export Month to PDF';
+			exportHeader.style.marginBottom = '25px';
+			exportHeader.style.color = '#2e5e5a';
+			exportHeader.style.fontWeight = 'bold';
+			exportContainer.appendChild(exportHeader);
+			
+			// Create stylish month selection dropdown
+			const monthSelectContainer = document.createElement('div');
+			monthSelectContainer.style.marginBottom = '25px';
+			monthSelectContainer.style.width = '100%';
+			monthSelectContainer.style.maxWidth = '350px';
+			monthSelectContainer.style.position = 'relative';
+			monthSelectContainer.style.display = 'flex';
+			monthSelectContainer.style.flexDirection = 'column';
+			monthSelectContainer.style.alignItems = 'center';
+			
+			// Add dropdown label
+			const monthLabel = document.createElement('label');
+			monthLabel.textContent = 'Select Month';
+			monthLabel.setAttribute('for', 'pdfMonthSelect');
+			monthLabel.style.marginBottom = '10px';
+			monthLabel.style.fontWeight = '600';
+			monthLabel.style.color = '#555';
+			
+			// Create custom select wrapper for styling
+			const selectWrapper = document.createElement('div');
+			selectWrapper.style.position = 'relative';
+			selectWrapper.style.width = '100%';
+			
+			// Create the select element with improved styling
+			const monthSelect = document.createElement('select');
+			monthSelect.id = 'pdfMonthSelect';
+			monthSelect.style.width = '100%';
+			monthSelect.style.padding = '12px 16px';
+			monthSelect.style.borderRadius = '8px';
+			monthSelect.style.border = '2px solid #ddd';
+			monthSelect.style.backgroundColor = '#fff';
+			monthSelect.style.appearance = 'none';
+			monthSelect.style.cursor = 'pointer';
+			monthSelect.style.fontSize = '16px';
+			monthSelect.style.color = '#333';
+			monthSelect.style.outline = 'none';
+			monthSelect.style.transition = 'all 0.3s';
+			
+			// Add hover and focus effects
+			monthSelect.addEventListener('mouseover', () => {
+				monthSelect.style.borderColor = '#4CAF50';
+			});
+			
+			monthSelect.addEventListener('mouseout', () => {
+				if (document.activeElement !== monthSelect) {
+					monthSelect.style.borderColor = '#ddd';
+				}
+			});
+			
+			monthSelect.addEventListener('focus', () => {
+				monthSelect.style.borderColor = '#4CAF50';
+				monthSelect.style.boxShadow = '0 0 5px rgba(76, 175, 80, 0.3)';
+			});
+			
+			monthSelect.addEventListener('blur', () => {
+				monthSelect.style.borderColor = '#ddd';
+				monthSelect.style.boxShadow = 'none';
+			});
+			
+			// Add dropdown arrow
+			const dropdownArrow = document.createElement('span');
+			dropdownArrow.innerHTML = '&#9662;'; // Down triangle
+			dropdownArrow.style.position = 'absolute';
+			dropdownArrow.style.right = '16px';
+			dropdownArrow.style.top = '50%';
+			dropdownArrow.style.transform = 'translateY(-50%)';
+			dropdownArrow.style.pointerEvents = 'none';
+			dropdownArrow.style.color = '#4CAF50';
+			dropdownArrow.style.fontSize = '16px';
+			
+			// Add only April to November months options
+			const validMonths = ['april', 'may', 'june', 'july', 'august', 'september', 'october', 'november'];
+			
+			// Add default option
+			const defaultOption = document.createElement('option');
+			defaultOption.value = '';
+			defaultOption.textContent = 'Choose a month...';
+			defaultOption.selected = true;
+			defaultOption.disabled = true;
+			monthSelect.appendChild(defaultOption);
+			
+			Object.keys(months).forEach(monthKey => {
+				if (validMonths.includes(monthKey.toLowerCase())) {
+					const option = document.createElement('option');
+					option.value = monthKey;
+					option.textContent = months[monthKey].name;
+					monthSelect.appendChild(option);
+				}
+			});
+			
+			// Assemble the select component
+			selectWrapper.appendChild(monthSelect);
+			selectWrapper.appendChild(dropdownArrow);
+			monthSelectContainer.appendChild(monthLabel);
+			monthSelectContainer.appendChild(selectWrapper);
+			exportContainer.appendChild(monthSelectContainer);
+			
+			// Create green glow export button
+			const exportPDFBtn = document.createElement('button');
+			exportPDFBtn.textContent = 'Download PDF Report';
+			exportPDFBtn.className = 'action-btn glow-button';
+			
+			// Apply green glow button styles
+			exportPDFBtn.style.backgroundColor = '#4CAF50';
+			exportPDFBtn.style.color = 'white';
+			exportPDFBtn.style.padding = '14px 24px';
+			exportPDFBtn.style.borderRadius = '30px';
+			exportPDFBtn.style.border = 'none';
+			exportPDFBtn.style.fontSize = '16px';
+			exportPDFBtn.style.fontWeight = 'bold';
+			exportPDFBtn.style.cursor = 'pointer';
+			exportPDFBtn.style.outline = 'none';
+			exportPDFBtn.style.transition = 'all 0.3s ease';
+			exportPDFBtn.style.boxShadow = '0 0 10px rgba(76, 175, 80, 0.5)';
+			exportPDFBtn.style.position = 'relative';
+			exportPDFBtn.style.overflow = 'hidden';
+			
+			// Add button hover/active states
+			exportPDFBtn.addEventListener('mouseover', () => {
+				exportPDFBtn.style.backgroundColor = '#45a049';
+				exportPDFBtn.style.boxShadow = '0 0 20px rgba(76, 175, 80, 0.8)';
+				exportPDFBtn.style.transform = 'translateY(-2px)';
+			});
+			
+			exportPDFBtn.addEventListener('mouseout', () => {
+				exportPDFBtn.style.backgroundColor = '#4CAF50';
+				exportPDFBtn.style.boxShadow = '0 0 10px rgba(76, 175, 80, 0.5)';
+				exportPDFBtn.style.transform = 'translateY(0)';
+			});
+			
+			exportPDFBtn.addEventListener('mousedown', () => {
+				exportPDFBtn.style.backgroundColor = '#3d8b40';
+				exportPDFBtn.style.boxShadow = '0 0 15px rgba(76, 175, 80, 0.7)';
+				exportPDFBtn.style.transform = 'translateY(1px)';
+			});
+			
+			exportPDFBtn.addEventListener('mouseup', () => {
+				exportPDFBtn.style.backgroundColor = '#45a049';
+				exportPDFBtn.style.boxShadow = '0 0 20px rgba(76, 175, 80, 0.8)';
+				exportPDFBtn.style.transform = 'translateY(-2px)';
+			});
+			
+			// Add ripple effect
+			exportPDFBtn.addEventListener('click', function(e) {
+				exportMonthToPDF();
+				
+				// Create ripple element
+				const ripple = document.createElement('span');
+				ripple.classList.add('ripple');
+				this.appendChild(ripple);
+				
+				// Position the ripple
+				const x = e.clientX - e.target.getBoundingClientRect().left;
+				const y = e.clientY - e.target.getBoundingClientRect().top;
+				
+				// Style the ripple
+				ripple.style.width = ripple.style.height = '100px';
+				ripple.style.left = x + 'px';
+				ripple.style.top = y + 'px';
+				
+				// Remove the ripple after animation
+				setTimeout(() => {
+					ripple.remove();
+				}, 600);
+			});
+			
+			// Add ripple style
+			const style = document.createElement('style');
+			style.textContent = `
+				.ripple {
+					position: absolute;
+					background: rgba(255, 255, 255, 0.5);
+					border-radius: 50%;
+					transform: scale(0);
+					animation: ripple 0.6s linear;
+					pointer-events: none;
+				}
+				
+				@keyframes ripple {
+					to {
+						transform: scale(3);
+						opacity: 0;
+					}
+				}
+				
+				.glow-button {
+					animation: pulse 2s infinite;
+				}
+				
+				@keyframes pulse {
+					0% {
+						box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+					}
+					50% {
+						box-shadow: 0 0 20px rgba(76, 175, 80, 0.8);
+					}
+					100% {
+						box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+					}
+				}
+			`;
+			document.head.appendChild(style);
+			
+			exportContainer.appendChild(exportPDFBtn);
+			
+			// Add the container to the document - move it to the top of the interface
+			const actionPanel = document.getElementById('actionPanel') || document.querySelector('.action-panel');
+			if (actionPanel) {
+				// Insert at the beginning of the action panel
+				actionPanel.insertBefore(exportContainer, actionPanel.firstChild);
+			} else {
+				// Find the main container
+				const mainContainer = document.querySelector('.container') || document.querySelector('main');
+				if (mainContainer) {
+					// Insert at the top of the main container
+					mainContainer.insertBefore(exportContainer, mainContainer.firstChild);
+				} else {
+					// Last resort: append to body
+					document.body.insertBefore(exportContainer, document.body.firstChild);
+				}
+			}
+		}
+
+		// Initialize app when DOM is loaded
+		document.addEventListener('DOMContentLoaded', initApp);
+
+		// Add script to load jsPDF library
+		function loadJsPDF() {
+			return new Promise((resolve, reject) => {
+				// Check if jsPDF is already loaded
+				if (window.jspdf) {
+					resolve();
+					return;
+				}
+				
+				const script = document.createElement('script');
+				script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+				script.onload = resolve;
+				script.onerror = reject;
+				document.head.appendChild(script);
+			});
+		}
+
+		// Initialize PDF functionality
+		async function initPDFExport() {
+			try {
+				await loadJsPDF();
+				addPDFExportUI();
+			} catch (error) {
+				console.error('Failed to load jsPDF library:', error);
+				showAlert('Failed to load PDF export functionality. Please try again later.');
+			}
+		}
+
+		// Call the initialization function when the page loads
+		document.addEventListener('DOMContentLoaded', function() {
+			// Wait for the main app to initialize first
+			setTimeout(initPDFExport, 1000);
+		});
+
+		// Add this to your existing code to call PDF export initialization
+		if (document.readyState === 'complete') {
+			initPDFExport();
+		}
 	</script>
 </body>
 </html>
