@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome</title>
+</head>
+<body>
+  <h2>Welcome to the site!</h2>
+  <button id="logout">Log out</button>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB6iWjCxpb_eTLZ7Qg-9OYO0xEvp8q5jF8",
+      authDomain: "edumissional.firebaseapp.com",
+      projectId: "edumissional",
+      storageBucket: "edumissional.firebasestorage.app",
+      messagingSenderId: "854591115933",
+      appId: "1:854591115933:web:72745fdfeb8bbe5d663a74",
+      databaseURL: "https://edumissional-default-rtdb.firebaseio.com/"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        // Not logged in, redirect
+        window.location.href = "login.html";
+      }
+    });
+
+    document.getElementById("logout").addEventListener("click", () => {
+      signOut(auth).then(() => {
+        window.location.href = "login.html";
+      });
+    });
+  </script>
+</body>
+</html>
