@@ -1,16 +1,276 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Welcome</title>
+  <meta charset="UTF-8">
+  <title>Welcome to EduMissional</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #121212;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      color: #fff;
+    }
+    
+    /* Animated background elements */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+    
+    .bg-animation span {
+      position: absolute;
+      display: block;
+      width: 20px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      animation: animate 25s linear infinite;
+      bottom: -150px;
+      border-radius: 50%;
+    }
+    
+    .bg-animation span:nth-child(1) {
+      left: 10%;
+      width: 80px;
+      height: 80px;
+      animation-delay: 0s;
+      animation-duration: 15s;
+    }
+    
+    .bg-animation span:nth-child(2) {
+      left: 25%;
+      width: 30px;
+      height: 30px;
+      animation-delay: 2s;
+      animation-duration: 12s;
+    }
+    
+    .bg-animation span:nth-child(3) {
+      left: 40%;
+      width: 60px;
+      height: 60px;
+      animation-delay: 4s;
+      animation-duration: 18s;
+    }
+    
+    .bg-animation span:nth-child(4) {
+      left: 60%;
+      width: 20px;
+      height: 20px;
+      animation-delay: 0s;
+      animation-duration: 20s;
+    }
+    
+    .bg-animation span:nth-child(5) {
+      left: 75%;
+      width: 110px;
+      height: 110px;
+      animation-delay: 3s;
+      animation-duration: 25s;
+    }
+    
+    .bg-animation span:nth-child(6) {
+      left: 90%;
+      width: 40px;
+      height: 40px;
+      animation-delay: 5s;
+      animation-duration: 15s;
+    }
+    
+    @keyframes animate {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    .container {
+      background-color: rgba(22, 22, 30, 0.8);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+      width: 100%;
+      max-width: 450px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(75, 75, 235, 0.2);
+      transform: translateY(20px);
+      opacity: 0;
+      animation: fadeUp 0.8s forwards;
+      text-align: center;
+    }
+    
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 32px;
+      color: #fff;
+      font-weight: 600;
+      position: relative;
+      padding-bottom: 15px;
+    }
+    
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70px;
+      height: 3px;
+      background: linear-gradient(90deg, #3498db, #9b59b6);
+      border-radius: 10px;
+    }
+
+    .welcome-text {
+      margin-bottom: 30px;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.6;
+    }
+    
+    .user-info {
+      background-color: rgba(255, 255, 255, 0.07);
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      animation: pulse 2s infinite alternate;
+    }
+    
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 5px rgba(52, 152, 219, 0.2);
+      }
+      100% {
+        box-shadow: 0 0 20px rgba(52, 152, 219, 0.6);
+      }
+    }
+    
+    .user-email {
+      font-weight: 600;
+      font-size: 18px;
+      color: #3498db;
+      margin-top: 10px;
+    }
+    
+    button {
+      padding: 15px 30px;
+      background: linear-gradient(135deg, #3498db, #9b59b6);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #9b59b6, #3498db);
+      transition: all 0.4s ease;
+      z-index: -1;
+    }
+    
+    button:hover::before {
+      left: 0;
+    }
+    
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 7px 15px rgba(52, 152, 219, 0.3);
+    }
+    
+    button:active {
+      transform: translateY(1px);
+    }
+    
+    .loader {
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top: 3px solid #3498db;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      margin-right: 10px;
+      vertical-align: middle;
+      display: none;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
-  <h2>Welcome to the site!</h2>
-  <button id="logout">Log out</button>
+  <div class="bg-animation">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <div class="container">
+    <h2>Welcome to EduMissional</h2>
+    
+    <p class="welcome-text">Thank you for logging in. You now have access to all our educational resources.</p>
+    
+    <div class="user-info">
+      <p>Logged in as:</p>
+      <p class="user-email" id="userEmail">Loading user info...</p>
+    </div>
+    
+    <button id="logout"><span class="loader" id="logoutLoader"></span> Log out</button>
+  </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-
+    
     const firebaseConfig = {
       apiKey: "AIzaSyB6iWjCxpb_eTLZ7Qg-9OYO0xEvp8q5jF8",
       authDomain: "edumissional.firebaseapp.com",
@@ -20,20 +280,36 @@
       appId: "1:854591115933:web:72745fdfeb8bbe5d663a74",
       databaseURL: "https://edumissional-default-rtdb.firebaseio.com/"
     };
-
+    
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-
+    const userEmailElement = document.getElementById("userEmail");
+    const logoutBtn = document.getElementById("logout");
+    const logoutLoader = document.getElementById("logoutLoader");
+    
+    // Check authentication state
     onAuthStateChanged(auth, (user) => {
-      if (!user) {
+      if (user) {
+        // User is signed in
+        userEmailElement.textContent = user.email || "User";
+      } else {
         // Not logged in, redirect
         window.location.href = "login.html";
       }
     });
-
-    document.getElementById("logout").addEventListener("click", () => {
+    
+    // Logout functionality
+    logoutBtn.addEventListener("click", () => {
+      logoutLoader.style.display = "inline-block";
+      logoutBtn.disabled = true;
+      
       signOut(auth).then(() => {
         window.location.href = "login.html";
+      }).catch((error) => {
+        console.error("Error signing out:", error);
+        logoutLoader.style.display = "none";
+        logoutBtn.disabled = false;
+        alert("Error signing out. Please try again.");
       });
     });
   </script>
