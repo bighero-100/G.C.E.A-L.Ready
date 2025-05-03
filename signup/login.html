@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+</head>
+<body>
+  <h2>Login</h2>
+
+  <!-- Email/Password Form (Optional if you still want both methods) -->
+  <form id="loginForm">
+    <input type="email" id="email" placeholder="Email" required><br>
+    <input type="password" id="password" placeholder="Password" required><br>
+    <button type="submit">Login</button>
+  </form>
+
+  <hr>
+  <button id="googleLogin">Sign in with Google</button>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB6iWjCxpb_eTLZ7Qg-9OYO0xEvp8q5jF8",
+      authDomain: "edumissional.firebaseapp.com",
+      projectId: "edumissional",
+      storageBucket: "edumissional.firebasestorage.app",
+      messagingSenderId: "854591115933",
+      appId: "1:854591115933:web:72745fdfeb8bbe5d663a74",
+      databaseURL: "https://edumissional-default-rtdb.firebaseio.com/"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    // Email/Password Login (Optional)
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => window.location.href = "index.html")
+        .catch((error) => alert("Error: " + error.message));
+    });
+
+    // Google Sign-In
+    document.getElementById("googleLogin").addEventListener("click", function() {
+      signInWithPopup(auth, provider)
+        .then(() => window.location.href = "index.html")
+        .catch((error) => alert("Google Sign-In Error: " + error.message));
+    });
+  </script>
+</body>
+</html>
