@@ -1,12 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Reset Password</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reset Your Password</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #74ebd5, #9face6);
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .reset-box {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 300px;
+      animation: slideIn 0.8s ease forwards;
+    }
+
+    .reset-box h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .reset-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    .reset-box button {
+      background-color: #4b7bec;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .reset-box button:hover {
+      background-color: #3867d6;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h2>Reset Your Password</h2>
-  <input type="email" id="resetEmail" placeholder="Enter your email" required>
-  <button onclick="resetPassword()">Send Reset Link</button>
+  <div class="reset-box">
+    <h2>Reset Password</h2>
+    <input type="email" id="resetEmail" placeholder="Enter your email" required />
+    <button id="resetBtn">Send Reset Link</button>
+  </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
@@ -25,8 +90,14 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    function resetPassword() {
+    document.getElementById("resetBtn").addEventListener("click", () => {
       const email = document.getElementById("resetEmail").value;
+
+      if (!email) {
+        alert("Please enter your email");
+        return;
+      }
+
       sendPasswordResetEmail(auth, email)
         .then(() => {
           alert("Password reset link sent! Please check your email.");
@@ -34,7 +105,7 @@
         .catch((error) => {
           alert("Error: " + error.message);
         });
-    }
+    });
   </script>
 </body>
 </html>
