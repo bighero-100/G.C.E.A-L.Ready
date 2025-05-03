@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reset Password</title>
+</head>
+<body>
+  <h2>Reset Your Password</h2>
+  <input type="email" id="resetEmail" placeholder="Enter your email" required>
+  <button onclick="resetPassword()">Send Reset Link</button>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getAuth, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB6iWjCxpb_eTLZ7Qg-9OYO0xEvp8q5jF8",
+      authDomain: "edumissional.firebaseapp.com",
+      projectId: "edumissional",
+      storageBucket: "edumissional.firebasestorage.app",
+      messagingSenderId: "854591115933",
+      appId: "1:854591115933:web:72745fdfeb8bbe5d663a74",
+      databaseURL: "https://edumissional-default-rtdb.firebaseio.com/"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    function resetPassword() {
+      const email = document.getElementById("resetEmail").value;
+      sendPasswordResetEmail(auth, email)
+        .then(() => {
+          alert("Password reset link sent! Please check your email.");
+        })
+        .catch((error) => {
+          alert("Error: " + error.message);
+        });
+    }
+  </script>
+</body>
+</html>
