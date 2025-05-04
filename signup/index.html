@@ -320,7 +320,7 @@
       
       signInWithEmailAndPassword(auth, email, password)
         .then(() => {
-          window.location.href = "index.html";
+          window.location.href = "indexloginsuccess.html";
         })
         .catch((error) => {
           submitButton.textContent = originalText;
@@ -333,7 +333,7 @@
     document.getElementById("googleLogin").addEventListener("click", function() {
       signInWithPopup(auth, provider)
         .then(() => {
-          window.location.href = "index.html";
+          window.location.href = "indexloginsuccess.html";
         })
         .catch((error) => {
           alert("Google Sign-In Error: " + error.message);
