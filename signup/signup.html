@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up | Edumissional</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background: #0f0f1e;
+      color: #f0f0f0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(129, 96, 240, 0.2);
+      animation: float 10s infinite ease-in-out;
+    }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) translateX(0);
+      }
+      25% {
+        transform: translateY(-20px) translateX(10px);
+      }
+      50% {
+        transform: translateY(0) translateX(20px);
+      }
+      75% {
+        transform: translateY(20px) translateX(10px);
+      }
+    }
+    
+    .signup-container {
+      background: rgba(25, 25, 37, 0.8);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      width: 400px;
+      max-width: 90%;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .logo {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    
+    .logo h1 {
+      font-size: 28px;
+      background: linear-gradient(45deg, #6e48aa, #9d50bb);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 8px;
+    }
+    
+    .logo p {
+      color: #a0a0a0;
+      font-size: 14px;
+    }
+    
+    h2 {
+      font-size: 24px;
+      margin-bottom: 24px;
+      text-align: center;
+      font-weight: 500;
+      color: #e0e0e0;
+    }
+    
+    .input-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .input-group input {
+      width: 100%;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid #333345;
+      background: #14141f;
+      color: #f0f0f0;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+    
+    .input-group input:focus {
+      border-color: #6e48aa;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(110, 72, 170, 0.2);
+    }
+    
+    .input-group input::placeholder {
+      color: #707070;
+    }
+    
+    .password-requirements {
+      margin-top: 5px;
+      font-size: 12px;
+      color: #a0a0a0;
+      padding-left: 5px;
+    }
+    
+    .name-fields {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .name-fields .input-group {
+      flex: 1;
+      margin-bottom: 0;
+    }
+    
+    .btn {
+      width: 100%;
+      padding: 16px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background-size: 200% auto;
+    }
+    
+    .btn-primary {
+      background-image: linear-gradient(to right, #6e48aa 0%, #9d50bb 50%, #6e48aa 100%);
+      color: white;
+      margin-bottom: 16px;
+    }
+    
+    .btn-primary:hover {
+      background-position: right center;
+      box-shadow: 0 5px 15px rgba(110, 72, 170, 0.4);
+    }
+    
+    .login-link {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 14px;
+      color: #a0a0a0;
+    }
+    
+    .login-link a {
+      color: #9d50bb;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    
+    .login-link a:hover {
+      color: #6e48aa;
+      text-decoration: underline;
+    }
+    
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-right: 10px;
+      accent-color: #6e48aa;
+    }
+    
+    .checkbox-group label {
+      font-size: 14px;
+      color: #a0a0a0;
+    }
+    
+    .checkbox-group a {
+      color: #9d50bb;
+      text-decoration: none;
+    }
+    
+    .checkbox-group a:hover {
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 480px) {
+      .signup-container {
+        padding: 30px 20px;
+      }
+      
+      .name-fields {
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background Particles -->
+  <div class="particles" id="particles"></div>
+  
+  <div class="signup-container">
+    <div class="logo">
+      <h1>Edumissional</h1>
+      <p>Your educational mission starts here</p>
+    </div>
+    
+    <h2>Create Account</h2>
+    
+    <!-- Sign Up Form -->
+    <form id="signupForm">
+      <div class="name-fields">
+        <div class="input-group">
+          <input type="text" id="firstName" placeholder="First Name" required>
+        </div>
+        <div class="input-group">
+          <input type="text" id="lastName" placeholder="Last Name" required>
+        </div>
+      </div>
+      
+      <div class="input-group">
+        <input type="email" id="email" placeholder="Email address" required>
+      </div>
+      
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Password" required>
+        <div class="password-requirements">Password must be at least 6 characters</div>
+      </div>
+      
+      <div class="input-group">
+        <input type="password" id="confirmPassword" placeholder="Confirm password" required>
+      </div>
+      
+      <div class="checkbox-group">
+        <input type="checkbox" id="termsCheckbox" required>
+        <label for="termsCheckbox">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Create Account</button>
+    </form>
+    
+    <div class="login-link">
+      Already have an account? <a href="login.html">Log in</a>
+    </div>
+  </div>
+
+  <!-- Show success message in a more elegant way -->
+  <div id="successOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center;">
+    <div style="background: rgba(25, 25, 37, 0.95); padding: 30px; border-radius: 16px; text-align: center; box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37); border: 1px solid rgba(255, 255, 255, 0.1); max-width: 90%; width: 350px;">
+      <div style="width: 70px; height: 70px; margin: 0 auto 20px; border-radius: 50%; background: #34a853; display: flex; justify-content: center; align-items: center;">
+        <svg width="35" height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 6L9 17L4 12" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3 style="font-size: 22px; margin-bottom: 10px; color: #fff;">Success!</h3>
+      <p style="font-size: 16px; color: #ccc; margin-bottom: 20px;">Your account has been created successfully!</p>
+      <p style="font-size: 14px; color: #aaa;">Redirecting to login page...</p>
+    </div>
+  </div>
+  
+  <script type="module">
+    // Create animated background particles
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 20;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random size between 10px and 100px
+        const size = Math.random() * 90 + 10;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        // Random position
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        
+        // Random opacity
+        particle.style.opacity = Math.random() * 0.6 + 0.1;
+        
+        // Random animation delay
+        particle.style.animationDelay = `${Math.random() * 10}s`;
+        
+        // Random animation duration between 10s and 20s
+        particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+        
+        particlesContainer.appendChild(particle);
+      }
+    }
+    
+    // Initialize particles
+    createParticles();
+    
+    // Firebase Authentication
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+    
+    const firebaseConfig = {
+      apiKey: "AIzaSyB6iWjCxpb_eTLZ7Qg-9OYO0xEvp8q5jF8",
+      authDomain: "edumissional.firebaseapp.com",
+      projectId: "edumissional",
+      storageBucket: "edumissional.firebasestorage.app",
+      messagingSenderId: "854591115933",
+      appId: "1:854591115933:web:72745fdfeb8bbe5d663a74",
+      databaseURL: "https://edumissional-default-rtdb.firebaseio.com/"
+    };
+    
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    
+    // Password validation
+    function validatePassword(password) {
+      return password.length >= 6;
+    }
+    
+    // Form validation
+    document.getElementById("signupForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      
+      const firstName = document.getElementById("firstName").value.trim();
+      const lastName = document.getElementById("lastName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+      const termsCheckbox = document.getElementById("termsCheckbox").checked;
+      
+      // Validate form inputs
+      if (!firstName || !lastName) {
+        alert("Please enter your name");
+        return;
+      }
+      
+      if (!validatePassword(password)) {
+        alert("Password must be at least 6 characters long");
+        return;
+      }
+      
+      if (password !== confirmPassword) {
+        alert("Passwords do not match");
+        return;
+      }
+      
+      if (!termsCheckbox) {
+        alert("Please agree to the Terms of Service and Privacy Policy");
+        return;
+      }
+      
+      // Add loading state to button
+      const submitButton = this.querySelector('button[type="submit"]');
+      const originalText = submitButton.textContent;
+      submitButton.textContent = "Creating account...";
+      submitButton.disabled = true;
+      
+      try {
+        // Create user account
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        
+        // Store additional user data in Firestore
+        await setDoc(doc(db, "users", user.uid), {
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          createdAt: new Date().toISOString()
+        });
+        
+        // Change button text to success message
+        submitButton.textContent = "Account created!";
+        submitButton.style.backgroundImage = "linear-gradient(to right, #34a853 0%, #4caf50 50%, #34a853 100%)";
+        
+        // Create success message element
+        const successMessage = document.createElement("div");
+        successMessage.style.textAlign = "center";
+        successMessage.style.color = "#4caf50";
+        successMessage.style.fontSize = "14px";
+        successMessage.style.marginTop = "10px";
+        successMessage.style.fontWeight = "500";
+        successMessage.innerHTML = "Your account has been created successfully! Redirecting...";
+        
+        // Insert success message after the button
+        submitButton.parentNode.insertBefore(successMessage, submitButton.nextSibling);
+        
+        // Redirect after a short delay
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 2000);
+      } catch (error) {
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
+        alert("Error: " + error.message);
+      }
+    });
+  </script>
+</body>
+</html>
