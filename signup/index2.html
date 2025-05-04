@@ -950,6 +950,45 @@
             }
         }
         
+		button001 {
+		  padding: 15px 30px;
+		  background: linear-gradient(135deg, #3498db, #9b59b6);
+		  color: white;
+		  border: none;
+		  border-radius: 12px;
+		  font-size: 16px;
+		  font-weight: 600;
+		  cursor: pointer;
+		  transition: all 0.3s ease;
+		  position: relative;
+		  overflow: hidden;
+		  z-index: 1;
+		}
+		
+		button001::before {
+		  content: '';
+		  position: absolute;
+		  top: 0;
+		  left: -100%;
+		  width: 100%;
+		  height: 100%;
+		  background: linear-gradient(135deg, #9b59b6, #3498db);
+		  transition: all 0.4s ease;
+		  z-index: -1;
+		}
+		
+		button001:hover::before {
+		  left: 0;
+		
+		button001:hover {
+		  transform: translateY(-3px);
+		  box-shadow: 0 7px 15px rgba(52, 152, 219, 0.3);
+		}
+		
+		button001:active {
+		  transform: translateY(1px);
+		}
+		
     </style>
 	
 	<style>
@@ -1454,6 +1493,8 @@
     </div>
 
 <body>
+	
+	
 	<!-- Bubble Background Animation -->
     <div class="bubbles" id="bubbles"></div>
 	
@@ -1466,7 +1507,7 @@
                 <a href="#tasks" class="nav-link">To-Do List</a>
                 <a href="#hours12" class="nav-link">Study Hours</a>
 				<a href="contact_me.html" class="nav-link">Contact Me</a>
-				
+				<button001 onclick="window.location.href='index.html'">Log Out</button001>
             </div>
             <button class="theme-toggle" id="themeToggle">
                 <i class="fas fa-sun"></i>
@@ -1588,6 +1629,8 @@
     </footer>
 
     <script>
+		
+	
 		 // Create bubbles for background animation
 		function createBubbles() {
 			const bubblesContainer = document.getElementById('bubbles');
@@ -1984,7 +2027,21 @@
 					<i class="fas fa-trash"></i>
 				</button>
 			`;
-			
+		// Logout functionality
+		logoutBtn.addEventListener("click", () => {
+		  logoutLoader.style.display = "inline-block";
+		  logoutBtn.disabled = true;
+		  
+		  signOut(auth).then(() => {
+			window.location.href = "index.html";
+		  }).catch((error) => {
+			console.error("Error signing out:", error);
+			logoutLoader.style.display = "none";
+			logoutBtn.disabled = false;
+			alert("Error signing out. Please try again.");
+		  });
+		});
+		
 			// Add event listeners
 			const checkbox = taskItem.querySelector('.task-checkbox');
 			const deleteBtn = taskItem.querySelector('.delete-btn');
