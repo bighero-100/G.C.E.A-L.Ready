@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Edumissional</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background: #0f0f1e;
+      color: #f0f0f0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(129, 96, 240, 0.2);
+      animation: float 10s infinite ease-in-out;
+    }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) translateX(0);
+      }
+      25% {
+        transform: translateY(-20px) translateX(10px);
+      }
+      50% {
+        transform: translateY(0) translateX(20px);
+      }
+      75% {
+        transform: translateY(20px) translateX(10px);
+      }
+    }
+    
+    .login-container {
+      background: rgba(25, 25, 37, 0.8);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      width: 400px;
+      max-width: 90%;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .logo {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    
+    .logo h1 {
+      font-size: 28px;
+      background: linear-gradient(45deg, #6e48aa, #9d50bb);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 8px;
+    }
+    
+    .logo p {
+      color: #a0a0a0;
+      font-size: 14px;
+    }
+    
+    h2 {
+      font-size: 24px;
+      margin-bottom: 24px;
+      text-align: center;
+      font-weight: 500;
+      color: #e0e0e0;
+    }
+    
+    .input-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .input-group input {
+      width: 100%;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid #333345;
+      background: #14141f;
+      color: #f0f0f0;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+    
+    .input-group input:focus {
+      border-color: #6e48aa;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(110, 72, 170, 0.2);
+    }
+    
+    .input-group input::placeholder {
+      color: #707070;
+    }
+    
+    .forgot-password {
+      text-align: right;
+      margin-bottom: 20px;
+    }
+    
+    .forgot-password a {
+      color: #a0a0a0;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s ease;
+    }
+    
+    .forgot-password a:hover {
+      color: #6e48aa;
+    }
+    
+    .btn {
+      width: 100%;
+      padding: 16px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background-size: 200% auto;
+    }
+    
+    .btn-primary {
+      background-image: linear-gradient(to right, #6e48aa 0%, #9d50bb 50%, #6e48aa 100%);
+      color: white;
+      margin-bottom: 16px;
+    }
+    
+    .btn-primary:hover {
+      background-position: right center;
+      box-shadow: 0 5px 15px rgba(110, 72, 170, 0.4);
+    }
+    
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+    
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 24px 0;
+      color: #707070;
+    }
+    
+    .divider::before, .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #333345;
+    }
+    
+    .divider span {
+      padding: 0 16px;
+      font-size: 14px;
+    }
+    
+    .google-icon {
+      width: 20px;
+      height: 20px;
+    }
+    
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background Particles -->
+  <div class="particles" id="particles"></div>
+  
+  <div class="login-container">
+    <div class="logo">
+      <h1>Edumissional</h1>
+      <p>Your educational mission starts here</p>
+    </div>
+    
+    <h2>Login</h2>
+    
+    <!-- Email/Password Form -->
+    <form id="loginForm">
+      <div class="input-group">
+        <input type="email" id="email" placeholder="Email address" required>
+      </div>
+      
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Password" required>
+      </div>
+      
+      <div class="forgot-password">
+        <a href="reset.html">Forgot password?</a>
+      </div>
+	  
+	  <div class="forgot-password">
+        <a href="signup.html">Sign Up (New User First Sign Up)</a>
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+    
+    <div class="divider">
+      <span>or</span>
+    </div>
+    
+    <button id="googleLogin" class="btn btn-secondary">
+      <svg class="google-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+        <path fill="none" d="M0 0h48v48H0z"/>
+      </svg>
+      Sign in with Google
+    </button>
+  </div>
+
+  <script type="module">
+    // Create animated background particles
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 20;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random size between 10px and 100px
+        const size = Math.random() * 90 + 10;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        // Random position
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        
+        // Random opacity
+        particle.style.opacity = Math.random() * 0.6 + 0.1;
+        
+        // Random animation delay
+        particle.style.animationDelay = `${Math.random() * 10}s`;
+        
+        // Random animation duration between 10s and 20s
+        particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+        
+        particlesContainer.appendChild(particle);
+      }
+    }
+    
+    // Initialize particles
+    createParticles();
+    
+    // Firebase Authentication
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    
+    const firebaseConfig = {
+      apiKey: "AIzaSyB6iWjCxpb_eTLZ7Qg-9OYO0xEvp8q5jF8",
+      authDomain: "edumissional.firebaseapp.com",
+      projectId: "edumissional",
+      storageBucket: "edumissional.firebasestorage.app",
+      messagingSenderId: "854591115933",
+      appId: "1:854591115933:web:72745fdfeb8bbe5d663a74",
+      databaseURL: "https://edumissional-default-rtdb.firebaseio.com/"
+    };
+    
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+    
+    // Email/Password Login
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      
+      // Add loading state to button
+      const submitButton = this.querySelector('button[type="submit"]');
+      const originalText = submitButton.textContent;
+      submitButton.textContent = "Logging in...";
+      submitButton.disabled = true;
+      
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          window.location.href = "indexloginsuccess.html";
+        })
+        .catch((error) => {
+          submitButton.textContent = originalText;
+          submitButton.disabled = false;
+          alert("Error: " + error.message);
+        });
+    });
+    
+    // Google Sign-In
+    document.getElementById("googleLogin").addEventListener("click", function() {
+      signInWithPopup(auth, provider)
+        .then(() => {
+          window.location.href = "index.html";
+        })
+        .catch((error) => {
+          alert("Google Sign-In Error: " + error.message);
+        });
+    });
+  </script>
+</body>
+</html>
