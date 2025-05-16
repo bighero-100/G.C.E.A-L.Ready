@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=500">
+  <meta name="viewport" content="width=768">
   <title>EdumissionAI Chat</title>
   <!-- Add Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -15,73 +15,33 @@
     }
     
     body {
-      background-color: #f0f2f5;
+      background-color: white;
       height: 100vh;
       display: flex;
       flex-direction: column;
-      position: relative;
-      overflow: hidden;
     }
     
-    /* Background animation */
-    .bg-animation {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      opacity: 0.05;
-      pointer-events: none;
-    }
-    
-    /* Header styles with gradient and animation */
+    /* Header styles */
     header {
-      background: linear-gradient(135deg, #122250 0%, #1e3a8a 50%, #3c63e7 100%);
+      background-color: #122250;
       color: white;
       padding: 15px 20px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      position: relative;
-      overflow: hidden;
-      z-index: 10;
-    }
-    
-    /* Header shimmer effect */
-    header::after {
-      content: "";
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-        to bottom right,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.1) 50%,
-        rgba(255, 255, 255, 0) 100%
-      );
-      transform: rotate(30deg);
-      animation: shimmer 4s infinite linear;
-      pointer-events: none;
-    }
-    
-    @keyframes shimmer {
-      0% { transform: translateX(-100%) rotate(30deg); }
-      100% { transform: translateX(100%) rotate(30deg); }
+      justify-content: center; /* Center the logo and app name */
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: relative; /* For absolute positioning of new chat button */
     }
     
     .logo-container {
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 10px;
     }
     
     .logo {
-      width: 45px;
-      height: 45px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background-color: white;
       display: flex;
@@ -89,48 +49,32 @@
       justify-content: center;
       font-weight: bold;
       color: #122250;
-      box-shadow: 0 0 15px rgba(255,255,255,0.5);
-      border: 2px solid rgba(255,255,255,0.8);
-      transition: all 0.3s ease;
-    }
-    
-    .logo:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 20px rgba(255,255,255,0.7);
     }
     
     .app-name {
-      font-size: 24px;
+      font-size: 20px;
       font-weight: bold;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-      background: linear-gradient(to right, #ffffff, #c9d6ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 1px;
     }
     
     .new-chat-btn {
-      background: rgba(255,255,255,0.2);
+      background-color: rgba(255,255,255,0.2);
       color: white;
       border: none;
-      padding: 10px 18px;
-      border-radius: 30px;
+      padding: 8px 15px;
+      border-radius: 5px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-weight: bold;
-      box-shadow: 0 0 15px rgba(255,255,255,0.3);
-      transition: all 0.3s ease;
-      backdrop-filter: blur(5px);
-      position: absolute;
-      right: 20px;
+      gap: 8px;
+      animation: glowing 2s infinite;
+      position: absolute; /* Position it absolutely */
+      right: 20px; /* Align to the right */
     }
     
-    .new-chat-btn:hover {
-      background: rgba(255,255,255,0.3);
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(255,255,255,0.4);
+    @keyframes glowing {
+      0% { box-shadow: 0 0 5px rgba(255,255,255,0.5); }
+      50% { box-shadow: 0 0 15px rgba(255,255,255,0.8); }
+      100% { box-shadow: 0 0 5px rgba(255,255,255,0.5); }
     }
     
     /* Sidebar styles */
@@ -141,7 +85,7 @@
       width: 280px;
       height: 100%;
       background-color: white;
-      box-shadow: 2px 0 15px rgba(0,0,0,0.1);
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
       transition: left 0.3s ease;
       z-index: 1000;
       padding-top: 70px;
@@ -156,26 +100,18 @@
     .sidebar-header {
       padding: 15px;
       border-bottom: 1px solid #eee;
-      background: linear-gradient(to right, #f3f4f6, #e0e7ff);
     }
     
     .sidebar-btn {
-      background: linear-gradient(to right, #f8fafc, #e2e8f0);
+      background-color: #f5f5f5;
       border: none;
-      padding: 12px;
+      padding: 10px;
       margin: 10px 15px;
-      border-radius: 8px;
+      border-radius: 5px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 10px;
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    }
-    
-    .sidebar-btn:hover {
-      background: linear-gradient(to right, #e2e8f0, #cbd5e1);
-      transform: translateY(-2px);
+      gap: 8px;
     }
     
     .chat-history {
@@ -186,17 +122,15 @@
     
     .chat-item {
       padding: 12px 15px;
-      border-radius: 8px;
+      border-radius: 5px;
       margin-bottom: 8px;
       cursor: pointer;
       border-left: 3px solid transparent;
-      transition: all 0.2s ease;
     }
     
     .chat-item:hover {
       background-color: #f5f5f5;
       border-left: 3px solid #122250;
-      transform: translateX(3px);
     }
     
     .chat-title {
@@ -221,7 +155,7 @@
       overflow: hidden;
       margin-left: 0;
       transition: margin-left 0.3s ease;
-      width: 100%;
+      width: 100%; /* Ensure it takes full width */
     }
     
     /* When sidebar is open, adjust main content */
@@ -240,11 +174,6 @@
       cursor: pointer;
       z-index: 10;
       color: black;
-      transition: transform 0.2s ease;
-    }
-    
-    .toggle-sidebar:hover {
-      transform: scale(1.1);
     }
     
     .chat-container {
@@ -253,7 +182,6 @@
       padding: 20px;
       display: flex;
       flex-direction: column;
-      background-color: #f0f2f5; /* Changed from white to light gray */
     }
     
     .welcome-message {
@@ -264,23 +192,12 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      background: rgba(255, 255, 255, 0.7);
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      backdrop-filter: blur(5px);
-      animation: fadeInUp 0.5s ease;
-    }
-    
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
     }
     
     .welcome-logo {
       width: 80px;
       height: 80px;
-      background: linear-gradient(135deg, #122250 0%, #1e3a8a 50%, #3c63e7 100%);
+      background-color: #122250;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -289,21 +206,13 @@
       font-size: 32px;
       font-weight: bold;
       margin-bottom: 20px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-      animation: pulse 2s infinite;
-    }
-    
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(18, 34, 80, 0.7); }
-      70% { box-shadow: 0 0 0 15px rgba(18, 34, 80, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(18, 34, 80, 0); }
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
     
     .welcome-message h1 {
-      font-size: 41px;
+      font-size: 28px;
       margin-bottom: 15px;
       color: #122250;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     
     .message {
@@ -322,48 +231,46 @@
     
     .message-content {
       max-width: 80%;
-      padding: 14px 18px;
+      padding: 12px 16px;
       border-radius: 18px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
     
     .ai .message-content {
-      background-color: white;
+      background-color: #f5f5f5;
       margin-left: 10px;
       border-top-left-radius: 5px;
     }
     
     .user .message-content {
-      background: linear-gradient(135deg, #122250 0%, #1e3a8a 100%);
+      background-color: #122250;
       color: white;
       border-top-right-radius: 5px;
     }
     
     .avatar {
-      width: 40px;
-      height: 40px;
+      width: 35px;
+      height: 35px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: bold;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
     }
     
     .ai-avatar {
-      background: linear-gradient(135deg, #122250 0%, #1e3a8a 100%);
+      background-color: #122250;
       color: white;
     }
     
     .typing-indicator {
       display: flex;
       padding: 12px 16px;
-      background-color: white;
+      background-color: #f5f5f5;
       border-radius: 18px;
       margin-left: 10px;
       border-top-left-radius: 5px;
       width: fit-content;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
     
     .typing-dot {
@@ -393,111 +300,38 @@
       100% { transform: translateY(0); }
     }
     
-    /* Link preview styles */
-    .link-preview {
-      display: flex;
-      background-color: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      margin-top: 10px;
-      max-width: 100%;
-      transition: transform 0.2s ease;
-    }
-    
-    .link-preview:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-    }
-    
-    .link-preview-img {
-      width: 120px;
-      height: 100px;
-      object-fit: cover;
-      background-color: #f0f2f5;
-    }
-    
-    .link-preview-content {
-      padding: 12px;
-      flex: 1;
-      min-width: 0;
-    }
-    
-    .link-preview-title {
-      font-weight: bold;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-bottom: 5px;
-      color: #122250;
-    }
-    
-    .link-preview-desc {
-      font-size: 12px;
-      color: #666;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      margin-bottom: 5px;
-    }
-    
-    .link-preview-url {
-      font-size: 11px;
-      color: #999;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    
     /* Input area */
     .input-container {
       padding: 15px 20px;
       border-top: 1px solid #eee;
       display: flex;
       align-items: center;
-      background-color: white;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
     }
     
     .message-input {
       flex: 1;
-      padding: 14px 18px;
+      padding: 12px 15px;
       border: 1px solid #ddd;
-      border-radius: 24px;
+      border-radius: 20px;
       outline: none;
       font-size: 16px;
       resize: none;
       max-height: 150px;
       min-height: 50px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      transition: all 0.2s ease;
-    }
-    
-    .message-input:focus {
-      border-color: #122250;
-      box-shadow: 0 2px 15px rgba(18, 34, 80, 0.1);
     }
     
     .send-btn {
-      background: linear-gradient(135deg, #122250 0%, #1e3a8a 100%);
+      background-color: #122250;
       color: white;
       border: none;
-      width: 45px;
-      height: 45px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       margin-left: 10px;
       cursor: pointer;
-      box-shadow: 0 3px 8px rgba(18, 34, 80, 0.3);
-      transition: all 0.2s ease;
-    }
-    
-    .send-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 5px 15px rgba(18, 34, 80, 0.4);
     }
     
     /* Animations */
@@ -511,48 +345,15 @@
       .message-content {
         max-width: 90%;
       }
-      
-      .link-preview {
-        flex-direction: column;
-      }
-      
-      .link-preview-img {
-        width: 100%;
-        height: 120px;
-      }
     }
   </style>
 </head>
 <body>
-  <!-- Moving background animation -->
-  <div class="bg-animation">
-    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
-          <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="0.5"/>
-        </pattern>
-        <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
-          <rect width="100" height="100" fill="url(#smallGrid)"/>
-          <path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#grid)" />
-      <circle cx="50%" cy="50%" r="30%" fill="rgba(60, 99, 231, 0.05)">
-        <animate attributeName="r" from="30%" to="40%" dur="6s" repeatCount="indefinite" />
-        <animate attributeName="opacity" from="0.1" to="0.05" dur="6s" repeatCount="indefinite" />
-      </circle>
-      <circle cx="50%" cy="50%" r="20%" fill="rgba(18, 34, 80, 0.08)">
-        <animate attributeName="r" from="20%" to="30%" dur="5s" repeatCount="indefinite" />
-        <animate attributeName="opacity" from="0.08" to="0.03" dur="5s" repeatCount="indefinite" />
-      </circle>
-    </svg>
-  </div>
-
   <!-- Header -->
   <header>
     <div class="logo-container">
       <div class="logo">
-        <img src="https://ik.imagekit.io/bcd8ygetu/Untitled%20design%20(4).png?updatedAt=1747427736657" alt="Gemini Logo" id="logoImage">
+        <img src="https://ik.imagekit.io/bcd8ygetu/Untitled%20design%20(2).png?updatedAt=1747425695976" alt="Gemini Logo" id="logoImage">
       </div>
       <div class="app-name">EdumissionAI</div>
     </div>
@@ -606,7 +407,7 @@
       </button>
     </div>
   </div>
-  
+
   <script>
     // DOM Elements
     const toggleSidebarBtn = document.querySelector('.toggle-sidebar');
