@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta property="og:title" content="EduMission AI Assistant">
-    <meta property="og:description" content="Ask Any Questions with AI Free">
-    <meta property="og:image" content="https://ik.imagekit.io/bcd8ygetu/ChatGPT%20Image%20May%202,%202025,%2008_42_34%20PM.png?updatedAt=1747307896893">
-    <link rel="icon" type="image/png" href="https://ik.imagekit.io/bcd8ygetu/ChatGPT%20Image%20May%202,%202025,%2008_42_34%20PM.png?updatedAt=1747307896893">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=500">
+	<meta property="og:title" content="EduMission AI Assistant">
+	<meta property="og:description" content="Ask Any Questions with AI Free">
+	<meta property="og:image" content="https://ik.imagekit.io/bcd8ygetu/ChatGPT%20Image%20May%202,%202025,%2008_42_34%20PM.png?updatedAt=1747307896893">
+	<link rel="icon" type="image/png" href="https://ik.imagekit.io/bcd8ygetu/ChatGPT%20Image%20May%202,%202025,%2008_42_34%20PM.png?updatedAt=1747307896893">
     <style>
         * {
             margin: 0;
@@ -225,18 +225,17 @@
         }
 
         .container {
-            width: 100%;
-            height: 100vh;
+            flex: 1;
             background-color: var(--container-bg);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
             display: flex;
             flex-direction: column;
             overflow: hidden;
-
         }
 
         .header {
-             padding: 12px 16px;
-            height: 60px;
+            padding: 20px;
             background-color: var(--header-bg);
             color: var(--header-text);
             display: flex;
@@ -248,12 +247,12 @@
         .logo-title {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .logo {
-             width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             overflow: hidden;
             display: flex;
@@ -261,7 +260,6 @@
             align-items: center;
             border: 2px solid var(--btn-text);
             box-shadow: 0 0 10px var(--btn-glow);
-            flex-shrink: 0;
         }
 
         .logo img {
@@ -271,12 +269,9 @@
         }
 
         .title {
-           font-size: 18px;
+            font-size: 22px;
             font-weight: 600;
             text-shadow: 0 0 10px var(--btn-glow);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .header-actions {
@@ -287,7 +282,7 @@
         }
 
         .toggle-sidebar-btn {
-             background: none;
+            background: none;
             border: none;
             cursor: pointer;
             color: var(--header-text);
@@ -295,10 +290,8 @@
             align-items: center;
             justify-content: center;
             position: absolute;
-            left: 16px;
+            left: 20px;
             transition: transform 0.3s ease;
-            padding: 5px;
-            z-index: 5;
         }
 
         .toggle-sidebar-btn:hover {
@@ -565,48 +558,46 @@
             transform: scale(1.1);
         }
 
-        /* Add height adjustment for 16:9 ratio when needed */
-        @media (max-aspect-ratio: 9/16) {
-            .input-area {
-                padding: 10px;
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+                height: 100vh;
+                padding: 0;
             }
             
-            .chat-container {
-                padding: 10px;
+            .sidebar {
+                width: 100%;
+                height: auto;
+                max-height: 30vh;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 100;
             }
             
-            .message-content {
-                padding: 8px 12px;
-                font-size: 14px;
+            .sidebar.collapsed {
+                transform: translateY(-100%);
+                height: 0;
             }
             
-            .avatar {
-                width: 28px;
-                height: 28px;
+            .container {
+                height: 100%;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+            
+            .sidebar-header {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            
+            .new-chat-btn, .clear-chat-btn {
+                width: 48%;
             }
         }
-
-        /* Handle landscape orientation */
-        @media (orientation: landscape) {
-            .header {
-                height: 50px;
-                padding: 8px 12px;
-            }
-            
-            .logo {
-                width: 32px;
-                height: 32px;
-            }
-            
-            .title {
-                font-size: 16px;
-            }
-            
-            .input-area {
-                padding: 8px;
-            }
-        }
-
     </style>
 </head>
 <body>
