@@ -893,6 +893,83 @@
 		  color: #111;
 		  box-shadow: 0 0 20px #00f7ff, 0 0 30px #00f7ff, 0 0 40px #00f7ff;
 		}
+		
+	.chat-widget1234 {
+      text-align: center;
+      position: fixed;
+      right: 80px;
+      bottom: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .robot1234 {
+      width: 100px;
+      margin: 0 auto;
+      animation: float1234 2s ease-in-out infinite;
+      position: relative;
+    }
+    .robot1234 .head1234 {
+      background: #f2f2f2;
+      border-radius: 50%;
+      width: 100px;
+      height: 80px;
+      position: relative;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    .robot1234 .eyes1234 {
+      background: #001f4d;
+      width: 60px;
+      height: 20px;
+      border-radius: 10px;
+      position: absolute;
+      top: 30px;
+      left: 20px;
+    }
+    .robot1234 .eyes1234::before, .robot1234 .eyes1234::after {
+      content: '';
+      position: absolute;
+      background: #00aaff;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      top: 5px;
+    }
+    .robot1234 .eyes1234::before {
+      left: 10px;
+    }
+    .robot1234 .eyes1234::after {
+      right: 10px;
+    }
+    .robot1234 .body1234 {
+      background: #e6e6e6;
+      width: 60px;
+      height: 50px;
+      margin: 10px auto;
+      border-radius: 30% 30% 50% 50%;
+      position: relative;
+    }
+    .robot1234 .hand1234 {
+      width: 20px;
+      height: 40px;
+      background: #f2f2f2;
+      border-radius: 10px;
+      position: absolute;
+      top: -10px;
+    }
+    .robot1234 .hand1234.left1234 {
+      left: -25px;
+    }
+    .robot1234 .hand1234.right1234 {
+      right: -25px;
+      animation: salute1234 1.5s infinite ease-in-out;
+      transform-origin: top center;
+	}
+	
+	@keyframes salute1234 {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(-30deg); }
+    }
     </style>
 	
 	<style>
@@ -1919,7 +1996,19 @@
             <i class="fas fa-clock"></i> ඔයා අද දවසට වැඩ කරපු පැය ගණන සටහන් කරන්න (Work Time Chart)
         </a>
     </section>
-
+	
+	<div class="chat-widget1234">
+    <div class="robot1234">
+      <div class="head1234">
+        <div class="eyes1234"></div>
+      </div>
+      <div class="body1234">
+        <div class="hand1234 left1234"></div>
+        <div class="hand1234 right1234"></div>
+      </div>
+    </div>
+  </div>
+  
     <footer class="footer">
         <div class="footer-content">
             <h3 class="footer-title">EduMission A/L</h3>
