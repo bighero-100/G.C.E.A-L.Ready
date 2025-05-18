@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta property="og:title" content="EduMission AI Assistant">
-    <meta property="og:description" content="Ask Any Questions with AI Free">
-    <meta property="og:image" content="https://ik.imagekit.io/bcd8ygetu/ChatGPT%20Image%20May%202,%202025,%2008_42_34%20PM.png?updatedAt=1747307896893">
-    <link rel="icon" type="image/png" href="https://ik.imagekit.io/bcd8ygetu/ChatGPT%20Image%20May%202,%202025,%2008_42_34%20PM.png?updatedAt=1747307896893">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=400">
+	<meta property="og:title" content="EduMission AI Assistant">
+	<meta property="og:description" content="Ask Any Questions with AI Free">
+	<meta property="og:image" content="https://ik.imagekit.io/bcd8ygetu/ChatGPT%20Image%20May%202,%202025,%2008_42_34%20PM.png?updatedAt=1747307896893">
+	<link rel="icon" type="image/png" href="https://ik.imagekit.io/bcd8ygetu/ChatGPT%20Image%20May%202,%202025,%2008_42_34%20PM.png?updatedAt=1747307896893">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Nunito', 'Noto Sans Sinhala', sans-serif;
             transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, transform 0.3s;
         }
 
@@ -33,195 +35,30 @@
             --btn-hover: #3a4290;
             --btn-text: white;
             --btn-glow: rgba(75, 82, 165, 0.5);
-            --sidebar-bg: #f0f2f5;
-            --sidebar-hover: #e1e5f2;
-            --sidebar-active: #d1d5e2;
             --border-color: #dadce0;
             --code-bg: #f8f9fa;
+			--font-family: 'Nunito', 'Noto Sans Sinhala', sans-serif;
         }
 
-        body.dark-theme {
-            --bg-color: #121212;
-            --container-bg: #1e1e1e;
-            --header-bg: #1f2454;
-            --header-text: #f0f0f0;
-            --chat-bg: #1e1e1e;
-            --user-msg-bg: #3a4290;
-            --user-msg-text: #f0f0f0;
-            --bot-msg-bg: #2a2a2a;
-            --bot-msg-text: #e0e0e0;
-            --input-bg: #2a2a2a;
-            --input-border: #3a3a3a;
-            --input-text: #e0e0e0;
-            --btn-bg: #3a4290;
-            --btn-hover: #4b52a5;
-            --btn-text: #f0f0f0;
-            --btn-glow: rgba(99, 108, 219, 0.5);
-            --sidebar-bg: #2a2a2a;
-            --sidebar-hover: #3a3a3a;
-            --sidebar-active: #4a4a4a;
-            --border-color: #3a3a3a;
-            --code-bg: #2d2d2d;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+		  body {
+			  background: linear-gradient(to top, #000000aa, #1a1a1a), url('https://images.unsplash.com/photo-1497493292307-31c376b6e479') no-repeat center center fixed;
+			  background-size: cover;
+			  margin: 0;
+			  font-family: 'Nunito', 'Noto Sans Sinhala', sans-serif;
+			  color: white;
+			  display: flex;
+			  justify-content: center;
+			  align-items: center;
+			  height: 100vh;
         }
 
         .app-container {
             width: 100%;
-            max-width: 1200px;
-            height: 90vh;
+            max-width: 1400px;
+            height: 98vh;
             display: flex;
             gap: 12px;
             position: relative;
-        }
-
-        .sidebar {
-            width: 250px;
-            background-color: var(--sidebar-bg);
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            transition: transform 0.3s ease, width 0.3s ease;
-            z-index: 10;
-        }
-
-        .sidebar.collapsed {
-            width: 0;
-            transform: translateX(-100%);
-        }
-
-        .sidebar-header {
-            padding: 16px;
-            background-color: var(--header-bg);
-            color: var(--header-text);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-        }
-
-        .new-chat-btn {
-            background-color: var(--btn-bg);
-            color: var(--btn-text);
-            border: none;
-            border-radius: 8px;
-            padding: 10px 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            width: 100%;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 8px var(--btn-glow);
-        }
-
-        .new-chat-btn:hover {
-            background-color: var(--btn-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 0 16px var(--btn-glow), 0 0 8px var(--btn-glow);
-        }
-        
-        .new-chat-btn:active {
-            transform: translateY(0);
-        }
-		
-        .clear-chat-btn {
-            background-color: var(--btn-bg);
-            color: var(--btn-text);
-            border: none;
-            border-radius: 8px;
-            padding: 10px 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            width: 100%;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 8px var(--btn-glow);
-        }
-
-        .clear-chat-btn:hover {
-            background-color: var(--btn-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 0 16px var(--btn-glow), 0 0 8px var(--btn-glow);
-        }
-        
-        .clear-chat-btn:active {
-            transform: translateY(0);
-        }
-		
-        .chat-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 12px;
-        }
-
-        .chat-item {
-            padding: 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-bottom: 8px;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--bot-msg-text);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            transition: all 0.2s ease;
-            border: 1px solid transparent;
-        }
-
-        .chat-item:hover {
-            background-color: var(--sidebar-hover);
-            border-color: var(--border-color);
-            transform: translateX(3px);
-        }
-
-        .chat-item.active {
-            background-color: var(--sidebar-active);
-            font-weight: bold;
-            border-left: 3px solid var(--btn-bg);
-        }
-
-        .sidebar-footer {
-            padding: 12px;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-around;
-        }
-
-        .theme-toggle {
-            background: none;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--bot-msg-text);
-            font-size: 20px;
-            transition: transform 0.3s ease;
-        }
-        
-        .theme-toggle:hover {
-            transform: rotate(30deg);
         }
 
         .container {
@@ -272,30 +109,6 @@
             font-size: 22px;
             font-weight: 600;
             text-shadow: 0 0 10px var(--btn-glow);
-        }
-
-        .header-actions {
-            position: absolute;
-            right: 20px;
-            display: flex;
-            gap: 12px;
-        }
-
-        .toggle-sidebar-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--header-text);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: absolute;
-            left: 20px;
-            transition: transform 0.3s ease;
-        }
-
-        .toggle-sidebar-btn:hover {
-            transform: scale(1.1);
         }
 
         .chat-container {
@@ -361,6 +174,42 @@
             font-size: 16px;
             line-height: 1.5;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .message-content:hover .copy-button {
+            display: flex;
+        }
+        
+        .copy-button {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: none;
+            color: var(--btn-bg);
+            transition: all 0.2s ease;
+        }
+        
+        .user-message .copy-button {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .copy-button:hover {
+            background-color: var(--btn-bg);
+            color: white;
+        }
+        
+        .copy-button svg {
+            width: 16px;
+            height: 16px;
         }
 
         .user-message .message-content {
@@ -558,111 +407,156 @@
             transform: scale(1.1);
         }
 
-         /* Add height adjustment for 16:9 ratio when needed */
-        @media (max-aspect-ratio: 9/16) {
-            .input-area {
-                padding: 10px;
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+                height: 100vh;
+                padding: 0;
             }
             
-            .chat-container {
-                padding: 10px;
+            .container {
+                height: 100%;
             }
             
-            .message-content {
-                padding: 8px 12px;
-                font-size: 14px;
+            .message {
+                max-width: 90%;
             }
-            
-            .avatar {
-                width: 28px;
-                height: 28px;
-            }
+        }
+		
+		.message {
+		position: relative;
+		}
+
+		.message-actions {
+			display: flex;
+			gap: 8px;
+			position: absolute;
+			right: 10px;
+			under: 10px;
+		}
+
+		.action-button856 {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background-color: #f0f0f0;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            color: #555;
+            transition: background-color 0.2s;
         }
 
-        /* Handle landscape orientation */
-        @media (orientation: landscape) {
-            .header {
-                height: 50px;
-                padding: 8px 12px;
-            }
-            
-            .logo {
-                width: 32px;
-                height: 32px;
-            }
-            
-            .title {
-                font-size: 16px;
-            }
-            
-            .input-area {
-                padding: 8px;
-            }
+        .action-button856:hover {
+            background-color: #131642;
+            color: white;
         }
+		
+		.formatted-table {
+			border-collapse: collapse;
+			width: 100%;
+			margin: 15px 0;
+			border-radius: 8px;
+			overflow: hidden;
+			box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+		}
+
+		.formatted-table th {
+			background-color: #0b1029;
+			color: white;
+			font-weight: bold;
+			padding: 12px 15px;
+			text-align: left;
+		}
+
+		.formatted-table td {
+			padding: 12px 15px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
+
+		.formatted-table tr:nth-child(even) {
+			background-color: #f8f8f8;
+		}
+
+		.formatted-table tr:hover {
+			background-color: #b5952a;
+		}
+
+		.table-container {
+			overflow-x: auto;
+			margin: 15px 0;
+		}
+
+		.code-container {
+			margin: 15px 0;
+			border-radius: 8px;
+			overflow: hidden;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			background-color: #f5f5f5;
+		}
+
+		.code-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 8px 15px;
+			background-color: #e0e0e0;
+			border-bottom: 1px solid #ccc;
+		}
+
+		.code-language {
+			font-size: 0.9em;
+			font-weight: bold;
+			color: #555;
+		}
+
+		.copy-button {
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			border-radius: 4px;
+			padding: 5px 10px;
+			font-size: 0.9em;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			gap: 5px;
+			transition: background-color 0.3s;
+		}
+
+		.copy-button:hover {
+			background-color: #45a049;
+		}
+
+		.copy-icon {
+			font-size: 1.1em;
+		}
+
+		pre {
+			margin: 0;
+			padding: 15px;
+			overflow-x: auto;
+			background-color: #f5f5f5;
+		}
+
+		code {
+			font-family: 'Courier New', Courier, monospace;
+		}
     </style>
 </head>
 <body>
     <div class="app-container">
-        <!-- Sidebar for chat history -->
-        <div class="sidebar collapsed" id="sidebar">
-            <div class="sidebar-header">
-                <button class="new-chat-btn" id="newChatBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                    New Chat
-                </button>
-                <button class="clear-chat-btn" id="clearAllChatsBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 6h18"></path>
-                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                    </svg>
-                    Clear History
-                </button>
-            </div>
-            <div class="chat-list" id="chatList">
-                <!-- Chat history items will be added here -->
-            </div>
-            <div class="sidebar-footer">
-                <button class="theme-toggle" id="themeToggle">
-                    <svg id="lightIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                    <svg id="darkIcon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-
         <!-- Main chat container -->
         <div class="container">
             <div class="header">
-                <button class="toggle-sidebar-btn" id="toggleSidebarBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="3" y1="12" x2="21" y2="12"></line>
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <line x1="3" y1="18" x2="21" y2="18"></line>
-                    </svg>
-                </button>
                 <div class="logo-title">
                     <div class="logo">
                         <img src="https://ik.imagekit.io/bcd8ygetu/ChatGPT%20Image%20May%202,%202025,%2008_42_34%20PM.png?updatedAt=1747307896893" alt="EduMission Logo" id="logoImage">
                     </div>
-                    <div class="title">EduMission AI Assistant</div>
-                </div>
-                <div class="header-actions">
-                    <!-- Additional header actions can be added here -->
+                    <div class="title">EduMission AI</div>
                 </div>
             </div>
             <div class="chat-container" id="chatContainer">
@@ -684,15 +578,6 @@
                         <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                     </svg>
                 </button>
-                <div id="filePreviewContainer" class="file-preview hidden">
-                    <div class="file-name" id="fileName"></div>
-                    <button class="remove-file" id="removeFile">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </button>
-                </div>
             </div>
         </div>
     </div>
@@ -707,18 +592,8 @@
     const filePreviewContainer = document.getElementById('filePreviewContainer');
     const fileName = document.getElementById('fileName');
     const removeFile = document.getElementById('removeFile');
-    const themeToggle = document.getElementById('themeToggle');
-    const lightIcon = document.getElementById('lightIcon');
-    const darkIcon = document.getElementById('darkIcon');
-    const chatList = document.getElementById('chatList');
-    const newChatBtn = document.getElementById('newChatBtn');
-    const clearAllChatsBtn = document.getElementById('clearAllChatsBtn');
-    const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
-    const sidebar = document.getElementById('sidebar');
     
     // Variables
-    let currentChatId = generateUUID();
-    let chats = loadChats();
     let selectedFiles = [];
     let isTyping = false;
     
@@ -727,9 +602,7 @@
     const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
     
     // Initialize
-    updateChatList();
-    checkTheme();
-    loadChat(currentChatId);
+    addCenteredHeading();
     
     // Auto height adjustment for chat container
     const adjustChatContainerHeight = () => {
@@ -746,103 +619,60 @@
     // Call this on load and on window resize
     adjustChatContainerHeight();
     window.addEventListener('resize', adjustChatContainerHeight);
-    
-    // Event: Toggle Sidebar
-    toggleSidebarBtn.addEventListener('click', function() {
-        sidebar.classList.toggle('collapsed');
-    });
-    
-    // Event: Chat item click should also open sidebar if collapsed
-    function handleChatItemClick(chatId) {
-        // Ensure sidebar is visible when clicking on a chat item
-        if (sidebar.classList.contains('collapsed')) {
-            sidebar.classList.remove('collapsed');
-        }
-        
-        // Standard chat selection logic
-        currentChatId = chatId;
-        loadChat(chatId);
-        updateChatList();
-    }
 	
-	// Add this function after your initialization code
 	function addCenteredHeading() {
-		// Only add the heading if chat is empty
-		if (chatContainer.children.length === 0) {
-			// Create the centered heading element
-			const headingContainer = document.createElement('div');
-			headingContainer.id = 'welcome-heading';
-			headingContainer.style.display = 'flex';
-			headingContainer.style.justifyContent = 'center';
-			headingContainer.style.alignItems = 'center';
-			headingContainer.style.height = '100%';
-			headingContainer.style.textAlign = 'center';
-			
-			const heading = document.createElement('h1');
-			heading.textContent = 'What can I help with?';
-			heading.style.color = 'var(--bot-msg-text)';
-			heading.style.fontWeight = '500';
-			heading.style.fontSize = '2rem';
-			
-			headingContainer.appendChild(heading);
-			chatContainer.appendChild(headingContainer);
-		}
-	}
+    // Only add the heading if chat is empty
+    if (chatContainer.children.length === 0) {
+        // Create the centered heading container
+        const headingContainer = document.createElement('div');
+        headingContainer.id = 'welcome-heading';
+        headingContainer.style.display = 'flex';
+        headingContainer.style.flexDirection = 'column';
+        headingContainer.style.justifyContent = 'center';
+        headingContainer.style.alignItems = 'center';
+        headingContainer.style.height = '100%';
+        headingContainer.style.textAlign = 'center';
 
-	// Call this function after initializing
-	addCenteredHeading();
+        // Add the centered logo
+        const logoContainer = document.createElement('div');
+        logoContainer.className = 'logo-container';
+        logoContainer.style.marginBottom = '20px';
+        logoContainer.style.fontSize = '4rem';
+        logoContainer.style.color = '#122250';
+        logoContainer.innerHTML = '<i class="fa-solid fa-robot fa-bounce fa-xl"></i>';
 
-	// Modify the New Chat button event handler
-	newChatBtn.addEventListener('click', function() {
-		currentChatId = generateUUID();
-		chatContainer.innerHTML = ''; // Clears the chat container
-		
-		// Add the centered heading after clearing the container
-		addCenteredHeading();
-		
-		updateChatList();
-		saveChat();
-		
-		// Ensure sidebar is visible when creating a new chat
-		if (sidebar.classList.contains('collapsed')) {
-			sidebar.classList.remove('collapsed');
-		}
-	});
+        // Create the heading
+        const heading = document.createElement('h1');
+        heading.textContent = 'What do you want?';
+        heading.style.color = '#122250';
+        heading.style.fontWeight = 'bold'; 
+        heading.style.fontSize = '2rem';
 
-	// Make sure the heading disappears when the first message is sent
-	const originalSendMessage = sendMessage;
-	sendMessage = function() {
-		// Remove the centered heading if it exists
-		const headingContainer = document.getElementById('welcome-heading');
-		if (headingContainer) {
-			headingContainer.remove();
-		}
-		
-		// Call the original sendMessage function
-		originalSendMessage.apply(this, arguments);
-	};
+        // Create the first paragraph
+        const paragraph = document.createElement('p');
+        paragraph.textContent = "I'm EdumissionAI, your personal assistant. Ask me anything!";
+        paragraph.style.color = '#555';
+        paragraph.style.fontSize = '1rem';
+        paragraph.style.marginTop = '10px';
+        paragraph.style.fontWeight = 'bold'; 
 
-	// Also update the loadChat function to handle the heading
-	const originalLoadChat = loadChat;
-	loadChat = function(chatId) {
-		// Call the original loadChat function
-		originalLoadChat.apply(this, arguments);
-		
-		// Add the welcome heading if the loaded chat is empty
-		if (chatContainer.children.length === 0) {
-			addCenteredHeading();
-		}
-	};
-    
-    // Event: Theme Toggle
-    themeToggle.addEventListener('click', function() {
-        document.body.classList.toggle('dark-theme');
-        updateThemeIcons();
-        
-        // Save theme preference
-        const isDark = document.body.classList.contains('dark-theme');
-        localStorage.setItem('darkTheme', isDark);
-    });
+        // Create the second paragraph (Designed by Lakshan)
+        const credit = document.createElement('p');
+        credit.textContent = "Designed by Lakshan";
+        credit.style.color = '#555';
+        credit.style.fontSize = '0.9rem';
+        credit.style.marginTop = '5px';
+        credit.style.fontWeight = 'normal';
+
+        // Append all elements
+        headingContainer.appendChild(logoContainer);
+        headingContainer.appendChild(heading);
+        headingContainer.appendChild(paragraph);
+        headingContainer.appendChild(credit);
+        chatContainer.appendChild(headingContainer);
+    }
+}
+
     
     // Event: Send Message
     sendButton.addEventListener('click', sendMessage);
@@ -873,38 +703,23 @@
         filePreviewContainer.classList.add('hidden');
     });
     
-    // Event: New Chat
-    newChatBtn.addEventListener('click', function() {
-        currentChatId = generateUUID();
-        chatContainer.innerHTML = '';
-        updateChatList();
-        saveChat();
-        
-        // Ensure sidebar is visible when creating a new chat
-        if (sidebar.classList.contains('collapsed')) {
-            sidebar.classList.remove('collapsed');
-        }
-    });
-    
-    // Event: Clear All Chats
-    clearAllChatsBtn.addEventListener('click', function() {
-        if (confirm('Are you sure you want to clear all chat history?')) {
-            localStorage.removeItem('chats');
-            chats = {};
-            currentChatId = generateUUID();
-            chatContainer.innerHTML = '';
-            updateChatList();
-            saveChat();
-        }
-    });
-    
     // Functions
     function sendMessage() {
         const message = userInput.value.trim();
+        
+        // Check if there's a message or files to send
         if (message === '' && selectedFiles.length === 0) return;
         
+        // Remove welcome heading if it exists
+        const headingContainer = document.getElementById('welcome-heading');
+        if (headingContainer) {
+            headingContainer.remove();
+        }
+        
         // Add user message to chat
-        addMessage(message, 'user');
+        if (message !== '') {
+            addMessage(message, 'user');
+        }
         
         // Clear input
         userInput.value = '';
@@ -927,9 +742,6 @@
         // Show typing indicator
         showTypingIndicator();
         
-        // Save chat state
-        saveChat();
-        
         // Use the Gemini API for response
         getGeminiResponse(message);
     }
@@ -937,6 +749,7 @@
     function addMessage(content, sender, isFile = false) {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${sender}-message`;
+        messageDiv.setAttribute('data-original-content', content); // Store original message text
         
         const avatar = document.createElement('div');
         avatar.className = `avatar ${sender}-avatar`;
@@ -962,8 +775,105 @@
             messageContent.innerHTML = formatMessage(content);
         }
         
+        // Add action buttons container
+        const actionButtons = document.createElement('div');
+        actionButtons.className = 'message-actions';
+        actionButtons.style.display = 'flex';
+        actionButtons.style.gap = '8px';
+        actionButtons.style.position = 'absolute';
+        actionButtons.style.right = '10px';
+        actionButtons.style.top = '10px';
+        actionButtons.style.opacity = '0';
+        actionButtons.style.transition = 'opacity 0.2s ease-in-out';
+        
+        // Create copy button
+       const copyButton = document.createElement('button');
+        copyButton.className = 'action-button856 copy-button856';
+        copyButton.title = 'Copy message';
+        copyButton.innerHTML = `
+            <span class="action-icon856">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+            </span>
+            <span class="action-text856">Copy</span>
+        `;
+		
+        // Create edit button - only for user messages
+       if (sender === 'user') {
+            const editButton = document.createElement('button');
+            editButton.className = 'action-button856 edit-button856';
+            editButton.title = 'Edit message';
+            editButton.innerHTML = `
+                <span class="action-icon856">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                    </svg>
+                </span>
+                <span class="action-text856">Edit</span>
+            `;
+            
+            
+            // Add edit functionality
+            editButton.addEventListener('click', function() {
+                // Get the original content
+                const originalContent = messageDiv.getAttribute('data-original-content');
+                
+                // Set the user input to the original content
+                userInput.value = originalContent;
+                userInput.focus();
+                
+                // Remove this message and subsequent ones
+                let currentMsg = messageDiv;
+                let messagesToRemove = [];
+                
+                // Collect all subsequent messages
+                while (currentMsg.nextElementSibling) {
+                    messagesToRemove.push(currentMsg.nextElementSibling);
+                    currentMsg = currentMsg.nextElementSibling;
+                }
+                
+                // Remove the messages
+                messagesToRemove.forEach(msg => msg.remove());
+                messageDiv.remove();
+            });
+            
+            actionButtons.appendChild(editButton);
+        }
+        
+        // Add copy functionality
+        copyButton.addEventListener('click', function() {
+            // Get the raw text content without HTML tags
+            const rawText = content;
+            navigator.clipboard.writeText(rawText).then(
+                function() {
+                    // Show copied feedback
+                    const originalText = copyButton.querySelector('.action-text856').textContent;
+                    copyButton.querySelector('.action-text856').textContent = 'Copied!';
+                    setTimeout(() => {
+                        copyButton.querySelector('.action-text856').textContent = originalText;
+                    }, 2000);
+                },
+                function() {
+                    console.error('Failed to copy text');
+                }
+            );
+        });
+        
+        actionButtons.appendChild(copyButton);
         messageDiv.appendChild(avatar);
         messageDiv.appendChild(messageContent);
+        messageDiv.appendChild(actionButtons);
+        
+        // Add hover effect to show action buttons
+        messageDiv.addEventListener('mouseenter', function() {
+            actionButtons.style.opacity = '1';
+        });
+        
+        messageDiv.addEventListener('mouseleave', function() {
+            actionButtons.style.opacity = '0';
+        });
         
         chatContainer.appendChild(messageDiv);
         
@@ -973,29 +883,140 @@
         return messageDiv;
     }
     
-    function formatMessage(content) {
-        if (!content) return '';
-        
-        // Format code blocks
-        content = content.replace(/```(\w+)?\s*([\s\S]*?)\s*```/g, function(match, language, code) {
-            return `<pre><code>${code}</code></pre>`;
-        });
-        
-        // Format inline code
-        content = content.replace(/`([^`]+)`/g, '<code>$1</code>');
-        
-        // Format bold text
-        content = content.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-        
-        // Format italic text
-        content = content.replace(/\*([^*]+)\*/g, '<em>$1</em>');
-        
-        // Convert line breaks to <br>
-        content = content.replace(/\n/g, '<br>');
-        
-        return content;
-    }
+   function formatMessage(content) {
+    if (!content) return '';
     
+    // Escape HTML to prevent XSS
+    content = content.replace(/[&<>"']/g, function (tag) {
+        return ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;',
+        })[tag];
+    });
+    
+    // Format tables (Markdown tables)
+    content = formatTables(content);
+    
+    // Format code blocks ```js code ``` with copy button
+    content = content.replace(/```(\w+)?\s*([\s\S]*?)\s*```/g, function(match, language, code) {
+        const langClass = language ? ` class="language-${language}"` : '';
+        return `<div class="code-container">
+            <div class="code-header">
+                ${language ? `<span class="code-language">${language}</span>` : ''}
+                <button class="copy-button" onclick="copyCode(this)">
+                    <span class="copy-icon">📋</span> Copy
+                </button>
+            </div>
+            <pre><code${langClass}>${code}</code></pre>
+        </div>`;
+    });
+    
+    // Format inline code `code`
+    content = content.replace(/`([^`]+)`/g, '<code>$1</code>');
+    
+    // Bold: **text** and *text* (both will be bold)
+    content = content.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    content = content.replace(/\*([^*]+)\*/g, '<strong>$1</strong>');
+    
+    // Image: ![alt](url)
+    content = content.replace(/!\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<img alt="$1" src="$2" style="max-width:100px; max-height:100px;">');
+    
+    // Auto-link URLs
+    content = content.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank">$1</a>');
+    
+    // Mentions: @username
+    content = content.replace(/@([a-zA-Z0-9_]+)/g, '<span class="mention">@$1</span>');
+    
+    // Emoji shortcodes → unicode
+    const emojiMap = {
+        ':smile:': '😄',
+        ':laughing:': '😆',
+        ':thumbsup:': '👍',
+        ':heart:': '❤️',
+        ':fire:': '🔥',
+        ':sob:': '😭',
+        ':100:': '💯',
+        ':star:': '⭐',
+        ':clap:': '👏',
+        // Add more if needed
+    };
+    content = content.replace(/:([a-z0-9_]+):/gi, (match, name) => {
+        return emojiMap[match.toLowerCase()] || match;
+    });
+    
+    // New lines → <br>
+    content = content.replace(/\n/g, '<br>');
+    
+    return content;
+}
+
+function formatTables(content) {
+    // Find markdown tables
+    // Pattern: rows starting with | and containing | character
+    const tableRegex = /(\|[^\n]+\|\n)((?:\|[^\n]+\|\n)+)/g;
+    
+    return content.replace(tableRegex, function(match) {
+        const rows = match.trim().split('\n');
+        let html = '<div class="table-container"><table class="formatted-table">';
+        
+        // Check if the first row contains column headers
+        const headerRow = rows[0];
+        const headerCells = headerRow.split('|').slice(1, -1);
+        
+        // Add table header
+        html += '<thead><tr>';
+        headerCells.forEach(cell => {
+            html += `<th>${cell.trim()}</th>`;
+        });
+        html += '</tr></thead>';
+        
+        // Add table body
+        html += '<tbody>';
+        
+        // Skip header row and separator row
+        for (let i = 2; i < rows.length; i++) {
+            const row = rows[i];
+            // Extract cells
+            const cells = row.split('|').slice(1, -1);
+            
+            html += '<tr>';
+            cells.forEach(cell => {
+                // Include data in table cells
+                html += `<td>${cell.trim()}</td>`;
+            });
+            html += '</tr>';
+        }
+        
+        html += '</tbody></table></div>';
+        return html;
+    });
+}
+
+// Function to copy code
+function copyCode(button) {
+    const codeBlock = button.parentElement.nextElementSibling.querySelector('code');
+    const textToCopy = codeBlock.textContent;
+    
+    navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+            // Change button text temporarily
+            const originalText = button.innerHTML;
+            button.innerHTML = '<span class="copy-icon">✓</span> Copied!';
+            
+            // Reset button text after 2 seconds
+            setTimeout(() => {
+                button.innerHTML = originalText;
+            }, 2000);
+        })
+        .catch(err => {
+            console.error('Failed to copy: ', err);
+            button.innerHTML = '<span class="copy-icon">❌</span> Failed';
+        });
+}
+
     function showTypingIndicator() {
         if (isTyping) return;
         
@@ -1037,14 +1058,14 @@
         isTyping = false;
     }
     
-    // New function to get response from Gemini API
+    // Get response from Gemini API
     async function getGeminiResponse(userMessage) {
         try {
             const requestUrl = `${GEMINI_API_URL}?key=${GEMINI_API_KEY}`;
             
             const requestData = {
                 contents: [{
-                    parts: [{ text: userMessage }]
+                    parts: [{ text: userMessage || "Hello" }] // Default message if empty
                 }]
             };
             
@@ -1082,9 +1103,6 @@
             // Add bot response
             addMessage(responseText, 'bot');
             
-            // Save chat
-            saveChat();
-            
         } catch (error) {
             console.error("Error calling Gemini API:", error);
             
@@ -1092,185 +1110,7 @@
             hideTypingIndicator();
             
             // Add error message
-            addMessage("Sorry, I encountered an error while processing your request. Please try again later.", 'bot');
-            
-            // Save chat
-            saveChat();
-        }
-    }
-    
-    function generateUUID() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-            const r = Math.random() * 16 | 0;
-            const v = c === 'x' ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
-    }
-    
-    function saveChat() {
-        // Save current chat
-        if (!chats[currentChatId]) {
-            chats[currentChatId] = {
-                id: currentChatId,
-                title: 'New Chat',
-                messages: [],
-                timestamp: Date.now()
-            };
-        }
-        
-        // Extract messages
-        const messages = [];
-        const messageElements = chatContainer.querySelectorAll('.message');
-        
-        messageElements.forEach(element => {
-            // Skip typing indicator
-            if (element.id === 'typingIndicator') return;
-            
-            const isUser = element.classList.contains('user-message');
-            const content = element.querySelector('.message-content').innerHTML;
-            
-            messages.push({
-                sender: isUser ? 'user' : 'bot',
-                content: content,
-                timestamp: Date.now()
-            });
-        });
-        
-        // Update chat
-        chats[currentChatId].messages = messages;
-        chats[currentChatId].timestamp = Date.now();
-        
-        // Generate title from first user message
-        if (messages.length > 0 && messages[0].sender === 'user') {
-            // Always update the title based on the first user message
-            chats[currentChatId].title = generateChatTitle(messages[0].content);
-        }
-        
-        // Save to localStorage
-        localStorage.setItem('chats', JSON.stringify(chats));
-        
-        // Update chat list
-        updateChatList();
-    }
-    
-    function loadChats() {
-        const savedChats = localStorage.getItem('chats');
-        return savedChats ? JSON.parse(savedChats) : {};
-    }
-    
-    function loadChat(chatId) {
-        // Clear current chat
-        chatContainer.innerHTML = '';
-        
-        // If chat exists, load messages
-        if (chats[chatId]) {
-            const chat = chats[chatId];
-            
-            chat.messages.forEach(message => {
-                addMessage(message.content, message.sender);
-            });
-        }
-    }
-    
-    function generateChatTitle(content = null) {
-        if (content) {
-            // Extract text content by removing HTML tags
-            const plainText = content.replace(/<[^>]*>/g, '');
-            
-            // Get the first sentence or up to 30 characters
-            let title = '';
-            const firstSentenceMatch = plainText.match(/^[^.!?]+[.!?]/);
-            
-            if (firstSentenceMatch && firstSentenceMatch[0].length <= 30) {
-                title = firstSentenceMatch[0].trim();
-            } else {
-                // If no sentence found or too long, use first 30 chars
-                title = plainText.substring(0, 30).trim();
-                if (title.length < plainText.length) {
-                    title += '...';
-                }
-            }
-            
-            // Fallback if title is empty or just whitespace
-            return title.trim() || 'New Chat';
-        }
-        return `New Chat`;
-    }
-    
-    function updateChatList() {
-        chatList.innerHTML = '';
-        
-        // Sort chats by timestamp (newest first)
-        const sortedChats = Object.values(chats).sort((a, b) => b.timestamp - a.timestamp);
-        
-        sortedChats.forEach(chat => {
-            // Format the date and time
-            const date = new Date(chat.timestamp);
-            const formattedDate = `${date.toLocaleDateString()} ${formatTime(date)}`;
-            
-            const chatItem = document.createElement('div');
-            chatItem.className = `chat-item ${chat.id === currentChatId ? 'active' : ''}`;
-            chatItem.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                </svg>
-                <div>
-                    <div>${chat.title}</div>
-                    <small style="opacity: 0.7; font-size: 10px;">${formattedDate}</small>
-                </div>
-            `;
-            
-            chatItem.addEventListener('click', function() {
-                handleChatItemClick(chat.id);
-            });
-            
-            chatList.appendChild(chatItem);
-        });
-        
-        // If no chats, create a default one
-        if (sortedChats.length === 0) {
-            chats[currentChatId] = {
-                id: currentChatId,
-                title: 'New Chat',
-                messages: [],
-                timestamp: Date.now()
-            };
-            
-            saveChat();
-        }
-    }
-    
-    // Helper function to format time as X:XXam/pm
-    function formatTime(date) {
-        let hours = date.getHours();
-        const minutes = date.getMinutes();
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        
-        hours = hours % 12;
-        hours = hours ? hours : 12; // the hour '0' should be '12'
-        const minutesStr = minutes < 10 ? '0' + minutes : minutes;
-        
-        return `${hours}:${minutesStr}${ampm}`;
-    }
-    
-    function checkTheme() {
-        // Check if dark theme is enabled
-        const isDark = localStorage.getItem('darkTheme') === 'true';
-        if (isDark) {
-            document.body.classList.add('dark-theme');
-        }
-        
-        updateThemeIcons();
-    }
-    
-    function updateThemeIcons() {
-        const isDark = document.body.classList.contains('dark-theme');
-        if (isDark) {
-            darkIcon.classList.add('hidden');
-            lightIcon.classList.remove('hidden');
-        } else {
-            lightIcon.classList.add('hidden');
-            darkIcon.classList.remove('hidden');
+            addMessage("Sorry, I encountered an error while processing your request. Please try again later. Network Issue 👨‍💻", 'bot');
         }
     }
 });
