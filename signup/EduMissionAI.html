@@ -7,6 +7,7 @@
 	<meta property="og:description" content="Ask Any Questions with AI Free">
 	<meta property="og:image" content="https://ik.imagekit.io/bcd8ygetu/ChatGPT%20Image%20May%202,%202025,%2008_42_34%20PM.png?updatedAt=1747307896893">
 	<link rel="icon" type="image/png" href="https://ik.imagekit.io/bcd8ygetu/ChatGPT%20Image%20May%202,%202025,%2008_42_34%20PM.png?updatedAt=1747307896893">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -416,6 +417,40 @@
                 max-width: 90%;
             }
         }
+		
+		.message {
+		position: relative;
+		}
+
+		.message-actions {
+			display: flex;
+			gap: 8px;
+			position: absolute;
+			right: 10px;
+			top: 10px;
+		}
+
+		.action-button {
+			display: flex;
+			align-items: center;
+			gap: 4px;
+			padding: 4px 8px;
+			border-radius: 4px;
+			background-color: #f0f0f0;
+			border: none;
+			cursor: pointer;
+			font-size: 12px;
+			color: #555;
+			transition: background-color 0.2s;
+		}
+
+		.action-button:hover {
+			background-color: #131642;
+			gap: 4px;
+			padding: 4px 8px;
+			border-radius: 4px;
+		}
+
     </style>
 </head>
 <body>
@@ -449,15 +484,6 @@
                         <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                     </svg>
                 </button>
-                <div id="filePreviewContainer" class="file-preview hidden">
-                    <div class="file-name" id="fileName"></div>
-                    <button class="remove-file" id="removeFile">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </button>
-                </div>
             </div>
         </div>
     </div>
@@ -513,6 +539,16 @@
             headingContainer.style.height = '100%';
             headingContainer.style.textAlign = 'center';
 
+            // Add the centered logo
+            const logoContainer = document.createElement('div');
+            logoContainer.className = 'logo-container';
+            logoContainer.style.marginBottom = '20px';
+            logoContainer.style.fontSize = '4rem';
+            logoContainer.style.color = '#122250';
+            
+            // Using Font Awesome robot icon as requested
+            logoContainer.innerHTML = '<i class="fa-solid fa-robot fa-bounce fa-xl"></i>';
+            
             // Create the heading
             const heading = document.createElement('h1');
             heading.textContent = 'What do you want?';
@@ -528,7 +564,8 @@
             paragraph.style.marginTop = '10px';
             paragraph.style.fontWeight = 'bold'; 
 
-            // Append both elements
+            // Append all elements
+            headingContainer.appendChild(logoContainer);
             headingContainer.appendChild(heading);
             headingContainer.appendChild(paragraph);
             chatContainer.appendChild(headingContainer);
@@ -610,6 +647,7 @@
     function addMessage(content, sender, isFile = false) {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${sender}-message`;
+        messageDiv.setAttribute('data-original-content', content); // Store original message text
         
         const avatar = document.createElement('div');
         avatar.className = `avatar ${sender}-avatar`;
@@ -635,31 +673,83 @@
             messageContent.innerHTML = formatMessage(content);
         }
         
-        // Add copy button
+        // Add action buttons container
+        const actionButtons = document.createElement('div');
+        actionButtons.className = 'message-actions';
+        actionButtons.style.display = 'flex';
+        actionButtons.style.gap = '8px';
+        actionButtons.style.position = 'absolute';
+        actionButtons.style.right = '10px';
+        actionButtons.style.top = '10px';
+        actionButtons.style.opacity = '0';
+        actionButtons.style.transition = 'opacity 0.2s ease-in-out';
+        
+        // Create copy button
         const copyButton = document.createElement('button');
-        copyButton.className = 'copy-button';
+        copyButton.className = 'action-button copy-button';
         copyButton.title = 'Copy message';
         copyButton.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
+            <span class="action-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+            </span>
+            <span class="action-text">Copy</span>
         `;
-        copyButton.addEventListener('click', function(e) {
-            e.stopPropagation();
+        
+        // Create edit button - only for user messages
+        if (sender === 'user') {
+            const editButton = document.createElement('button');
+            editButton.className = 'action-button edit-button';
+            editButton.title = 'Edit message';
+            editButton.innerHTML = `
+                <span class="action-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                    </svg>
+                </span>
+                <span class="action-text">Edit</span>
+            `;
+            
+            // Add edit functionality
+            editButton.addEventListener('click', function() {
+                // Get the original content
+                const originalContent = messageDiv.getAttribute('data-original-content');
+                
+                // Set the user input to the original content
+                userInput.value = originalContent;
+                userInput.focus();
+                
+                // Remove this message and subsequent ones
+                let currentMsg = messageDiv;
+                let messagesToRemove = [];
+                
+                // Collect all subsequent messages
+                while (currentMsg.nextElementSibling) {
+                    messagesToRemove.push(currentMsg.nextElementSibling);
+                    currentMsg = currentMsg.nextElementSibling;
+                }
+                
+                // Remove the messages
+                messagesToRemove.forEach(msg => msg.remove());
+                messageDiv.remove();
+            });
+            
+            actionButtons.appendChild(editButton);
+        }
+        
+        // Add copy functionality
+        copyButton.addEventListener('click', function() {
             // Get the raw text content without HTML tags
             const rawText = content;
             navigator.clipboard.writeText(rawText).then(
                 function() {
                     // Show copied feedback
-                    const originalInnerHTML = copyButton.innerHTML;
-                    copyButton.innerHTML = `
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                    `;
+                    const originalText = copyButton.querySelector('.action-text').textContent;
+                    copyButton.querySelector('.action-text').textContent = 'Copied!';
                     setTimeout(() => {
-                        copyButton.innerHTML = originalInnerHTML;
+                        copyButton.querySelector('.action-text').textContent = originalText;
                     }, 2000);
                 },
                 function() {
@@ -668,9 +758,19 @@
             );
         });
         
-        messageContent.appendChild(copyButton);
+        actionButtons.appendChild(copyButton);
         messageDiv.appendChild(avatar);
         messageDiv.appendChild(messageContent);
+        messageDiv.appendChild(actionButtons);
+        
+        // Add hover effect to show action buttons
+        messageDiv.addEventListener('mouseenter', function() {
+            actionButtons.style.opacity = '1';
+        });
+        
+        messageDiv.addEventListener('mouseleave', function() {
+            actionButtons.style.opacity = '0';
+        });
         
         chatContainer.appendChild(messageDiv);
         
@@ -796,7 +896,7 @@
             hideTypingIndicator();
             
             // Add error message
-            addMessage("Sorry, I encountered an error while processing your request. Please try again later.", 'bot');
+            addMessage("Sorry, I encountered an error while processing your request. Please try again later. Network Issue 👨‍💻", 'bot');
         }
     }
 });
