@@ -4,16 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=400">
 	<meta property="og:title" content="EduMission AI Assistant">
-	<meta property="og:description" content="Ask Any Educational Questions">
-	<meta property="og:image" content="https://ik.imagekit.io/bcd8ygetu/Hatchful%20by%20Shopify.png?updatedAt=1747617780066">
+	<meta property="og:description" content="Ask Any Questions with AI Free">
+	<meta property="og:image" content="https://ik.imagekit.io/bcd8ygetu/ChatGPT%20Image%20May%202,%202025,%2008_42_34%20PM.png?updatedAt=1747307896893">
 	<link rel="icon" type="image/png" href="https://ik.imagekit.io/bcd8ygetu/ChatGPT%20Image%20May%202,%202025,%2008_42_34%20PM.png?updatedAt=1747307896893">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Nunito', 'Noto Sans Sinhala', sans-serif;
             transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, transform 0.3s;
         }
 
@@ -36,18 +37,19 @@
             --btn-glow: rgba(75, 82, 165, 0.5);
             --border-color: #dadce0;
             --code-bg: #f8f9fa;
+			--font-family: 'Nunito', 'Noto Sans Sinhala', sans-serif;
         }
 
-        body {
-      background: linear-gradient(to top, #000000aa, #1a1a1a), url('https://images.unsplash.com/photo-1497493292307-31c376b6e479') no-repeat center center fixed;
-      background-size: cover;
-      margin: 0;
-      font-family: Arial, sans-serif;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+		  body {
+			  background: linear-gradient(to top, #000000aa, #1a1a1a), url('https://images.unsplash.com/photo-1497493292307-31c376b6e479') no-repeat center center fixed;
+			  background-size: cover;
+			  margin: 0;
+			  font-family: 'Nunito', 'Noto Sans Sinhala', sans-serif;
+			  color: white;
+			  display: flex;
+			  justify-content: center;
+			  align-items: center;
+			  height: 100vh;
         }
 
         .app-container {
@@ -57,7 +59,7 @@
             display: flex;
             gap: 12px;
             position: relative;
-        }
+		}
 
         .container {
             flex: 1;
@@ -430,30 +432,257 @@
 			gap: 8px;
 			position: absolute;
 			right: 10px;
-			top: 10px;
+			under: 10px;
 		}
 
-		.action-button {
+		.action-button856 {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background-color: #f0f0f0;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            color: #555;
+            transition: background-color 0.2s;
+        }
+
+        .action-button856:hover {
+            background-color: #131642;
+            color: white;
+        }
+		
+		.formatted-table {
+			border-collapse: collapse;
+			width: 100%;
+			margin: 15px 0;
+			border-radius: 8px;
+			overflow: hidden;
+			box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+		}
+
+		.formatted-table th {
+			background-color: #0b1029;
+			color: white;
+			font-weight: bold;
+			padding: 12px 15px;
+			text-align: left;
+		}
+
+		.formatted-table td {
+			padding: 12px 15px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
+
+		.formatted-table tr:nth-child(even) {
+			background-color: #f8f8f8;
+		}
+
+		.formatted-table tr:hover {
+			background-color: #b5952a;
+		}
+
+		.table-container {
+			overflow-x: auto;
+			margin: 15px 0;
+		}
+
+		.code-container {
+			margin: 15px 0;
+			border-radius: 8px;
+			overflow: hidden;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			background-color: #f5f5f5;
+		}
+
+		.code-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 8px 15px;
+			background-color: #e0e0e0;
+			border-bottom: 1px solid #ccc;
+		}
+
+		.code-language {
+			font-size: 0.9em;
+			font-weight: bold;
+			color: #555;
+		}
+
+		.copy-button {
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			border-radius: 4px;
+			padding: 5px 10px;
+			font-size: 0.9em;
+			cursor: pointer;
 			display: flex;
 			align-items: center;
-			gap: 4px;
-			padding: 4px 8px;
-			border-radius: 4px;
-			background-color: #f0f0f0;
-			border: none;
-			cursor: pointer;
-			font-size: 12px;
-			color: #555;
-			transition: background-color 0.2s;
+			gap: 5px;
+			transition: background-color 0.3s;
 		}
 
-		.action-button:hover {
-			background-color: #131642;
-			gap: 4px;
-			padding: 4px 8px;
-			border-radius: 4px;
+		.copy-button:hover {
+			background-color: #45a049;
 		}
 
+		.copy-icon {
+			font-size: 1.1em;
+		}
+
+		pre {
+			margin: 0;
+			padding: 15px;
+			overflow-x: auto;
+			background-color: #f5f5f5;
+		}
+
+		code {
+			font-family: 'Courier New', Courier, monospace;
+		}
+		
+		 .name-prompt-dialog {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .name-prompt-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .name-prompt-content h2 {
+            margin-bottom: 20px;
+            color: #122250;
+        }
+
+        .name-prompt-content input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .name-prompt-content button {
+            background-color: #122250;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .name-prompt-content button:hover {
+            background-color: #0d1a3e;
+        }
+
+        .user-greeting {
+    margin-left: auto;
+    color: #ffffff;
+    font-weight: bold;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #6e48aa, #9d50bb, #ee6352);
+    border-radius: 24px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    position: relative;
+    overflow: hidden;
+    animation: colorShift 8s infinite alternate;
+    transition: all 0.3s ease;
+}
+
+.user-greeting:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+}
+
+/* Rainbow border animation */
+.user-greeting::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    z-index: -1;
+    background: linear-gradient(45deg, 
+        #ff0000, #ff7300, #fffb00, #48ff00, 
+        #00ffd5, #002bff, #7a00ff, #ff00c8);
+    background-size: 400% 400%;
+    border-radius: 26px;
+    animation: glowing 10s linear infinite;
+}
+
+/* Typing animation for text content */
+.typing-text {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0;
+    border-right: 3px solid white;
+    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+    animation-fill-mode: forwards;
+}
+
+/* Keyframe animations */
+@keyframes colorShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: white }
+}
+
+/* Optional pulsing effect */
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* For better readability against the gradient background */
+.user-greeting {
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
     </style>
 </head>
 <body>
@@ -465,8 +694,10 @@
                     <div class="logo">
                         <img src="https://ik.imagekit.io/bcd8ygetu/ChatGPT%20Image%20May%202,%202025,%2008_42_34%20PM.png?updatedAt=1747307896893" alt="EduMission Logo" id="logoImage">
                     </div>
-                    <div class="title">EduMission AI Assistant</div>
+                    <div class="title">EduMission AI</div>
                 </div>
+                <!-- Added user greeting display here -->
+                <div class="user-greeting" id="userGreeting"></div>
             </div>
             <div class="chat-container" id="chatContainer">
                 <!-- Messages will be displayed here -->
@@ -490,6 +721,17 @@
             </div>
         </div>
     </div>
+
+    <!-- Added name prompt dialog -->
+    <div id="namePromptDialog" class="name-prompt-dialog">
+        <div class="name-prompt-content">
+            <h2>What's your name?</h2>
+            <input type="text" id="nameInput" placeholder="Enter your name">
+            <button id="submitNameBtn">Continue</button>
+        </div>
+    </div>
+	
+
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
     // DOM Elements
@@ -498,20 +740,69 @@
     const sendButton = document.getElementById('sendButton');
     const fileUpload = document.getElementById('fileUpload');
     const attachmentBtn = document.getElementById('attachmentBtn');
-    const filePreviewContainer = document.getElementById('filePreviewContainer');
-    const fileName = document.getElementById('fileName');
-    const removeFile = document.getElementById('removeFile');
+    const userGreeting = document.getElementById('userGreeting');
+    const namePromptDialog = document.getElementById('namePromptDialog');
+    const nameInput = document.getElementById('nameInput');
+    const submitNameBtn = document.getElementById('submitNameBtn');
     
     // Variables
     let selectedFiles = [];
     let isTyping = false;
+    let userName = '';
     
     // Gemini API Key
     const GEMINI_API_KEY = "AIzaSyDjd14lhURi_Z9uZCjOiUKnqQvz-n5xxwc";
     const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
     
-    // Initialize
-    addCenteredHeading();
+    // Show name prompt on load
+    showNamePrompt();
+    
+    // Name prompt functionality
+    function showNamePrompt() {
+        namePromptDialog.style.display = 'flex';
+        nameInput.focus();
+    }
+    
+    submitNameBtn.addEventListener('click', handleNameSubmit);
+    nameInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            handleNameSubmit();
+        }
+    });
+    
+    function handleNameSubmit() {
+        userName = nameInput.value.trim();
+        if (userName) {
+            // Hide the dialog
+            namePromptDialog.style.display = 'none';
+            
+            // Update greeting
+            userGreeting.innerHTML = `<strong>Hi ${userName}</strong>`;
+            
+            // Initialize chat after name is entered
+            initializeChat();
+        } else {
+            // Shake the input to indicate error
+            nameInput.classList.add('shake');
+            setTimeout(() => nameInput.classList.remove('shake'), 500);
+        }
+    }
+    
+    function initializeChat() {
+        // Initialize
+        addCenteredHeading();
+        
+        // Auto height adjustment for chat container
+        adjustChatContainerHeight();
+        
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    }
     
     // Auto height adjustment for chat container
     const adjustChatContainerHeight = () => {
@@ -525,71 +816,62 @@
         chatContainer.style.height = `${newHeight}px`;
     };
     
-    // Call this on load and on window resize
-    adjustChatContainerHeight();
+    // Call this on window resize
     window.addEventListener('resize', adjustChatContainerHeight);
 	
 	function addCenteredHeading() {
-    // Only add the heading if chat is empty
-    if (chatContainer.children.length === 0) {
-        // Create the centered heading container
-        const headingContainer = document.createElement('div');
-        headingContainer.id = 'welcome-heading';
-        headingContainer.style.display = 'flex';
-        headingContainer.style.flexDirection = 'column';
-        headingContainer.style.justifyContent = 'center';
-        headingContainer.style.alignItems = 'center';
-        headingContainer.style.height = '100%';
-        headingContainer.style.textAlign = 'center';
+        // Only add the heading if chat is empty
+        if (chatContainer.children.length === 0) {
+            // Create the centered heading container
+            const headingContainer = document.createElement('div');
+            headingContainer.id = 'welcome-heading';
+            headingContainer.style.display = 'flex';
+            headingContainer.style.flexDirection = 'column';
+            headingContainer.style.justifyContent = 'center';
+            headingContainer.style.alignItems = 'center';
+            headingContainer.style.height = '100%';
+            headingContainer.style.textAlign = 'center';
 
-        // Add the centered logo
-        const logoContainer = document.createElement('div');
-        logoContainer.className = 'logo-container';
-        logoContainer.style.marginBottom = '20px';
-        logoContainer.style.fontSize = '4rem';
-        logoContainer.style.color = '#122250';
-        logoContainer.innerHTML = '<i class="fa-solid fa-robot fa-bounce fa-xl"></i>';
+            // Add the centered logo
+            const logoContainer = document.createElement('div');
+            logoContainer.className = 'logo-container';
+            logoContainer.style.marginBottom = '20px';
+            logoContainer.style.fontSize = '4rem';
+            logoContainer.style.color = '#122250';
+            logoContainer.innerHTML = '<i class="fa-solid fa-robot fa-bounce fa-xl"></i>';
 
-        // Create the heading
-        const heading = document.createElement('h1');
-        heading.textContent = 'What do you want?';
-        heading.style.color = '#122250';
-        heading.style.fontWeight = 'bold'; 
-        heading.style.fontSize = '2rem';
+            // Create the heading with personalized greeting
+            const heading = document.createElement('h1');
+            heading.textContent = `What do you want, ${userName}?`;
+            heading.style.color = '#122250';
+            heading.style.fontWeight = 'bold'; 
+            heading.style.fontSize = '2rem';
 
-        // Create the first paragraph
-        const paragraph = document.createElement('p');
-        paragraph.textContent = "I'm EdumissionAI, your personal assistant. Ask me anything!";
-        paragraph.style.color = '#555';
-        paragraph.style.fontSize = '1rem';
-        paragraph.style.marginTop = '10px';
-        paragraph.style.fontWeight = 'bold'; 
+            // Create the first paragraph
+            const paragraph = document.createElement('p');
+            paragraph.textContent = "I'm EdumissionAI, your personal assistant. Ask me anything!";
+            paragraph.style.color = '#555';
+            paragraph.style.fontSize = '1rem';
+            paragraph.style.marginTop = '10px';
+            paragraph.style.fontWeight = 'bold'; 
 
-        // Create the second paragraph (Designed by Lakshan)
-        const credit = document.createElement('p');
-        credit.textContent = "Designed by Lakshan";
-        credit.style.color = '#555';
-        credit.style.fontSize = '0.9rem';
-        credit.style.marginTop = '5px';
-        credit.style.fontWeight = 'normal';
+            // Create the second paragraph (Designed by Lakshan)
+            const credit = document.createElement('p');
+            credit.textContent = "Designed by Lakshan";
+            credit.style.color = '#555';
+            credit.style.fontSize = '0.9rem';
+            credit.style.marginTop = '5px';
+            credit.style.fontWeight = 'normal';
 
-        // Append all elements
-        headingContainer.appendChild(logoContainer);
-        headingContainer.appendChild(heading);
-        headingContainer.appendChild(paragraph);
-        headingContainer.appendChild(credit);
-        chatContainer.appendChild(headingContainer);
-    }
-}
-
-    
-    // Event: Send Message
-    sendButton.addEventListener('click', sendMessage);
-    userInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            sendMessage();
+            // Append all elements
+            headingContainer.appendChild(logoContainer);
+            headingContainer.appendChild(heading);
+            headingContainer.appendChild(paragraph);
+            headingContainer.appendChild(credit);
+            chatContainer.appendChild(headingContainer);
         }
-    });
+    }
+
     
     // Event: File Upload
     attachmentBtn.addEventListener('click', function() {
@@ -599,17 +881,9 @@
     fileUpload.addEventListener('change', function() {
         if (fileUpload.files.length > 0) {
             selectedFiles = Array.from(fileUpload.files);
-            fileName.textContent = selectedFiles.length > 1 
-                ? `${selectedFiles.length} files selected` 
-                : selectedFiles[0].name;
-            filePreviewContainer.classList.remove('hidden');
+            // Handle file selection UI
+            // Note: The file preview container is missing in the original HTML
         }
-    });
-    
-    removeFile.addEventListener('click', function() {
-        selectedFiles = [];
-        fileUpload.value = '';
-        filePreviewContainer.classList.add('hidden');
     });
     
     // Functions
@@ -645,7 +919,7 @@
             // Reset file selection
             selectedFiles = [];
             fileUpload.value = '';
-            filePreviewContainer.classList.add('hidden');
+            // Reset file preview container if it exists
         }
         
         // Show typing indicator
@@ -697,31 +971,32 @@
         
         // Create copy button
         const copyButton = document.createElement('button');
-        copyButton.className = 'action-button copy-button';
+        copyButton.className = 'action-button856 copy-button856';
         copyButton.title = 'Copy message';
         copyButton.innerHTML = `
-            <span class="action-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+            <span class="action-icon856">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                 </svg>
             </span>
-            <span class="action-text">Copy</span>
+            <span class="action-text856">Copy</span>
         `;
-        
+		
         // Create edit button - only for user messages
         if (sender === 'user') {
             const editButton = document.createElement('button');
-            editButton.className = 'action-button edit-button';
+            editButton.className = 'action-button856 edit-button856';
             editButton.title = 'Edit message';
             editButton.innerHTML = `
-                <span class="action-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                <span class="action-icon856">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
                         <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
                     </svg>
                 </span>
-                <span class="action-text">Edit</span>
+                <span class="action-text856">Edit</span>
             `;
+            
             
             // Add edit functionality
             editButton.addEventListener('click', function() {
@@ -757,10 +1032,10 @@
             navigator.clipboard.writeText(rawText).then(
                 function() {
                     // Show copied feedback
-                    const originalText = copyButton.querySelector('.action-text').textContent;
-                    copyButton.querySelector('.action-text').textContent = 'Copied!';
+                    const originalText = copyButton.querySelector('.action-text856').textContent;
+                    copyButton.querySelector('.action-text856').textContent = 'Copied!';
                     setTimeout(() => {
-                        copyButton.querySelector('.action-text').textContent = originalText;
+                        copyButton.querySelector('.action-text856').textContent = originalText;
                     }, 2000);
                 },
                 function() {
@@ -794,26 +1069,137 @@
     function formatMessage(content) {
         if (!content) return '';
         
-        // Format code blocks
-        content = content.replace(/```(\w+)?\s*([\s\S]*?)\s*```/g, function(match, language, code) {
-            return `<pre><code>${code}</code></pre>`;
+        // Escape HTML to prevent XSS
+        content = content.replace(/[&<>"']/g, function (tag) {
+            return ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;',
+            })[tag];
         });
         
-        // Format inline code
+        // Format tables (Markdown tables)
+        content = formatTables(content);
+        
+        // Format code blocks ```js code ``` with copy button
+        content = content.replace(/```(\w+)?\s*([\s\S]*?)\s*```/g, function(match, language, code) {
+            const langClass = language ? ` class="language-${language}"` : '';
+            return `<div class="code-container">
+                <div class="code-header">
+                    ${language ? `<span class="code-language">${language}</span>` : ''}
+                    <button class="copy-button" onclick="copyCode(this)">
+                        <span class="copy-icon">📋</span> Copy
+                    </button>
+                </div>
+                <pre><code${langClass}>${code}</code></pre>
+            </div>`;
+        });
+        
+        // Format inline code `code`
         content = content.replace(/`([^`]+)`/g, '<code>$1</code>');
         
-        // Format bold text
+        // Bold: **text** and *text* (both will be bold)
         content = content.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        content = content.replace(/\*([^*]+)\*/g, '<strong>$1</strong>');
         
-        // Format italic text
-        content = content.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+        // Image: ![alt](url)
+        content = content.replace(/!\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<img alt="$1" src="$2" style="max-width:100px; max-height:100px;">');
         
-        // Convert line breaks to <br>
+        // Auto-link URLs
+        content = content.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank">$1</a>');
+        
+        // Mentions: @username
+        content = content.replace(/@([a-zA-Z0-9_]+)/g, '<span class="mention">@$1</span>');
+        
+        // Emoji shortcodes → unicode
+        const emojiMap = {
+            ':smile:': '😄',
+            ':laughing:': '😆',
+            ':thumbsup:': '👍',
+            ':heart:': '❤️',
+            ':fire:': '🔥',
+            ':sob:': '😭',
+            ':100:': '💯',
+            ':star:': '⭐',
+            ':clap:': '👏',
+            // Add more if needed
+        };
+        content = content.replace(/:([a-z0-9_]+):/gi, (match, name) => {
+            return emojiMap[match.toLowerCase()] || match;
+        });
+        
+        // New lines → <br>
         content = content.replace(/\n/g, '<br>');
         
         return content;
     }
-    
+
+    function formatTables(content) {
+        // Find markdown tables
+        // Pattern: rows starting with | and containing | character
+        const tableRegex = /(\|[^\n]+\|\n)((?:\|[^\n]+\|\n)+)/g;
+        
+        return content.replace(tableRegex, function(match) {
+            const rows = match.trim().split('\n');
+            let html = '<div class="table-container"><table class="formatted-table">';
+            
+            // Check if the first row contains column headers
+            const headerRow = rows[0];
+            const headerCells = headerRow.split('|').slice(1, -1);
+            
+            // Add table header
+            html += '<thead><tr>';
+            headerCells.forEach(cell => {
+                html += `<th>${cell.trim()}</th>`;
+            });
+            html += '</tr></thead>';
+            
+            // Add table body
+            html += '<tbody>';
+            
+            // Skip header row and separator row
+            for (let i = 2; i < rows.length; i++) {
+                const row = rows[i];
+                // Extract cells
+                const cells = row.split('|').slice(1, -1);
+                
+                html += '<tr>';
+                cells.forEach(cell => {
+                    // Include data in table cells
+                    html += `<td>${cell.trim()}</td>`;
+                });
+                html += '</tr>';
+            }
+            
+            html += '</tbody></table></div>';
+            return html;
+        });
+    }
+
+    // Function to copy code
+    window.copyCode = function(button) {
+        const codeBlock = button.parentElement.nextElementSibling.querySelector('code');
+        const textToCopy = codeBlock.textContent;
+        
+        navigator.clipboard.writeText(textToCopy)
+            .then(() => {
+                // Change button text temporarily
+                const originalText = button.innerHTML;
+                button.innerHTML = '<span class="copy-icon">✓</span> Copied!';
+                
+                // Reset button text after 2 seconds
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                }, 2000);
+            })
+            .catch(err => {
+                console.error('Failed to copy: ', err);
+                button.innerHTML = '<span class="copy-icon">❌</span> Failed';
+            });
+    }
+
     function showTypingIndicator() {
         if (isTyping) return;
         
@@ -860,9 +1246,12 @@
         try {
             const requestUrl = `${GEMINI_API_URL}?key=${GEMINI_API_KEY}`;
             
+            // Include user name in the API prompt for personalized responses
+            const promptWithName = `[User name is ${userName}] ${userMessage || "Hello"}`;
+            
             const requestData = {
                 contents: [{
-                    parts: [{ text: userMessage || "Hello" }] // Default message if empty
+                    parts: [{ text: promptWithName }]
                 }]
             };
             
