@@ -1,0 +1,1875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=968">
+	<title>Ape Panthiya - Student Management System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+	<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-database-compat.js"></script>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --paid: #4ade80;
+            --unpaid: #f87171;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+            --gray-400: #ced4da;
+            --gray-500: #adb5bd;
+            --gray-800: #343a40;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7ff;
+            color: var(--dark);
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Updated header styles with increased padding */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2.5rem 0 1.5rem; /* Increased padding */
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Adding animated background gradient to header */
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--primary-light), var(--secondary));
+            background-size: 200% 200%;
+            animation: gradientMove 15s ease infinite;
+            z-index: 0;
+        }
+
+        /* Added decorative background text with neon glow effect */
+        header::after {
+            content: "අමාරු විෂයන් ලේසියෙන්";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.1); /* Slightly lower transparency */
+            z-index: 0;
+            text-shadow: 
+                0 0 5px rgba(255, 255, 255, 0.5),
+                0 0 10px rgba(255, 255, 255, 0.3),
+                0 0 15px rgba(255, 255, 255, 0.2),
+                0 0 20px rgba(255, 255, 255, 0.1);
+            letter-spacing: 5px;
+            white-space: nowrap;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Updated header content to center the title and subheading */
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column; /* Changed to column for vertical alignment */
+            align-items: center;
+            text-align: center;
+            margin: 0 auto; /* Center horizontally */
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .logo-top {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo i {
+            font-size: 2rem; /* Slightly larger icon */
+            animation: bounce 2s infinite;
+        }
+
+        .logo span {
+            font-size: 2.25rem; /* Increased font size */
+            font-weight: 700;
+        }
+
+        .subheading {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1.1rem;
+            margin-top: 0.25rem;
+            font-style: italic;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            position: relative;
+            z-index: 1;
+            animation: fadeInRight 1s ease-out;
+        }
+
+        /* Updated date-time section with light gray background */
+        .date-time-container {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 0.75rem 0;
+            margin-top: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .date-time {
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            font-size: 0.95rem;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border: none;
+            outline: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .btn:active::after {
+            animation: ripple 0.6s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #e5175e;
+            transform: translateY(-3px);
+        }
+
+        .btn-success {
+            background-color: var(--paid);
+            color: var(--dark);
+        }
+
+        .btn-success:hover {
+            background-color: #3ac070;
+            transform: translateY(-3px);
+        }
+
+        .main-content {
+            padding: 2rem 0;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .dashboard-header {
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .dashboard-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .dashboard-subtitle {
+            color: var(--gray-500);
+            font-size: 1.1rem;
+        }
+
+        .dashboard-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .search-filter-container {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--gray-300);
+            width: 250px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-500);
+            transition: color 0.3s ease;
+        }
+
+        .search-box input:focus + i {
+            color: var(--primary);
+        }
+
+        .filter-box select {
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--gray-300);
+            font-size: 0.9rem;
+            color: var(--dark);
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-box select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .student-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out forwards;
+        }
+
+        .student-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: cardPop 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes cardPop {
+            0% {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .student-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-header {
+            padding: 1.25rem;
+            position: relative;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            color: white;
+            overflow: hidden;
+        }
+
+        .card-header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(
+                rgba(255, 255, 255, 0.3) 0%,
+                transparent 70%
+            );
+            transform: rotate(30deg);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .student-card:hover .card-header::before {
+            opacity: 1;
+        }
+
+        .student-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            position: relative;
+        }
+
+        .student-id {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            position: relative;
+        }
+
+        .card-status {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-paid {
+            background-color: var(--paid);
+            color: var(--dark);
+            animation: pulse 2s infinite;
+        }
+
+        .status-unpaid {
+            background-color: var(--unpaid);
+            color: white;
+            animation: shake 5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            2%, 6%, 10% { transform: translateX(-2px); }
+            4%, 8% { transform: translateX(2px); }
+            12% { transform: translateX(0); }
+        }
+
+        .card-body {
+            padding: 1.25rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .student-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            transition: transform 0.3s ease;
+        }
+
+        .student-card:hover .info-item {
+            transform: translateY(-2px);
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-size: 0.9rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .subjects-container {
+            margin-top: 1rem;
+        }
+
+        .subject-label {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .subject-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .subject-badge {
+            background-color: var(--gray-200);
+            color: var(--gray-800);
+            padding: 0.35rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .subject-badge:hover {
+            background-color: var(--primary-light);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .card-footer {
+            padding: 1rem 1.25rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(20px);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .modal-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            color: white;
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            cursor: pointer;
+            color: white;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--danger);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 1.25rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .checkbox-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .modal-footer {
+            padding: 1.25rem;
+            border-top: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .unpaid-notice {
+            margin-top: 1rem;
+            background-color: rgba(248, 113, 113, 0.1);
+            border-left: 3px solid var(--unpaid);
+            padding: 0.75rem;
+            border-radius: 0.25rem;
+            animation: fadeIn 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .unpaid-notice::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .unpaid-text {
+            font-size: 0.85rem;
+            color: var(--danger);
+            font-weight: 500;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .badge:hover {
+            transform: scale(1.05);
+        }
+
+        .badge-success {
+            background-color: rgba(74, 222, 128, 0.2);
+            color: #15803d;
+        }
+
+        .badge-danger {
+            background-color: rgba(248, 113, 113, 0.2);
+            color: #b91c1c;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 0;
+            color: var(--gray-500);
+            animation: fadeIn 1s ease-out;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--gray-300);
+            animation: float 3s ease infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .empty-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--gray-800);
+        }
+
+        .empty-description {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Animation keyframes */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            header::after {
+                font-size: 5rem; /* Smaller background text on mobile */
+            }
+            
+            .dashboard-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-filter-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box input {
+                width: 100%;
+            }
+
+            .filter-box select {
+                width: 100%;
+            }
+
+            .checkbox-group {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .student-info {
+                grid-template-columns: 1fr;
+            }
+
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+        }
+		
+	.loading-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(255, 255, 255, 0.9);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		z-index: 2000;
+		transition: opacity 0.5s ease;
+	}
+
+	.loading-container {
+		text-align: center;
+	}
+
+	.circular-progress {
+		position: relative;
+		width: 120px;
+		height: 120px;
+		border-radius: 50%;
+		background: conic-gradient(var(--primary) 0deg, var(--gray-200) 0deg);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: 0 auto 20px;
+	}
+
+	.circular-progress::before {
+		content: "";
+		position: absolute;
+		width: 100px;
+		height: 100px;
+		border-radius: 50%;
+		background-color: white;
+	}
+
+	.progress-value {
+		position: relative;
+		font-size: 24px;
+		font-weight: 600;
+		color: var(--primary);
+	}
+
+	.loading-text {
+		font-size: 1.2rem;
+		color: var(--primary);
+		font-weight: 500;
+		animation: pulse 1.5s infinite;
+	}
+
+	@keyframes pulse {
+		0%, 100% { opacity: 1; }
+		50% { opacity: 0.6; }
+	}
+    </style>
+</head>
+<body>
+     <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="header-actions" style="position: absolute; left: 0;">
+                    <button id="add-student-btn" class="btn btn-outline">
+                        <i class="fas fa-plus"></i>
+                        Add Student
+                    </button>
+                </div>
+                <div class="logo">
+                    <div class="logo-top">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>අපේ පන්තිය</span>
+                    </div>
+                    <div class="subheading">by Iresha Ranaweera</div>
+                </div>
+                <div class="header-actions" style="position: absolute; right: 0;">
+                    <button id="reset-data-btn" class="btn btn-outline">
+                        <i class="fas fa-trash-alt"></i>
+                        Reset Data
+                    </button>
+                </div>
+            </div>
+            <div class="date-time-container">
+                <div class="date-time" id="sl-datetime">Loading date and time...</div>
+            </div>
+        </div>
+    </header>
+
+
+    <main class="main-content">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Online Student Management Dashboard</h1>
+                <p class="dashboard-subtitle">Manage your students and track class fee payments</p>
+            </div>
+
+			<!-- Updated dashboard-actions section with new Subject filter box -->
+			<div class="dashboard-actions">
+				<div class="search-filter-container">
+					<div class="search-box">
+						<i class="fas fa-search"></i>
+						<input type="text" id="search-input" placeholder="Search students...">
+					</div>
+					<div class="filter-box">
+						<select id="grade-filter">
+							<option value="all">All Grades</option>
+							<option value="1">Grade 1</option>
+							<option value="2">Grade 2</option>
+							<option value="3">Grade 3</option>
+							<option value="4">Grade 4</option>
+							<option value="5">Grade 5</option>
+							<option value="6">Grade 6</option>
+							<option value="7">Grade 7</option>
+							<option value="8">Grade 8</option>
+							<option value="9">Grade 9</option>
+							<option value="10">Grade 10</option>
+							<option value="11">Grade 11</option>
+						</select>
+					</div>
+					<div class="filter-box">
+						<select id="subject-filter">
+							<option value="all">All Subjects</option>
+							<option value="Mathematics">Mathematics</option>
+							<option value="Science">Science</option>
+							<option value="English">English</option>
+							<option value="History">History</option>
+							<option value="Geography">Geography</option>
+							<option value="Art">Art</option>
+							<option value="Music">Music</option>
+							<option value="Physical Education">Physical Education</option>
+							<option value="Computer Science">Computer Science</option>
+						</select>
+					</div>
+					<div class="filter-box">
+						<select id="payment-month-filter">
+							<option value="all">All Payment Months</option>
+							<option value="January">January</option>
+							<option value="February">February</option>
+							<option value="March">March</option>
+							<option value="April">April</option>
+							<option value="May">May</option>
+							<option value="June">June</option>
+							<option value="July">July</option>
+							<option value="August">August</option>
+							<option value="September">September</option>
+							<option value="October">October</option>
+							<option value="November">November</option>
+							<option value="December">December</option>
+						</select>
+					</div>
+					<div class="filter-box">
+						<select id="payment-filter">
+							<option value="all">All Payment Status</option>
+							<option value="paid">Paid</option>
+							<option value="unpaid">Unpaid</option>
+						</select>
+					</div>
+				</div>
+				<div class="summary-box">
+					<span class="badge badge-success" id="paid-count">0 Paid</span>
+					<span class="badge badge-danger" id="unpaid-count">0 Unpaid</span>
+				</div>
+			</div>
+
+
+            <div id="student-grid" class="student-grid">
+                <!-- Student cards will be rendered here -->
+                <div class="empty-state">
+                    <i class="fas fa-user-graduate empty-icon"></i>
+                    <h3 class="empty-title">No Students Yet</h3>
+                    <p class="empty-description">Add your first student to get started</p>
+                    <button id="first-student-btn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Add First Student
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+	
+	<div id="loading-overlay" class="loading-overlay">
+		<div class="loading-container">
+			<div class="circular-progress">
+				<div class="progress-value">0%</div>
+			</div>
+			<p class="loading-text">Loading your data...</p>
+		</div>
+	</div>
+
+			<!-- Add/Edit Student Modal (Bug Fix Applied) -->
+		  <div id="student-modal" class="modal">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h2 class="modal-title" id="modal-title">Add New Student</h2>
+				<button class="close-btn" id="close-modal">&times;</button>
+			  </div>
+			  <div class="modal-body">
+				<form id="student-form">
+				  <div class="form-group">
+					  <label for="registration-number" class="form-label">Registration Number</label>
+					  <input type="text" id="registration-number" class="form-control" required>
+					</div>
+					<div class="form-group">
+					  <label for="student-name" class="form-label">Student Name</label>
+					  <input type="text" id="student-name" class="form-control" required>
+					</div>
+					<div class="form-group">
+					  <label for="student-birthday" class="form-label">Birthday</label>
+					  <input type="date" id="student-birthday" class="form-control" required>
+					</div>
+					<div class="form-group">
+					  <label for="school-name" class="form-label">School Name</label>
+					  <input type="text" id="school-name" class="form-control" required>
+					</div>
+					<div class="form-group">
+					  <label for="student-grade" class="form-label">Grade</label>
+					  <select id="student-grade" class="form-control" required>
+						<option value="">Select Grade</option>
+						<option value="1">Grade 1</option>
+						<option value="2">Grade 2</option>
+						<option value="3">Grade 3</option>
+						<option value="4">Grade 4</option>
+						<option value="5">Grade 5</option>
+						<option value="6">Grade 6</option>
+						<option value="7">Grade 7</option>
+						<option value="8">Grade 8</option>
+						<option value="9">Grade 9</option>
+						<option value="10">Grade 10</option>
+						<option value="11">Grade 11</option>
+					  </select>
+					</div>
+					<div class="form-group">
+					  <label class="form-label">Subjects</label>
+					  <div class="checkbox-group" id="subjects-checkboxes">
+						<div class="checkbox-item">
+							<input type="checkbox" id="subject-math" class="subject-checkbox" value="Mathematics">
+							<label for="subject-math">Mathematics</label>
+						</div>
+						<div class="checkbox-item">
+							<input type="checkbox" id="subject-science" class="subject-checkbox" value="Science">
+							<label for="subject-science">Science</label>
+						</div>
+						<div class="checkbox-item">
+							<input type="checkbox" id="subject-english" class="subject-checkbox" value="English">
+							<label for="subject-english">English</label>
+						</div>
+						<div class="checkbox-item">
+							<input type="checkbox" id="subject-history" class="subject-checkbox" value="History">
+							<label for="subject-history">History</label>
+						</div>
+						<div class="checkbox-item">
+							<input type="checkbox" id="subject-geography" class="subject-checkbox" value="Geography">
+							<label for="subject-geography">Geography</label>
+						</div>
+						<div class="checkbox-item">
+							<input type="checkbox" id="subject-art" class="subject-checkbox" value="Art">
+							<label for="subject-art">Art</label>
+						</div>
+						<div class="checkbox-item">
+							<input type="checkbox" id="subject-music" class="subject-checkbox" value="Music">
+							<label for="subject-music">Music</label>
+						</div>
+						<div class="checkbox-item">
+							<input type="checkbox" id="subject-pe" class="subject-checkbox" value="Physical Education">
+							<label for="subject-pe">Physical Education</label>
+						</div>
+						<div class="checkbox-item">
+							<input type="checkbox" id="subject-computer" class="subject-checkbox" value="Computer Science">
+							<label for="subject-computer">Computer Science</label>
+						</div>	
+					  </div>
+					</div>
+					<div class="form-group">
+					  <label for="fee-status" class="form-label">Fee Status</label>
+					  <select id="fee-status" class="form-control" required>
+						<option value="paid">Paid</option>
+						<option value="unpaid">Unpaid</option>
+					  </select>
+					</div>
+					<div class="form-group">
+					  <label for="payment-month" class="form-label">Payment Month</label>
+					  <select id="payment-month" class="form-control" required>
+						<option value="">Select Month</option>
+						<option value="January">January</option>
+						<option value="February">February</option>
+						<option value="March">March</option>
+						<option value="April">April</option>
+						<option value="May">May</option>
+						<option value="June">June</option>
+						<option value="July">July</option>
+						<option value="August">August</option>
+						<option value="September">September</option>
+						<option value="October">October</option>
+						<option value="November">November</option>
+						<option value="December">December</option>
+					  </select>
+					</div>
+				  </form>
+				</div>
+				<div class="modal-footer">
+				  <button class="btn btn-outline" id="cancel-btn">Cancel</button>
+				  <button class="btn btn-primary" id="save-student-btn">Save Student</button>
+				</div>
+			  </div>
+			</div>
+
+
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Confirmation</h2>
+                <button class="close-btn" id="close-confirm-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="confirm-message">Are you sure you want to delete this student?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancel-confirm-btn">Cancel</button>
+                <button class="btn btn-danger" id="confirm-action-btn">Confirm</button>
+            </div>
+        </div>
+    </div>
+	
+<script>
+	// Firebase Configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAx3aaXO-Jczf2IHYJ6-aq10KY3dYtjArc",
+  authDomain: "apepanthiyadb.firebaseapp.com",
+  databaseURL: "https://apepanthiyadb-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "apepanthiyadb",
+  storageBucket: "apepanthiyadb.firebasestorage.app",
+  messagingSenderId: "878362803032",
+  appId: "1:878362803032:web:a05c13cadfbcda938d832d"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const studentsRef = db.ref('students');
+  
+// Display current date and time
+function updateDateTime() {
+    const now = new Date();
+    const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    };
+    document.getElementById('sl-datetime').textContent = now.toLocaleDateString('en-US', options);
+}
+        
+updateDateTime();
+setInterval(updateDateTime, 1000);
+        
+// Add staggered animation to student cards
+document.addEventListener('DOMContentLoaded', function() {
+    const studentCards = document.querySelectorAll('.student-card');
+    studentCards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+    });
+});
+		
+// Student Management System JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    // DOM Elements
+    const studentGrid = document.getElementById('student-grid');
+    const addStudentBtn = document.getElementById('add-student-btn');
+    const resetDataBtn = document.getElementById('reset-data-btn');
+    const studentModal = document.getElementById('student-modal');
+    const confirmModal = document.getElementById('confirm-modal');
+    const closeModal = document.getElementById('close-modal');
+    const closeConfirmModal = document.getElementById('close-confirm-modal');
+    const cancelBtn = document.getElementById('cancel-btn');
+    const saveStudentBtn = document.getElementById('save-student-btn');
+    const cancelConfirmBtn = document.getElementById('cancel-confirm-btn');
+    const confirmActionBtn = document.getElementById('confirm-action-btn');
+    const studentForm = document.getElementById('student-form');
+    const searchInput = document.getElementById('search-input');
+    const gradeFilter = document.getElementById('grade-filter');
+    const subjectFilter = document.getElementById('subject-filter');
+    const paymentFilter = document.getElementById('payment-filter');
+    const paidCountEl = document.getElementById('paid-count');
+    const unpaidCountEl = document.getElementById('unpaid-count');
+    const paymentMonthFilter = document.getElementById('payment-month-filter');
+	
+    // Current student ID being edited (if any)
+    let currentEditStudentId = null;
+    // Confirmation action callback
+    let confirmationCallback = null;
+    // Array to store students from Firebase
+    let students = [];
+    
+    // Generate a unique student ID
+    function generateStudentId() {
+        const prefix = "ST";
+        const randomDigits = Math.floor(100000 + Math.random() * 900000).toString();
+        return `${prefix}${randomDigits}`;
+    }
+
+    // Update paid/unpaid counters
+    function updateCounters() {
+        const paidCount = students.filter(student => student.feeStatus === 'paid').length;
+        const unpaidCount = students.filter(student => student.feeStatus === 'unpaid').length;
+        
+        paidCountEl.textContent = `${paidCount} Paid`;
+        unpaidCountEl.textContent = `${unpaidCount} Unpaid`;
+    }
+
+    // Format date to DD/MM/YYYY
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-GB');
+    }
+
+    // Calculate remaining days in the month
+    function getRemainingDays() {
+        const today = new Date();
+        const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+        return lastDay.getDate() - today.getDate();
+    }
+
+    // Modified createStudentCard function
+	function createStudentCard(student) {
+		const card = document.createElement('div');
+		card.className = 'student-card';
+		
+		const statusClass = student.feeStatus === 'paid' ? 'status-paid' : 'status-unpaid';
+		const statusText = student.feeStatus === 'paid' ? 'Paid' : 'Unpaid';
+		
+		// Create subjects badges HTML
+		const subjectBadges = student.subjects.map(subject => 
+			`<span class="subject-badge">${subject}</span>`
+		).join('');
+		
+		// Create unpaid notice if applicable
+		const unpaidNotice = student.feeStatus === 'unpaid' ? 
+			`<div class="unpaid-notice">
+				<p class="unpaid-text">
+					<i class="fas fa-exclamation-circle"></i>
+					Payment Due: ${getRemainingDays()} days remaining
+				</p>
+			</div>` : '';
+			
+        // Display payment month if available
+		const paymentMonthDisplay = student.paymentMonth ? 
+			`<div class="info-item">
+				<span class="info-label">Payment Month</span>
+				<span class="info-value">${student.paymentMonth}</span>
+			</div>` : '';
+        
+        card.innerHTML = `
+             <div class="card-header">
+				<h3 class="student-name">${student.name}</h3>
+				<p class="student-id">${student.registrationNumber}</p>
+				<span class="card-status ${statusClass}">${statusText}</span>
+			</div>
+			<div class="card-body">
+				<div class="student-info">
+					<div class="info-item">
+						<span class="info-label">Birthday</span>
+						<span class="info-value">${formatDate(student.birthday)}</span>
+					</div>
+					<div class="info-item">
+						<span class="info-label">School</span>
+						<span class="info-value">${student.school}</span>
+					</div>
+					<div class="info-item">
+						<span class="info-label">Grade</span>
+						<span class="info-value">Grade ${student.grade}</span>
+					</div>
+					<div class="info-item">
+						<span class="info-label">Fee Status</span>
+						<span class="info-value ${student.feeStatus === 'paid' ? 'text-success' : 'text-danger'}">${statusText}</span>
+					</div>
+					${paymentMonthDisplay}
+				</div>
+				<div class="subjects-container">
+					<div class="subject-label">Subjects</div>
+					<div class="subject-badges">
+						${subjectBadges}
+					</div>
+				</div>
+				${unpaidNotice}
+			</div>
+			<div class="card-footer">
+				<button class="btn btn-primary edit-student" data-id="${student.registrationNumber}" data-key="${student.firebaseKey}">
+					<i class="fas fa-edit"></i>
+				</button>
+				<button class="btn btn-danger delete-student" data-id="${student.registrationNumber}" data-key="${student.firebaseKey}">
+					<i class="fas fa-trash"></i>
+				</button>
+				<button class="btn ${student.feeStatus === 'paid' ? 'btn-success' : 'btn-danger'} toggle-payment" data-id="${student.registrationNumber}" data-key="${student.firebaseKey}">
+					<i class="fas ${student.feeStatus === 'paid' ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+					${student.feeStatus === 'paid' ? 'Paid' : 'Mark Paid'}
+				</button>
+			</div>
+		`;
+		
+		return card;
+	}
+	
+    // Filter and render students
+	function renderStudents() {
+		// Get filter values
+		const searchValue = searchInput.value.toLowerCase();
+		const gradeValue = gradeFilter.value;
+		const subjectValue = subjectFilter.value;
+		const paymentValue = paymentFilter.value;
+		const paymentMonthValue = paymentMonthFilter.value;
+		
+		// Filter students
+		const filteredStudents = students.filter(student => {
+			// Search filter
+			const matchesSearch = student.name.toLowerCase().includes(searchValue) || 
+								(student.registrationNumber && student.registrationNumber.toLowerCase().includes(searchValue)) ||
+								student.school.toLowerCase().includes(searchValue);
+			
+			// Grade filter
+			const matchesGrade = gradeValue === 'all' || student.grade === gradeValue;
+			
+			// Subject filter
+			const matchesSubject = subjectValue === 'all' || 
+								 (student.subjects && student.subjects.includes(subjectValue));
+			
+			// Payment filter
+			const matchesPayment = paymentValue === 'all' || student.feeStatus === paymentValue;
+			
+			// Payment month filter
+			const matchesPaymentMonth = paymentMonthValue === 'all' || 
+									  student.paymentMonth === paymentMonthValue;
+			
+			return matchesSearch && matchesGrade && matchesSubject && matchesPayment && matchesPaymentMonth;
+		});
+		
+        // Clear the grid
+        studentGrid.innerHTML = '';
+        
+        // Show empty state if no students
+        if (filteredStudents.length === 0) {
+            if (students.length === 0) {
+                // No students at all
+                studentGrid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-user-graduate empty-icon"></i>
+                        <h3 class="empty-title">No Students Yet</h3>
+                        <p class="empty-description">Add your first student to get started</p>
+                        <button id="first-student-btn" class="btn btn-primary">
+                            <i class="fas fa-plus"></i>
+                            Add First Student
+                        </button>
+                    </div>
+                `;
+                
+                // Reattach event listener
+                document.getElementById('first-student-btn').addEventListener('click', openAddStudentModal);
+            } else {
+                // No matching students
+                studentGrid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-filter empty-icon"></i>
+                        <h3 class="empty-title">No Matching Students</h3>
+                        <p class="empty-description">Try adjusting your filters</p>
+                    </div>
+                `;
+            }
+        } else {
+            // Render each student card
+            filteredStudents.forEach(student => {
+                const card = createStudentCard(student);
+                studentGrid.appendChild(card);
+            });
+            
+            // Attach event listeners to new buttons
+            attachCardEventListeners();
+        }
+    }
+    
+    // Attach event listeners to card action buttons
+    function attachCardEventListeners() {
+        // Edit buttons
+        document.querySelectorAll('.edit-student').forEach(button => {
+            button.addEventListener('click', function() {
+                const studentId = this.getAttribute('data-id');
+                const firebaseKey = this.getAttribute('data-key');
+                editStudent(studentId, firebaseKey);
+            });
+        });
+        
+        // Delete buttons
+        document.querySelectorAll('.delete-student').forEach(button => {
+            button.addEventListener('click', function() {
+                const studentId = this.getAttribute('data-id');
+                const firebaseKey = this.getAttribute('data-key');
+                confirmDeleteStudent(studentId, firebaseKey);
+            });
+        });
+        
+        // Toggle payment buttons
+        document.querySelectorAll('.toggle-payment').forEach(button => {
+            button.addEventListener('click', function() {
+                const studentId = this.getAttribute('data-id');
+                const firebaseKey = this.getAttribute('data-key');
+                togglePaymentStatus(studentId, firebaseKey);
+            });
+        });
+    }
+    
+    // Toggle payment status
+    function togglePaymentStatus(registrationNumber, firebaseKey) {
+		const studentIndex = students.findIndex(s => s.registrationNumber === registrationNumber);
+		if (studentIndex !== -1) {
+			// Toggle status
+			const newStatus = students[studentIndex].feeStatus === 'paid' ? 'unpaid' : 'paid';
+			
+			// Update in Firebase
+			studentsRef.child(firebaseKey).update({
+				feeStatus: newStatus
+			}).catch(error => {
+				console.error("Error updating payment status:", error);
+				alert("Failed to update payment status. Please try again.");
+			});
+		}
+	}
+		
+    // Open add student modal
+    function openAddStudentModal() {
+        // Reset form
+        studentForm.reset();
+        
+        // Generate a new registration number and set it
+        const newRegistrationNumber = generateStudentId();
+        document.getElementById('registration-number').value = newRegistrationNumber;
+        
+        // Uncheck all subject checkboxes
+        document.querySelectorAll('.subject-checkbox').forEach(cb => cb.checked = false);
+        
+        // Update modal title
+        document.getElementById('modal-title').textContent = 'Add New Student';
+        
+        // Reset current edit ID
+        currentEditStudentId = null;
+        
+        // Show modal
+        studentModal.classList.add('show');
+    }
+    
+    // Edit student
+    function editStudent(registrationNumber, firebaseKey) {
+		const student = students.find(s => s.registrationNumber === registrationNumber);
+		if (!student) return;
+			
+        // Set form values
+		document.getElementById('registration-number').value = student.registrationNumber;
+		document.getElementById('student-name').value = student.name;
+		document.getElementById('student-birthday').value = student.birthday;
+		document.getElementById('school-name').value = student.school;
+		document.getElementById('student-grade').value = student.grade;
+		document.getElementById('fee-status').value = student.feeStatus;
+		
+		// Set payment month if available
+		if (student.paymentMonth) {
+			document.getElementById('payment-month').value = student.paymentMonth;
+		}
+		
+		// Set checkboxes
+		document.querySelectorAll('.subject-checkbox').forEach(cb => {
+			cb.checked = student.subjects && student.subjects.includes(cb.value);
+		});
+		
+		// Update modal title
+		document.getElementById('modal-title').textContent = 'Edit Student';
+		
+		// Set current edit ID and Firebase key
+		currentEditStudentId = {
+			registrationNumber: registrationNumber,
+			firebaseKey: firebaseKey
+		};
+		
+		// Show modal
+		studentModal.classList.add('show');
+	}
+    
+    // Confirm delete student
+	function confirmDeleteStudent(registrationNumber, firebaseKey) {
+		const student = students.find(s => s.registrationNumber === registrationNumber);
+		if (!student) return;
+		
+		// Set confirmation message
+		document.getElementById('confirm-message').textContent = 
+			`Are you sure you want to delete ${student.name}?`;
+		
+		// Set confirmation callback
+		confirmationCallback = () => {
+			deleteStudent(firebaseKey);
+		};
+		
+		// Show modal
+		confirmModal.classList.add('show');
+	}
+	
+    // Delete student
+    function deleteStudent(firebaseKey) {
+        studentsRef.child(firebaseKey).remove()
+            .then(() => {
+                console.log("Student deleted successfully");
+            })
+            .catch(error => {
+                console.error("Error deleting student:", error);
+                alert("Failed to delete student. Please try again.");
+            });
+    }
+    
+    // Save student from form
+    function saveStudent() {
+		// Get form values
+		const registrationNumber = document.getElementById('registration-number').value;
+		const name = document.getElementById('student-name').value;
+		const birthday = document.getElementById('student-birthday').value;
+		const school = document.getElementById('school-name').value;
+		const grade = document.getElementById('student-grade').value;
+		const feeStatus = document.getElementById('fee-status').value;
+		const paymentMonth = document.getElementById('payment-month').value;
+		
+		// Get selected subjects
+		const subjects = [];
+		document.querySelectorAll('.subject-checkbox:checked').forEach(cb => {
+			subjects.push(cb.value);
+		});
+        
+        // Create student object
+		const student = {
+			registrationNumber,
+			name,
+			birthday,
+			school,
+			grade,
+			subjects,
+			feeStatus,
+			paymentMonth,
+			registrationDate: new Date().toISOString().split('T')[0]
+		};
+		
+		// Add or update student in Firebase
+		if (currentEditStudentId) {
+			// Update existing student
+			const studentRef = studentsRef.child(currentEditStudentId.firebaseKey);
+			
+			studentRef.once('value').then(snapshot => {
+				// Preserve registration date if it exists
+				if (snapshot.val() && snapshot.val().registrationDate) {
+					student.registrationDate = snapshot.val().registrationDate;
+				}
+				
+				// Update in Firebase
+				return studentRef.update(student);
+			}).then(() => {
+				console.log("Student updated successfully");
+				closeStudentModal();
+			}).catch(error => {
+				console.error("Error updating student:", error);
+				alert("Failed to update student. Please try again.");
+			});
+		} else {
+			// Add new student
+			studentsRef.push(student)
+				.then(() => {
+					console.log("Student added successfully");
+					closeStudentModal();
+				})
+				.catch(error => {
+					console.error("Error adding student:", error);
+					alert("Failed to add student. Please try again.");
+				});
+		}
+	}
+    
+    // Confirm reset data
+    function confirmResetData() {
+        // Set confirmation message
+        document.getElementById('confirm-message').textContent = 
+            'Are you sure you want to reset all data? This will delete all students and cannot be undone.';
+        
+        // Set confirmation callback
+        confirmationCallback = () => {
+            resetData();
+        };
+        
+        // Show modal
+        confirmModal.classList.add('show');
+    }
+    
+    // Reset all data
+    function resetData() {
+        studentsRef.remove()
+            .then(() => {
+                console.log("All data reset successfully");
+                closeConfirmationModal();
+            })
+            .catch(error => {
+                console.error("Error resetting data:", error);
+                alert("Failed to reset data. Please try again.");
+            });
+    }
+    
+    // Close student modal
+    function closeStudentModal() {
+        studentModal.classList.remove('show');
+        currentEditStudentId = null; // Reset edit ID when closing
+    }
+    
+    // Close confirmation modal
+    function closeConfirmationModal() {
+        confirmModal.classList.remove('show');
+    }
+    
+    // Validate form
+	function validateForm() {
+		const registrationNumber = document.getElementById('registration-number').value;
+		const name = document.getElementById('student-name').value;
+		const birthday = document.getElementById('student-birthday').value;
+		const school = document.getElementById('school-name').value;
+		const grade = document.getElementById('student-grade').value;
+		
+		// Check required fields except payment month (which may be optional)
+		if (!registrationNumber || !name || !birthday || !school || !grade) {
+			alert('Please fill in all required fields');
+			return false;
+		}
+		
+		// Check if at least one subject is selected
+		const hasSubject = Array.from(document.querySelectorAll('.subject-checkbox'))
+			.some(cb => cb.checked);
+		
+		if (!hasSubject) {
+			alert('Please select at least one subject');
+			return false;
+		}
+		
+		return true;
+	}
+    
+    // Event Listeners
+    addStudentBtn.addEventListener('click', openAddStudentModal);
+    resetDataBtn.addEventListener('click', confirmResetData);
+    
+    closeModal.addEventListener('click', closeStudentModal);
+    cancelBtn.addEventListener('click', closeStudentModal);
+    
+    closeConfirmModal.addEventListener('click', closeConfirmationModal);
+    cancelConfirmBtn.addEventListener('click', closeConfirmationModal);
+    
+    saveStudentBtn.addEventListener('click', function() {
+        if (validateForm()) {
+            saveStudent();
+        }
+    });
+    
+    confirmActionBtn.addEventListener('click', function() {
+        if (typeof confirmationCallback === 'function') {
+            confirmationCallback();
+        }
+        closeConfirmationModal();
+    });
+    
+    // Filter event listeners
+    searchInput.addEventListener('input', renderStudents);
+    gradeFilter.addEventListener('change', renderStudents);
+    subjectFilter.addEventListener('change', renderStudents);
+    paymentFilter.addEventListener('change', renderStudents);
+    paymentMonthFilter.addEventListener('change', renderStudents);
+    
+    // FIXED: Load students from Firebase with proper error handling and timeout
+    function loadStudents() {
+        // Show loading overlay
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const circularProgress = document.querySelector('.circular-progress');
+        const progressValue = document.querySelector('.progress-value');
+        
+        // Make sure loading overlay is visible
+        if (loadingOverlay) {
+            loadingOverlay.style.display = 'flex';
+            loadingOverlay.style.opacity = '1';
+        }
+        
+        // Reset progress
+        let progressPercent = 0;
+        if (circularProgress && progressValue) {
+            updateProgress(0);
+        }
+        
+        // Function to update the progress visual
+        function updateProgress(percent) {
+            if (progressValue && circularProgress) {
+                progressValue.textContent = `${percent}%`;
+                circularProgress.style.background = `conic-gradient(var(--primary) ${percent * 3.6}deg, var(--gray-200) 0deg)`;
+            }
+        }
+        
+        // Set up a timeout for Firebase connection
+        const firebaseTimeout = setTimeout(() => {
+            console.error("Firebase connection timeout");
+            if (progressValue) {
+                progressValue.textContent = 'Timeout';
+                progressValue.style.color = 'var(--danger)';
+            }
+            
+            // Hide loading overlay after timeout
+            if (loadingOverlay) {
+                setTimeout(() => {
+                    loadingOverlay.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingOverlay.style.display = 'none';
+                    }, 500);
+                }, 1000);
+            }
+        }, 15000); // 15 seconds timeout
+        
+        // Simulate incremental loading until we actually get data
+        const loadingInterval = setInterval(() => {
+            if (progressPercent < 90) {
+                progressPercent += Math.floor(Math.random() * 5) + 1;
+                progressPercent = Math.min(progressPercent, 90);
+                updateProgress(progressPercent);
+            }
+        }, 150);
+        
+        // Create a one-time listener instead of persistent one
+        studentsRef.once('value')
+            .then((snapshot) => {
+                // Clear the timeout and loading interval
+                clearTimeout(firebaseTimeout);
+                clearInterval(loadingInterval);
+                
+                // Complete the progress to 100%
+                const finalAnimation = setInterval(() => {
+                    if (progressPercent < 100) {
+                        progressPercent++;
+                        updateProgress(progressPercent);
+                    } else {
+                        clearInterval(finalAnimation);
+                        
+                        // Process the data
+                        const data = snapshot.val();
+                        students = [];
+                        if (data) {
+                            Object.keys(data).forEach(key => {
+                                students.push({
+                                    firebaseKey: key,
+                                    ...data[key]
+                                });
+                            });
+                        }
+                        
+                        // Hide loading overlay with animation
+                        if (loadingOverlay) {
+                            loadingOverlay.style.opacity = '0';
+                            setTimeout(() => {
+                                loadingOverlay.style.display = 'none';
+                                renderStudents();
+                                updateCounters();
+                            }, 500);
+                        } else {
+                            renderStudents();
+                            updateCounters();
+                        }
+                        
+                        // Now set up real-time listener for future updates
+                        setupRealtimeListener();
+                    }
+                }, 20);
+            })
+            .catch((error) => {
+                // Handle error case
+                clearTimeout(firebaseTimeout);
+                clearInterval(loadingInterval);
+                
+                console.error("Error loading data:", error);
+                
+                if (progressValue) {
+                    progressValue.textContent = 'Error';
+                    progressValue.style.color = 'var(--danger)';
+                }
+                
+                // Show error for 3 seconds, then hide overlay
+                if (loadingOverlay) {
+                    setTimeout(() => {
+                        loadingOverlay.style.opacity = '0';
+                        setTimeout(() => {
+                            loadingOverlay.style.display = 'none';
+                        }, 500);
+                    }, 3000);
+                }
+            });
+        
+        // Setup realtime listener for future updates
+        function setupRealtimeListener() {
+            // Use a separate listener for real-time updates after initial load
+            studentsRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                students = [];
+                if (data) {
+                    Object.keys(data).forEach(key => {
+                        students.push({
+                            firebaseKey: key,
+                            ...data[key]
+                        });
+                    });
+                }
+                renderStudents();
+                updateCounters();
+            }, (error) => {
+                console.error("Error with real-time updates:", error);
+            });
+        }
+    }
+    
+    // First-time student button event listener (if it exists in initial HTML)
+    if (document.getElementById('first-student-btn')) {
+        document.getElementById('first-student-btn').addEventListener('click', openAddStudentModal);
+    }
+    
+    // Initialize by loading students from Firebase
+    loadStudents();
+});
+</script>
+</body>
+</html>
