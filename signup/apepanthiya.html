@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=850">
+	<meta name="viewport" content="width=850">
 	<meta property="og:title" content="Ape Panthiya - අමාරු විෂයන් ලේසියෙන් ">
     <meta property="og:description" content="Student Management System">
     <meta property="og:image" content="https://ik.imagekit.io/bcd8ygetu/Hatchful%20by%20Shopify%20(2).png?updatedAt=1747863435561">
@@ -899,6 +899,64 @@
 		0%, 100% { opacity: 1; }
 		50% { opacity: 0.6; }
 	}
+	
+	/* Footer Styles - Add this to your existing CSS */
+	footer {
+		background: linear-gradient(135deg, var(--primary), var(--secondary));
+		color: white;
+		padding: 2rem 0;
+		margin-top: 3rem;
+		position: relative;
+		overflow: hidden;
+	}
+
+	footer::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 200%;
+		height: 100%;
+		background: linear-gradient(135deg, var(--primary), var(--secondary), var(--primary-light), var(--secondary));
+		background-size: 200% 200%;
+		animation: gradientMove 15s ease infinite;
+		z-index: 0;
+	}
+
+	.footer-content {
+		position: relative;
+		z-index: 1;
+		text-align: center;
+		animation: fadeInUp 1s ease-out;
+	}
+
+	.footer-text {
+		font-size: 0.9rem;
+		margin-bottom: 0.5rem;
+		opacity: 0.9;
+	}
+
+	.designer-name {
+		font-size: 1.1rem;
+		font-weight: 600;
+		color: #fff;
+		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		animation: fadeIn 1.5s ease-out;
+	}
+
+	.footer-divider {
+		width: 60px;
+		height: 3px;
+		background: rgba(255, 255, 255, 0.3);
+		margin: 1rem auto;
+		border-radius: 2px;
+		animation: expandWidth 1s ease-out;
+	}
+
+	@keyframes expandWidth {
+		from { width: 0; }
+		to { width: 60px; }
+	}
     </style>
 </head>
 <body>
@@ -1166,6 +1224,16 @@
             </div>
         </div>
     </div>
+	
+	<!-- Footer - Add this before closing </body> tag -->
+	<footer>
+		<div class="container">
+			<div class="footer-content">
+				<div class="footer-divider"></div>
+				<p class="footer-text">Designed by Lakshan</p>
+			</div>
+		</div>
+	</footer>
 	
 <script>
 	// Firebase Configuration
